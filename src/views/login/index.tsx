@@ -1,5 +1,7 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Button } from "antd";
+import { Button, Form, Input } from "antd";
+
+const { Item } = Form;
 
 const LoginView = () => {
   const login = () => {
@@ -8,7 +10,19 @@ const LoginView = () => {
 
   return (
     <div className="w-screen h-screen">
-      LoginView<Button onClick={login}>登录</Button>
+      <div className="p-8">
+        <Form>
+          <Item>
+            <Input placeholder="邮箱" />
+          </Item>
+          <Item>
+            <Input placeholder="密码" />
+          </Item>
+        </Form>
+        <Button block type="primary" onClick={login}>
+          登录
+        </Button>
+      </div>
     </div>
   );
 };
