@@ -41,6 +41,11 @@ fn main() {
                 ..
             } => {
                 println!("system tray received a left click");
+                // 点击时如果主窗口隐藏则显示，如果显示则隐藏
+                let window = app.get_window("main").unwrap();
+                if !window.is_visible().unwrap() {
+                    window.show().unwrap();
+                }
             }
             SystemTrayEvent::RightClick {
                 position: _,

@@ -9,8 +9,8 @@ const LoginView = () => {
   };
 
   return (
-    <div className="w-screen h-screen">
-      <div className="p-8">
+    <div className="w-screen h-screen flex justify-center items-center">
+      <div className="p-8 w-full">
         <Form>
           <Item>
             <Input placeholder="邮箱" />
