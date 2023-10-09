@@ -1,11 +1,15 @@
-import { invoke } from "@tauri-apps/api/tauri";
 import { Button, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
+import { HomePaths } from "../home/router";
 
 const { Item } = Form;
 
 const LoginView = () => {
+  const navigate = useNavigate();
+
   const login = () => {
-    invoke("close_splashscreen");
+    console.log("login click");
+    navigate(HomePaths.home);
   };
 
   return (

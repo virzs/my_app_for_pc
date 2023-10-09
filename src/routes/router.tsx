@@ -1,12 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import LoginRouter from "../views/login/router";
+import HomeRouter from "../views/home/router";
+import AuthRouter from "../views/auth/router";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <h1>Welcome to Tauri!</h1>,
-  },
-  LoginRouter,
-]);
+const router = createBrowserRouter([HomeRouter, AuthRouter]);
 
 export default router;

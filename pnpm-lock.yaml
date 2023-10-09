@@ -10,6 +10,7 @@ specifiers:
   antd: ^5.9.4
   autoprefixer: ^10.4.16
   axios: ^1.5.1
+  history: ^5.3.0
   postcss: ^8.4.31
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -23,6 +24,7 @@ dependencies:
   ahooks: 3.7.8_react@18.2.0
   antd: 5.9.4_biqbaboplfbrettd7655fr4n2y
   axios: 1.5.1
+  history: 5.3.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-router-dom: 6.16.0_biqbaboplfbrettd7655fr4n2y
@@ -1323,6 +1325,12 @@ packages:
     resolution: {integrity: sha512-qdSAmqLF6209RFj4VVItywPMbm3vWylknmB3nvNiUIs72xAimcM8nVYxYr7ncvZq5qzk9MKIZR8ijqD/1QuYjQ==}
     engines: {node: '>= 0.4.0'}
     dev: true
+
+  /history/5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
+    dependencies:
+      '@babel/runtime': 7.23.1
+    dev: false
 
   /inflight/1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
