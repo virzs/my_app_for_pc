@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { getApiPrefix } from "./utils";
 import { postRefreshToken } from "../services/auth";
 import { history } from "./history";
+import { notification } from "antd";
 
 const axiosInstance = axios.create({});
 
@@ -20,10 +21,18 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    return response;
+    return response.data;
   },
   (error) => {
+    console.log(error);
     const originalRequest = error.config;
+    if (error.response.status === 400) {
+      const errMsg = error.response.data.message;
+      notification.error({
+        message: 400,
+        description: errMsg,
+      });
+    }
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("refreshToken");
@@ -58,7 +67,7 @@ export const getBaseParams = (): BaseParamsType => {
 export const baseGetRequest =
   <T = any>(url: string, options?: AxiosRequestConfig) =>
   async (params: object = {}) =>
-    axiosInstance<T>(getApiPrefix(url), {
+    axiosInstance<T, T>(getApiPrefix(url), {
       ...options,
       method: "GET",
       params: {
@@ -70,7 +79,7 @@ export const baseGetRequest =
 export const baseDetailRequest =
   <T = any>(url: string, options?: AxiosRequestConfig) =>
   async (id: number | string | Array<number | string>, params: object = {}) =>
-    axiosInstance<T>(getApiPrefix(url, id), {
+    axiosInstance<T, T>(getApiPrefix(url, id), {
       ...options,
       method: "GET",
       params: {
@@ -82,7 +91,7 @@ export const baseDetailRequest =
 export const basePostRequest =
   <T = any>(url: string, options?: AxiosRequestConfig) =>
   async (data?: object, params: object = {}) =>
-    axiosInstance<T>(getApiPrefix(url), {
+    axiosInstance<T, T>(getApiPrefix(url), {
       ...options,
       method: "POST",
       params: {
@@ -99,7 +108,7 @@ export const basePutRequest =
     data: object,
     params: object = {}
   ) =>
-    axiosInstance<T>(getApiPrefix(url, id), {
+    axiosInstance<T, T>(getApiPrefix(url, id), {
       ...options,
       method: "PUT",
       params: {
@@ -112,7 +121,7 @@ export const basePutRequest =
 export const baseDeleteRequest =
   <T = any>(url: string, options?: AxiosRequestConfig) =>
   async (id: number | string | Array<number | string>, params: object = {}) =>
-    axiosInstance<T>(getApiPrefix(url, id), {
+    axiosInstance<T, T>(getApiPrefix(url, id), {
       ...options,
       method: "DELETE",
       params: {

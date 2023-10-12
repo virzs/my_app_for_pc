@@ -2,6 +2,8 @@ export const getApiPrefix = (
   path: string,
   extra?: number | string | Array<number | string>
 ) => {
+  const prefix = "/api";
+
   const mergedExtra = Array.isArray(extra)
     ? extra
     : extra || extra === 0
@@ -16,5 +18,6 @@ export const getApiPrefix = (
   if (mergedExtra?.length) {
     path += mergedExtra.map((item) => `${item}/`).join("");
   }
+  path = `${prefix}${path}`;
   return path;
 };

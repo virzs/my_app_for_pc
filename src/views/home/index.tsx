@@ -3,9 +3,11 @@ import { getToken } from "../../utils/token";
 import { useEffect } from "react";
 import { notification } from "antd";
 import { AuthPaths } from "../auth/router";
+import { getUserInfo } from "../../utils/userInfo";
 
 const HomeView = () => {
   const navigate = useNavigate();
+  const userInfo = getUserInfo();
 
   const checkIsLogin = () => {
     const token = getToken();
@@ -22,7 +24,7 @@ const HomeView = () => {
     checkIsLogin();
   }, []);
 
-  return <div></div>;
+  return <div>{userInfo}</div>;
 };
 
 export default HomeView;
