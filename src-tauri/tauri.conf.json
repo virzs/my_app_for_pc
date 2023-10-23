@@ -38,11 +38,11 @@
         "fullscreen": false,
         "resizable": true,
         "title": "my_app_for_pc",
-        "width": 800,
-        "height": 600,
+        "width": 1366,
+        "height": 768,
         "center": true,
-        "minWidth": 800,
-        "minHeight": 600
+        "minWidth": 400,
+        "minHeight": 700
       }
     ],
     "systemTray": {

@@ -10,6 +10,12 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@ant-design/pro-components": "^2.6.30",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@tauri-apps/api": "^1.5.0",
     "ahooks": "^3.7.8",
     "antd": "^5.9.4",
