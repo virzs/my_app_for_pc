@@ -1,9 +1,10 @@
-import { PageContainer, ProDescriptions } from "@ant-design/pro-components";
+import { ProDescriptions } from "@ant-design/pro-components";
 import { Button } from "antd";
+import BasePageContainer from "../../../components/containter/base";
 
 const PrinterDetail = () => {
   return (
-    <PageContainer title={false} fixedHeader>
+    <BasePageContainer>
       <ProDescriptions
         column={2}
         title="高级定义列表"
@@ -99,7 +100,7 @@ Done in 9.70s.
 `}
         </ProDescriptions.Item>
       </ProDescriptions>
-    </PageContainer>
+    </BasePageContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import BasePageContainer from "../../../components/containter/base";
 
-const Model = () => {
+const Consumable = () => {
   return <BasePageContainer></BasePageContainer>;
 };
 
-export default Model;
+export default Consumable;

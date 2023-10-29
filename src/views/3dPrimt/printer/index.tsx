@@ -1,7 +1,8 @@
-import { PageContainer, ProList } from "@ant-design/pro-components";
+import { ProList } from "@ant-design/pro-components";
 import { Space, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { TDPrintPaths } from "../router";
+import BasePageContainer from "../../../components/containter/base";
 
 const Printer = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Printer = () => {
   ];
 
   return (
-    <PageContainer title={false}>
+    <BasePageContainer>
       <ProList
         dataSource={defaultData}
         metas={{
@@ -55,7 +56,7 @@ const Printer = () => {
           },
         }}
       />
-    </PageContainer>
+    </BasePageContainer>
   );
 };
 

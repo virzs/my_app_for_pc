@@ -1,7 +1,7 @@
 import BasePageContainer from "../../../components/containter/base";
 
-const Model = () => {
+const Permission = () => {
   return <BasePageContainer></BasePageContainer>;
 };
 
-export default Model;
+export default Permission;
