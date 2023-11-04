@@ -5,9 +5,11 @@ import Printer from "./printer";
 import SolidIcon from "../../components/fontawesome/solidIcon";
 import PrinterDetail from "./printer/detail";
 import Consumable from "./consumable/index";
+import Supplier from "./supplier";
 
 export const TDPrintPaths = {
   index: "/3dPrint",
+  supplier: "/3dPrint/supplier",
   printer: "/3dPrint/printer",
   printerDetail: "/3dPrint/printer/:id",
   consumable: "/3dPrint/consumable",
@@ -17,6 +19,10 @@ export const TDPrintPaths = {
 const TDPrintRouter: RouteObject = {
   path: "/3dPrint",
   children: [
+    {
+      path: "/3dPrint/supplier",
+      element: <Supplier />,
+    },
     {
       path: "/3dPrint/printer",
       element: <Printer />,
@@ -45,19 +51,8 @@ export const TDPrintMenu: Menu = {
       name: "仪表盘",
     },
     {
-      name: "配置",
-      hideChildrenInMenu: true,
-      children: [
-        {
-          name: "品牌",
-        },
-        {
-          name: "我的账号",
-        },
-        {
-          name: "我的订单",
-        },
-      ],
+      name: "供应商",
+      path: TDPrintPaths.supplier,
     },
     {
       name: "打印机",

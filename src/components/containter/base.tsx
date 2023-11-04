@@ -6,7 +6,7 @@ export interface BasePageContainerProps extends PageContainerProps {}
 const BasePageContainer: FC<BasePageContainerProps> = (props) => {
   const { ...rest } = props;
 
-  return <PageContainer title={false} fixedHeader {...rest} />;
+  return <PageContainer title={false} fixedHeader ghost {...rest} />;
 };
 
 export default BasePageContainer;

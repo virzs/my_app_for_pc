@@ -33,11 +33,19 @@ axiosInstance.interceptors.response.use(
         description: errMsg,
       });
     }
+    if (
+      error.response.status === 401 &&
+      error.config.url.includes("/auth/refresh-token")
+    ) {
+      history.replace("/login");
+      window.location.reload();
+    }
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) {
         history.replace("/login");
+        window.location.reload();
       }
       return postRefreshToken().then((res) => {
         if (res.status === 201) {
