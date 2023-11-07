@@ -6,7 +6,7 @@ import { useTablePage } from "@/hooks/useTablePage";
 import { ProCard } from "@ant-design/pro-components";
 import { EditOutlined } from "@ant-design/icons";
 import { The3DPrintSupplier } from "@/services/3dPrint/supplier.interface";
-import { Button, Image } from "antd";
+import { Button, Image, Space, Tag } from "antd";
 import { useState } from "react";
 
 const Supplier = () => {
@@ -67,7 +67,11 @@ const Supplier = () => {
                 ></Button>,
               ]}
             >
-              <Image className="w-4 bg-black" src={item.logo} />
+              <Space size={[0, 8]} wrap>
+                {item.filamentType?.map((i) => {
+                  return <Tag key={i._id}>{i.name}</Tag>;
+                })}
+              </Space>
             </ProCard>
           );
         }}

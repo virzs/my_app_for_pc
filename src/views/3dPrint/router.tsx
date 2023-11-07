@@ -6,13 +6,15 @@ import SolidIcon from "../../components/fontawesome/solidIcon";
 import PrinterDetail from "./printer/detail";
 import Supplier from "./supplier";
 import Filament from "./filament";
+import FilamentType from "./filamnetType";
 
 export const TDPrintPaths = {
   index: "/3dPrint",
   supplier: "/3dPrint/supplier",
   printer: "/3dPrint/printer",
   printerDetail: "/3dPrint/printer/:id",
-  filament: "/3dPrint/consumable",
+  filamentType: "/3dPrint/filamentType",
+  filament: "/3dPrint/filament",
   model: "/3dPrint/model",
 };
 
@@ -20,23 +22,27 @@ const TDPrintRouter: RouteObject = {
   path: "/3dPrint",
   children: [
     {
-      path: "/3dPrint/supplier",
+      path: TDPrintPaths.supplier,
       element: <Supplier />,
     },
     {
-      path: "/3dPrint/printer",
+      path: TDPrintPaths.printer,
       element: <Printer />,
     },
     {
-      path: "/3dPrint/printer/:id",
+      path: TDPrintPaths.printerDetail,
       element: <PrinterDetail />,
     },
     {
-      path: "/3dPrint/filament",
+      path: TDPrintPaths.filamentType,
+      element: <FilamentType />,
+    },
+    {
+      path: TDPrintPaths.filament,
       element: <Filament />,
     },
     {
-      path: "/3dPrint/model",
+      path: TDPrintPaths.model,
       element: <Model />,
     },
   ],
@@ -64,6 +70,10 @@ export const TDPrintMenu: Menu = {
           path: TDPrintPaths.printerDetail,
         },
       ],
+    },
+    {
+      name: "耗材类型",
+      path: TDPrintPaths.filamentType,
     },
     {
       name: "耗材",

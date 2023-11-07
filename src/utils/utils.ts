@@ -1,3 +1,5 @@
+import { FormLayout } from "antd/lib/form/Form";
+
 export const getApiPrefix = (
   path: string,
   extra?: number | string | Array<number | string>
@@ -20,4 +22,14 @@ export const getApiPrefix = (
   }
   path = `${prefix}${path}`;
   return path;
+};
+
+// 默认表单布局
+export const baseFormItemLayout: {
+  [x: string]: any;
+  layout: FormLayout;
+} = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 16 },
+  layout: "horizontal",
 };

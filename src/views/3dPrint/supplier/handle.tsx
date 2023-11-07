@@ -1,9 +1,11 @@
+import { getFilamentType } from "@/services/3dPrint/filamentType";
 import {
   detailSupplier,
   getSupplierType,
   postSupplier,
   putSupplier,
 } from "@/services/3dPrint/supplier";
+import { baseFormItemLayout } from "@/utils/utils";
 import { BetaSchemaForm, ProFormInstance } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
 import { Button, message } from "antd";
@@ -40,7 +42,10 @@ function HandleModal<
 
   useEffect(() => {
     if (data) {
-      ref.current?.setFieldsValue(data as any);
+      ref.current?.setFieldsValue({
+        ...data,
+        filamentType: data.filamentType?.map((i) => i._id),
+      } as any);
     }
   }, [data]);
 
@@ -48,15 +53,9 @@ function HandleModal<
     onDetailLoading?.(loading);
   }, [loading]);
 
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 16 },
-  };
-
   return (
     <BetaSchemaForm<T>
-      layout="horizontal"
-      {...formItemLayout}
+      {...baseFormItemLayout}
       loading={loading}
       formRef={ref}
       open={open}
@@ -138,6 +137,17 @@ function HandleModal<
           title: "供应商网址",
           dataIndex: "url",
           valueType: "text",
+        },
+        {
+          title: "耗材类型",
+          dataIndex: "filamentType",
+          valueType: "select",
+          request: getFilamentType,
+          fieldProps: {
+            mode: "multiple",
+            allowClear: true,
+            fieldNames: { label: "name", value: "_id" },
+          },
         },
       ]}
     />

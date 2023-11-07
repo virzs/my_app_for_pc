@@ -12,6 +12,7 @@ export interface The3DPrintSupplier {
   nameEn?: string;
   type: number[];
   filament: any[];
+  filamentType: any[];
   createdAt: Date;
   updatedAt: Date;
   logo?: string;
