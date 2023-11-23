@@ -13,6 +13,7 @@ specifiers:
   '@tauri-apps/cli': ^1.5.0
   '@types/react': ^18.2.15
   '@types/react-dom': ^18.2.7
+  '@types/uuid': ^9.0.7
   '@vitejs/plugin-react': ^4.0.3
   ahooks: ^3.7.8
   antd: ^5.9.4
@@ -26,6 +27,7 @@ specifiers:
   react-router-dom: ^6.16.0
   tailwindcss: ^3.3.3
   typescript: ^5.0.2
+  uuid: ^9.0.1
   vite: ^4.4.4
 
 dependencies:
@@ -46,11 +48,13 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-redux: 8.1.3_xmhdycxkx2cbr54b7r4venanje
   react-router-dom: 6.16.0_biqbaboplfbrettd7655fr4n2y
+  uuid: 9.0.1
 
 devDependencies:
   '@tauri-apps/cli': 1.5.1
   '@types/react': 18.2.25
   '@types/react-dom': 18.2.11
+  '@types/uuid': 9.0.7
   '@vitejs/plugin-react': 4.1.0_vite@4.4.11
   autoprefixer: 10.4.16_postcss@8.4.31
   postcss: 8.4.31
@@ -1273,6 +1277,10 @@ packages:
   /@types/use-sync-external-store/0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: false
+
+  /@types/uuid/9.0.7:
+    resolution: {integrity: sha512-WUtIVRUZ9i5dYXefDEAI7sh9/O7jGvHg7Df/5O/gtH3Yabe5odI3UWopVR1qbPXQtvOxWu3mM4XxlYeZtMWF4g==}
+    dev: true
 
   /@umijs/route-utils/4.0.1:
     resolution: {integrity: sha512-+1ixf1BTOLuH+ORb4x8vYMPeIt38n9q0fJDwhv9nSxrV46mxbLF0nmELIo9CKQB2gHfuC4+hww6xejJ6VYnBHQ==}
@@ -2992,6 +3000,11 @@ packages:
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /uuid/9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    hasBin: true
+    dev: false
 
   /vite/4.4.11:
     resolution: {integrity: sha512-ksNZJlkcU9b0lBwAGZGGaZHCMqHsc8OpgtoYhsQ4/I2v5cnpmmmqe5pM4nv/4Hn6G/2GhTdj0DhZh2e+Er1q5A==}
