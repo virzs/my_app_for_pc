@@ -12,11 +12,12 @@ export interface The3DPrintSupplier {
   nameEn?: string;
   type: number[];
   filament: any[];
-  filamentType: any[];
   createdAt: Date;
   updatedAt: Date;
-  logo?: string;
   __v: number;
+  updater?: Creator;
+  logo?: string;
+  filamentType: FilamentType[];
 }
 
 export interface Creator {
@@ -30,4 +31,9 @@ export interface Creator {
   updatedAt: Date;
   __v: number;
   roles: string[];
+}
+
+export interface FilamentType {
+  _id: string;
+  name: string;
 }

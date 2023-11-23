@@ -1,39 +1,32 @@
 import BasePageContainer from "@/components/containter/base";
 import { getSupplier } from "@/services/3dPrint/supplier";
 import ListPage from "@/components/ListPage/list";
-import HandleModal from "./handle";
 import { useTablePage } from "@/hooks/useTablePage";
 import { ProCard } from "@ant-design/pro-components";
 import { EditOutlined } from "@ant-design/icons";
 import { The3DPrintSupplier } from "@/services/3dPrint/supplier.interface";
-import { Button, Image, Space, Tag } from "antd";
-import { useState } from "react";
+import { Button, Space, Tag } from "antd";
+import { useNavigate } from "react-router-dom";
+import { TDPrintPaths } from "../router";
 
 const Supplier = () => {
   const table = useTablePage(getSupplier);
-
-  const [open, setOpen] = useState(false);
-  const [editId, setEditId] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
-
-  const { refresh } = table;
+  const navigate = useNavigate();
 
   return (
-    <BasePageContainer>
-      <HandleModal
-        open={open}
-        editId={editId}
-        onFinished={() => {
-          refresh();
-        }}
-        onClose={() => {
-          setOpen(false);
-          setEditId(undefined);
-        }}
-        onDetailLoading={(loading) => {
-          setLoading(loading);
-        }}
-      />
+    <BasePageContainer
+      header={{
+        extra: [
+          <Button
+            onClick={() => {
+              navigate(TDPrintPaths.supplierHandle);
+            }}
+          >
+            新增供应商
+          </Button>,
+        ],
+      }}
+    >
       <ListPage<The3DPrintSupplier>
         ghost
         cardProps={{
@@ -57,12 +50,10 @@ const Supplier = () => {
               }
               extra={[
                 <Button
-                  loading={loading && editId === item._id}
                   key="edit"
                   icon={<EditOutlined />}
                   onClick={() => {
-                    setOpen(true);
-                    setEditId(item._id);
+                    navigate(TDPrintPaths.supplierHandle + "/" + item._id);
                   }}
                 ></Button>,
               ]}

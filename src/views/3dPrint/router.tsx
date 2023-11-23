@@ -7,10 +7,12 @@ import PrinterDetail from "./printer/detail";
 import Supplier from "./supplier";
 import Filament from "./filament";
 import FilamentType from "./filamnetType";
+import SupplierHandle from "./supplier/handle";
 
 export const TDPrintPaths = {
   index: "/3dPrint",
   supplier: "/3dPrint/supplier",
+  supplierHandle: "/3dPrint/supplier/handle",
   printer: "/3dPrint/printer",
   printerDetail: "/3dPrint/printer/:id",
   filamentType: "/3dPrint/filamentType",
@@ -24,6 +26,14 @@ const TDPrintRouter: RouteObject = {
     {
       path: TDPrintPaths.supplier,
       element: <Supplier />,
+    },
+    {
+      path: TDPrintPaths.supplierHandle,
+      element: <SupplierHandle />,
+    },
+    {
+      path: TDPrintPaths.supplierHandle + "/:id",
+      element: <SupplierHandle />,
     },
     {
       path: TDPrintPaths.printer,
@@ -59,6 +69,17 @@ export const TDPrintMenu: Menu = {
     {
       name: "供应商",
       path: TDPrintPaths.supplier,
+      hideChildrenInMenu: true,
+      children: [
+        {
+          name: "新增",
+          path: TDPrintPaths.supplierHandle,
+        },
+        {
+          name: "修改",
+          path: TDPrintPaths.supplierHandle + "/:id",
+        },
+      ],
     },
     {
       name: "打印机",
