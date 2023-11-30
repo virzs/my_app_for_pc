@@ -3,12 +3,13 @@ import { getApiPrefix } from "./utils";
 import { postRefreshToken } from "../services/auth";
 import { history } from "./history";
 import { notification } from "antd";
+import { getRefreshToken, getToken, setRefreshToken, setToken } from "./token";
 
 const axiosInstance = axios.create({});
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -42,15 +43,22 @@ axiosInstance.interceptors.response.use(
     }
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) {
+      const refreshToken = getRefreshToken();
+      if ([null, undefined, ""].includes(refreshToken)) {
         history.replace("/login");
         window.location.reload();
+        return;
       }
-      return postRefreshToken().then((res) => {
-        if (res.status === 201) {
-          localStorage.setItem("token", res.data.token);
+      return postRefreshToken({
+        refreshToken: refreshToken as string,
+      }).then((res) => {
+        if (res.access_token) {
+          setToken(res.access_token);
           console.log("Access token refreshed!");
+          if (res.refresh_token) {
+            console.log("Access token refreshed!");
+            setRefreshToken(res.refresh_token);
+          }
           return axiosInstance(originalRequest);
         }
       });
