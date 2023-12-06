@@ -25,6 +25,7 @@ const MainLayout = (props: any) => {
 
   return (
     <ProLayout
+      className="h-screen"
       logo={false}
       title="管理系统"
       route={{

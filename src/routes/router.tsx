@@ -3,8 +3,10 @@ import HomeRouter from "../views/home/router";
 import AuthRouter from "../views/auth/router";
 import MainLayout from "../layouts/main";
 import TDPrintRouter from "../views/3dPrint/router";
+import SystemRouter from "@/views/system/router";
+import BlogRouter from "@/views/blog/router";
 
-export interface MyRouteObject{}
+export interface MyRouteObject {}
 
 const createModuleRouter = (module: RouteObject) => {};
 
@@ -13,7 +15,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    children: [HomeRouter, TDPrintRouter],
+    children: [
+      HomeRouter,
+      TDPrintRouter,
+      BlogRouter,
+      SystemRouter,
+      {
+        path: "*",
+        element: <div>404</div>,
+      },
+    ],
   },
 ]);
 
