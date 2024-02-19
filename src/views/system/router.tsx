@@ -3,11 +3,13 @@ import Role from "./role";
 import Permission from "./permission";
 import { Menu } from "@/utils/menu";
 import SolidIcon from "@/components/fontawesome/solidIcon";
+import Setting from "./setting";
 
 export const SystemPaths = {
   index: "/system",
   role: "/system/role",
   permission: "/system/permission",
+  setting: "/system/setting",
 };
 
 const SystemRouter: RouteObject = {
@@ -20,6 +22,10 @@ const SystemRouter: RouteObject = {
     {
       path: SystemPaths.permission,
       element: <Permission />,
+    },
+    {
+      path: SystemPaths.setting,
+      element: <Setting />,
     },
   ],
 };
@@ -38,6 +44,11 @@ export const SystemMenu: Menu = {
       name: "权限",
       path: SystemPaths.permission,
       icon: <SolidIcon name="user-lock" />,
+    },
+    {
+      name: "设置",
+      path: SystemPaths.setting,
+      icon: <SolidIcon name="cog" />,
     },
   ],
 };

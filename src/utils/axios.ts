@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
       });
     }
     if (
-      error.response.status === 401 &&
+      error.response.status === 500 &&
       error.config.url.includes("/auth/refresh-token")
     ) {
       history.replace("/login");
