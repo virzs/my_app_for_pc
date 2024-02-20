@@ -12,3 +12,10 @@ export interface LoginResponse {
   access_token: string;
   refresh_token: string;
 }
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  captcha: number;
+  invitationCode: string;
+}

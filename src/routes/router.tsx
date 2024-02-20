@@ -11,7 +11,7 @@ export interface MyRouteObject {}
 const createModuleRouter = (module: RouteObject) => {};
 
 const router = createBrowserRouter([
-  AuthRouter,
+  ...AuthRouter,
   {
     path: "/",
     element: <MainLayout />,

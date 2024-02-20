@@ -34,7 +34,6 @@ const Setting = () => {
         loading={loading}
         formRef={ref}
         onFinish={(values) => {
-          console.log(values, data);
           return new Promise((resolve) => {
             (data?._id ? updateProject(data?._id, values) : addProject(values))
               .then(() => {

@@ -23,3 +23,9 @@ export async function addProject(data: ProjectData) {
 export async function updateProject(id: string, data: ProjectData) {
   return basePutRequest("/system/project")(id, data);
 }
+
+// get
+// /system/project/public
+export async function getPublicProject(params: any) {
+  return baseGetRequest("/system/project/public")(params);
+}
