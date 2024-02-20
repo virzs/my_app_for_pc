@@ -20,3 +20,6 @@ export const postRegister = (data: RegisterRequest): Promise<LoginResponse> =>
 // /system/email/register/captcha
 export const getEmailCaptcha = (email: string) =>
   basePostRequest("/auth/register/captcha")({ email });
+
+// /auth/logout post
+export const postLogout = (data: any) => basePostRequest("/auth/logout")(data);

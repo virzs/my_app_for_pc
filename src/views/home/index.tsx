@@ -24,7 +24,7 @@ const HomeView = () => {
     checkIsLogin();
   }, []);
 
-  return <div>{userInfo}</div>;
+  return <div>{JSON.stringify(userInfo)}</div>;
 };
 
 export default HomeView;
