@@ -5,6 +5,7 @@ import MainLayout from "../layouts/main";
 import TDPrintRouter from "../views/3dPrint/router";
 import SystemRouter from "@/views/system/router";
 import BlogRouter from "@/views/blog/router";
+import UserRouter from "@/views/user/router";
 
 export interface MyRouteObject {}
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       TDPrintRouter,
       BlogRouter,
       SystemRouter,
+      UserRouter,
       {
         path: "*",
         element: <div>404</div>,

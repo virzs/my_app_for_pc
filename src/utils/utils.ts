@@ -30,7 +30,7 @@ export const baseFormItemLayout: {
   layout: FormLayout;
 } = {
   labelCol: { span: 6 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 14 },
   layout: "horizontal",
 };
 
@@ -40,4 +40,13 @@ export const checkPath = (path: string) => {
     path = `/${path}`;
   }
   return path;
+};
+
+/*
+ * 判断是否为移动设备
+ */
+export const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    window.navigator.userAgent
+  );
 };
