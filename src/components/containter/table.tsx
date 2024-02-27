@@ -13,6 +13,11 @@ const TablePageContainer: FC<TablePageContainerProps> = (props) => {
       className={cx(
         "h-full overflow-hidden flex flex-col",
         css`
+          .ant-pro-table,
+          .ant-list {
+            display: flex;
+            flex-direction: column;
+          }
           .ant-pro-grid-content,
           .ant-pro-grid-content-children,
           .ant-pro-table,
@@ -21,9 +26,14 @@ const TablePageContainer: FC<TablePageContainerProps> = (props) => {
           .ant-table-wrapper,
           .ant-spin-nested-loading,
           .ant-spin-container,
-          .ant-table {
+          .ant-table,
+          .ant-list {
             /* height 继承父级 */
             height: inherit;
+          }
+          .ant-pro-table-search {
+            height: auto;
+            flex-shrink: 0;
           }
           .ant-pro-card-body,
           .ant-spin-container {
