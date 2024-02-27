@@ -3,6 +3,7 @@ import { getInvitationCode, putForbidden } from "@/services/user";
 import { ProCard } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
 import { Button, Space, Table, Tag, message } from "antd";
+import { format } from "date-fns";
 import {
   getInvitationCodeStatusColor,
   getInvitationCodeStatusLabel,
@@ -63,6 +64,13 @@ const UserCenter = () => {
                 title: "最大使用次数",
                 dataIndex: "maxUse",
                 key: "maxUse",
+              },
+              {
+                title: "有效期",
+                dataIndex: "expire",
+                key: "expire",
+                render: (expire: string) =>
+                  expire ? format(expire, "yyyy-MM-dd") : "",
               },
               {
                 title: "状态",
