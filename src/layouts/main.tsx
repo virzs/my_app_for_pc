@@ -12,6 +12,7 @@ import {
   removeToken,
 } from "@/utils/token";
 import { AuthPaths } from "@/views/auth/router";
+import { UserPaths } from "@/views/user/router";
 
 const MainLayout = (props: any) => {
   const menus = useMenu();
@@ -32,7 +33,7 @@ const MainLayout = (props: any) => {
 
   const menuItemRender = (item: MenuDataItem, defaultDom: React.ReactNode) => {
     if (item.isUrl || !item.path || location.pathname === item.path) {
-      return <div className={item.single ? "" : "pl-2"}>{defaultDom}</div>;
+      return <div>{defaultDom}</div>;
     }
 
     return (
@@ -70,6 +71,9 @@ const MainLayout = (props: any) => {
                     label: "个人中心",
                     key: "个人中心",
                     icon: <UserOutlined />,
+                    onClick: () => {
+                      navigate(UserPaths.center);
+                    },
                   },
                   {
                     label: "退出登录",
