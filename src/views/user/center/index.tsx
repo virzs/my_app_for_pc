@@ -91,21 +91,37 @@ const UserCenter = () => {
                 title: "操作",
                 dataIndex: "operation",
                 key: "operation",
-                render: (_, { _id, status }) => {
+                render: (_, { _id, status, code }) => {
                   return (
-                    ![2].includes(status) && (
-                      <Button
-                        loading={forbiddenLoading}
-                        type="text"
-                        size="small"
-                        style={{ color: "red" }}
-                        onClick={() => {
-                          forbidden(_id);
-                        }}
-                      >
-                        禁用
-                      </Button>
-                    )
+                    <Space>
+                      {[0].includes(status) && (
+                        <Button
+                          type="text"
+                          size="small"
+                          onClick={() => {
+                            // 当前域名+/register?code=邀请码
+                            const url = `${window.location.origin}/register?code=${code}`;
+                            navigator.clipboard.writeText(url);
+                            message.success("邀请链接已复制到剪贴板");
+                          }}
+                        >
+                          邀请链接
+                        </Button>
+                      )}
+                      {![2].includes(status) && (
+                        <Button
+                          loading={forbiddenLoading}
+                          type="text"
+                          size="small"
+                          style={{ color: "red" }}
+                          onClick={() => {
+                            forbidden(_id);
+                          }}
+                        >
+                          禁用
+                        </Button>
+                      )}
+                    </Space>
                   );
                 },
               },

@@ -2,6 +2,7 @@ import { getEmailCaptcha, postRegister } from "@/services/auth";
 import {
   LoginForm,
   ProFormCaptcha,
+  ProFormInstance,
   ProFormText,
 } from "@ant-design/pro-components";
 import { Space, Spin, message } from "antd";
@@ -10,19 +11,30 @@ import { useNavigate } from "react-router-dom";
 import { RegisterRequest } from "@/services/auth/interface";
 import { useRequest } from "ahooks";
 import { getPublicProject } from "@/services/system/project";
+import { useEffect, useRef } from "react";
 
 const RegisterView = () => {
   const navigate = useNavigate();
+  const ref = useRef<ProFormInstance>();
+  const query = new URLSearchParams(window.location.search);
+  const code = query.get("code");
 
   const { data, loading } = useRequest(getPublicProject);
 
   const hideAutoComplete = {};
+
+  useEffect(() => {
+    if (code && ref.current) {
+      ref.current.setFieldsValue({ invitationCode: code });
+    }
+  }, [code, ref.current]);
 
   return (
     <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <Spin spinning={loading}>
           <LoginForm<RegisterRequest>
+            formRef={ref}
             onFinish={(values) => {
               return new Promise((resolve) => {
                 postRegister(values)
