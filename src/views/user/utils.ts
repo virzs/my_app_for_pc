@@ -50,3 +50,31 @@ export const getUserStatusLabel = (status: number) => {
 export const getUserStatusColor = (status: number) => {
   return UserStatusMap[status]?.color;
 };
+
+export const InvitationCodeStatusMap: {
+  [x: number]: {
+    label: string;
+    color: string;
+  };
+} = {
+  0: {
+    label: "生效中",
+    color: "green",
+  },
+  1: {
+    label: "已失效",
+    color: "red",
+  },
+  2: {
+    label: "已禁用",
+    color: "",
+  },
+};
+
+export const getInvitationCodeStatusLabel = (status: number) => {
+  return InvitationCodeStatusMap[status]?.label;
+};
+
+export const getInvitationCodeStatusColor = (status: number) => {
+  return InvitationCodeStatusMap[status]?.color;
+};
