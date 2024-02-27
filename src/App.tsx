@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";
 import Upload from "./components/ProFrom/upload";
+import BlockNoteEditor from "./components/BlockNoteEditor";
 
 function App() {
   const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -22,6 +23,11 @@ function App() {
             upload: {
               renderFormItem(text, props, dom) {
                 return <Upload value={text} {...props} />;
+              },
+            },
+            editor: {
+              renderFormItem(text, props, dom) {
+                return <BlockNoteEditor value={text} {...props} />;
               },
             },
           }}
