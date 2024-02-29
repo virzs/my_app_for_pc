@@ -1,18 +1,23 @@
+import { getRoleList } from "@/services/system/role";
 import { postInvitationCode } from "@/services/user";
 import { baseFormItemLayout } from "@/utils/utils";
 import { BetaSchemaForm, ProFormInstance } from "@ant-design/pro-components";
+import { useRequest } from "ahooks";
 import { FC, useRef } from "react";
 
 interface HandleCodeProps {
   open: boolean;
   onCancel: () => void;
   onOk: () => void;
+  type?: number;
 }
 
 const HandleCode: FC<HandleCodeProps> = (props) => {
-  const { open, onCancel, onOk } = props;
+  const { open, onCancel, onOk, type } = props;
 
   const ref = useRef<ProFormInstance>();
+
+  const { data, loading } = useRequest(getRoleList);
 
   return (
     <BetaSchemaForm
@@ -39,6 +44,23 @@ const HandleCode: FC<HandleCodeProps> = (props) => {
         ref.current?.resetFields();
       }}
       columns={[
+        ...(type === 0
+          ? [
+              {
+                title: "默认角色",
+                dataIndex: "roles",
+                valueType: "select",
+                valueEnum: data?.reduce((prev, curr) => {
+                  prev[curr._id] = curr.name;
+                  return prev;
+                }, {} as { [x: string]: any }),
+                fieldProps: {
+                  mode: "multiple",
+                  loading,
+                },
+              },
+            ]
+          : []),
         {
           title: "最大使用次数",
           dataIndex: "maxUse",

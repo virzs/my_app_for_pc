@@ -2,7 +2,7 @@ import BasePageContainer from "@/components/containter/base";
 import { getInvitationCode, putForbidden } from "@/services/user";
 import { ProCard } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, Tag, Tooltip, message } from "antd";
 import { format } from "date-fns";
 import {
   getInvitationCodeStatusColor,
@@ -10,9 +10,11 @@ import {
 } from "../utils";
 import HandleCode from "./handleCode";
 import { useState } from "react";
+import { getUserInfo } from "@/utils/userInfo";
 
 const UserCenter = () => {
   const [open, setOpen] = useState(false);
+  const { type } = getUserInfo();
 
   const { data, loading, refresh } = useRequest(getInvitationCode);
 
@@ -55,6 +57,21 @@ const UserCenter = () => {
                 dataIndex: "code",
                 key: "code",
               },
+              ...(type === 0
+                ? [
+                    {
+                      title: "默认角色",
+                      dataIndex: "roles",
+                      key: "roles",
+                      render: (roles: any[]) =>
+                        roles?.length
+                          ? roles.map(({ name }, j) => (
+                              <Tag key={j}>{name}</Tag>
+                            ))
+                          : "",
+                    },
+                  ]
+                : []),
               {
                 title: "已使用次数",
                 dataIndex: "useCount",
@@ -91,22 +108,25 @@ const UserCenter = () => {
                 title: "操作",
                 dataIndex: "operation",
                 key: "operation",
+                width: 200,
                 render: (_, { _id, status, code }) => {
                   return (
                     <Space>
                       {[0].includes(status) && (
-                        <Button
-                          type="text"
-                          size="small"
-                          onClick={() => {
-                            // 当前域名+/register?code=邀请码
-                            const url = `${window.location.origin}/register?code=${code}`;
-                            navigator.clipboard.writeText(url);
-                            message.success("邀请链接已复制到剪贴板");
-                          }}
-                        >
-                          邀请链接
-                        </Button>
+                        <Tooltip title="点击复制邀请链接">
+                          <Button
+                            type="text"
+                            size="small"
+                            onClick={() => {
+                              // 当前域名+/register?code=邀请码
+                              const url = `${window.location.origin}/register?code=${code}`;
+                              navigator.clipboard.writeText(url);
+                              message.success("邀请链接已复制到剪贴板");
+                            }}
+                          >
+                            邀请链接
+                          </Button>
+                        </Tooltip>
                       )}
                       {![2].includes(status) && (
                         <Button
@@ -130,6 +150,7 @@ const UserCenter = () => {
         </ProCard>
       </Space>
       <HandleCode
+        type={type}
         open={open}
         onCancel={() => {
           setOpen(false);
