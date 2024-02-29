@@ -1,6 +1,6 @@
 import BasePageContainer from "@/components/containter/base";
 import { getInvitationCode, putForbidden } from "@/services/user";
-import { ProCard } from "@ant-design/pro-components";
+import { ProCard, ProDescriptions } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
 import { Button, Space, Table, Tag, Tooltip, message } from "antd";
 import { format } from "date-fns";
@@ -11,10 +11,11 @@ import {
 import HandleCode from "./handleCode";
 import { useState } from "react";
 import { getUserInfo } from "@/utils/userInfo";
+import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 
 const UserCenter = () => {
   const [open, setOpen] = useState(false);
-  const { type } = getUserInfo();
+  const { type, email, username } = getUserInfo();
 
   const { data, loading, refresh } = useRequest(getInvitationCode);
 
@@ -31,19 +32,37 @@ const UserCenter = () => {
 
   return (
     <BasePageContainer>
-      <Space direction="vertical" className="w-full">
-        <ProCard title="我的信息"></ProCard>
+      <Space direction="vertical" className="w-full max-w-7xl mx-auto flex">
+        <ProCard title="我的信息">
+          <ProDescriptions column={1}>
+            <ProDescriptions.Item label="用户名">
+              {username}
+            </ProDescriptions.Item>
+            <ProDescriptions.Item label="邮箱">{email}</ProDescriptions.Item>
+          </ProDescriptions>
+        </ProCard>
         <ProCard
           title="我的邀请码"
           extra={
-            <Button
-              type="primary"
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              创建
-            </Button>
+            <Space>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                创建
+              </Button>
+              <Button
+                type="text"
+                size="small"
+                onClick={() => {
+                  refresh();
+                }}
+              >
+                {loading ? <LoadingOutlined /> : <ReloadOutlined />}
+              </Button>
+            </Space>
           }
         >
           <Table
