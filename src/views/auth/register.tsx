@@ -34,6 +34,8 @@ const RegisterView = () => {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <Spin spinning={loading}>
           <LoginForm<RegisterRequest>
+            title={data?.register?.title}
+            subTitle={data?.register?.subTitle}
             formRef={ref}
             onFinish={(values) => {
               return new Promise((resolve) => {
@@ -51,9 +53,20 @@ const RegisterView = () => {
           >
             {/* 防止浏览器自动填充 */}
             <div className="h-0 overflow-hidden">
+              <input type="text" name="username" />
               <input type="text" name="email" />
               <input type="password" name="password" />
             </div>
+            <ProFormText
+              name="username"
+              placeholder="用户名"
+              rules={[
+                {
+                  required: true,
+                  message: "请输入用户名",
+                },
+              ]}
+            />
             <ProFormText
               name="email"
               placeholder="邮箱"
