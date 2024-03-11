@@ -1,4 +1,4 @@
-import { TabelRequestParams } from "@/hooks";
+import { TabelRequestParams } from "@/hooks/useTablePage";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface TablePageState {

@@ -42,16 +42,6 @@ function PageList<RecordType extends object = any>(
     setCurrent,
     pageSize,
     setPageSize,
-    keyword,
-    setKeyword,
-    setKeywordStore,
-    refresh,
-    selectedRows,
-    setSelectedRows,
-    selectedRowKeys,
-    setSelectedRowKeys,
-    scrollTopIndex,
-    setScrollTopIndex,
   } = table;
 
   return (

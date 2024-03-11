@@ -11,10 +11,9 @@ import {
   BetaSchemaForm,
   ProCard,
   ProFormInstance,
-  ProFormUploadDragger,
 } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
-import { Button, message } from "antd";
+import { message } from "antd";
 import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 

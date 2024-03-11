@@ -3,7 +3,7 @@ import { RoleRequest, deleteRole, getRole } from "@/services/system/role";
 import TablePage, { TablePageProps } from "@/components/TablePage";
 import TablePageContainer from "@/components/containter/table";
 import { ProCard } from "@ant-design/pro-components";
-import { Space, message } from "antd";
+import { message } from "antd";
 import { useRequest } from "ahooks";
 import Operation from "@/components/TablePage/Operation";
 

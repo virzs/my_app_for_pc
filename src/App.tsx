@@ -21,12 +21,12 @@ function App() {
         <ProConfigProvider
           valueTypeMap={{
             upload: {
-              renderFormItem(text, props, dom) {
+              renderFormItem(text, props) {
                 return <Upload value={text} {...props} />;
               },
             },
             editor: {
-              renderFormItem(text, props, dom) {
+              renderFormItem(text, props) {
                 return <BlockNoteEditor value={text} {...props} />;
               },
             },
