@@ -2,7 +2,7 @@ import BasePageContainer from "@/components/containter/base";
 import { getInvitationCode, putForbidden } from "@/services/user";
 import { ProCard, ProDescriptions } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
-import { Button, Space, Table, Tag, Tooltip, message } from "antd";
+import { Button, Space, Table, Tag, message } from "antd";
 import { format } from "date-fns";
 import {
   getInvitationCodeStatusColor,
@@ -157,6 +157,7 @@ const UserCenter = () => {
                             forbidden(_id);
                           },
                           title: "禁用",
+                          loading: forbiddenLoading,
                         },
                       ]}
                     />
