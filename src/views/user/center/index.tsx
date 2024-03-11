@@ -9,7 +9,7 @@ import {
   getInvitationCodeStatusLabel,
 } from "../utils";
 import HandleCode from "./handleCode";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { getUserInfo } from "@/utils/userInfo";
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 
@@ -29,6 +29,11 @@ const UserCenter = () => {
       },
     }
   );
+
+  const sortedData = useMemo(() => {
+    // 排序 status 0 1 2
+    return data?.sort((a: any, b: any) => a.status - b.status);
+  }, [data]);
 
   return (
     <BasePageContainer>
@@ -67,7 +72,7 @@ const UserCenter = () => {
         >
           <Table
             loading={loading}
-            dataSource={data}
+            dataSource={sortedData}
             size="small"
             pagination={false}
             columns={[
@@ -134,7 +139,7 @@ const UserCenter = () => {
                       {[0].includes(status) && (
                         <Tooltip title="点击复制邀请链接">
                           <Button
-                            type="text"
+                            type="link"
                             size="small"
                             onClick={() => {
                               // 当前域名+/register?code=邀请码
