@@ -12,6 +12,7 @@ import HandleCode from "./handleCode";
 import { useMemo, useState } from "react";
 import { getUserInfo } from "@/utils/userInfo";
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
+import Operation from "@/components/TablePage/Operation";
 
 const UserCenter = () => {
   const [open, setOpen] = useState(false);
@@ -135,37 +136,30 @@ const UserCenter = () => {
                 width: 200,
                 render: (_, { _id, status, code }) => {
                   return (
-                    <Space>
-                      {[0].includes(status) && (
-                        <Tooltip title="点击复制邀请链接">
-                          <Button
-                            type="link"
-                            size="small"
-                            onClick={() => {
-                              // 当前域名+/register?code=邀请码
-                              const url = `${window.location.origin}/register?code=${code}`;
-                              navigator.clipboard.writeText(url);
-                              message.success("邀请链接已复制到剪贴板");
-                            }}
-                          >
-                            邀请链接
-                          </Button>
-                        </Tooltip>
-                      )}
-                      {![2].includes(status) && (
-                        <Button
-                          loading={forbiddenLoading}
-                          type="text"
-                          size="small"
-                          style={{ color: "red" }}
-                          onClick={() => {
+                    <Operation
+                      columns={[
+                        {
+                          show: [0].includes(status),
+                          tooltip: {
+                            title: "点击复制邀请链接",
+                          },
+                          onClick: () => {
+                            // 当前域名+/register?code=邀请码
+                            const url = `${window.location.origin}/register?code=${code}`;
+                            navigator.clipboard.writeText(url);
+                            message.success("邀请链接已复制到剪贴板");
+                          },
+                          title: "邀请链接",
+                        },
+                        {
+                          show: ![2].includes(status),
+                          onClick: () => {
                             forbidden(_id);
-                          }}
-                        >
-                          禁用
-                        </Button>
-                      )}
-                    </Space>
+                          },
+                          title: "禁用",
+                        },
+                      ]}
+                    />
                   );
                 },
               },
