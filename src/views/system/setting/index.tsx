@@ -5,6 +5,7 @@ import {
   getProject,
   updateProject,
 } from "@/services/system/project";
+import { baseFormItemLayout } from "@/utils/utils";
 import {
   BetaSchemaForm,
   ProCard,
@@ -30,8 +31,9 @@ const Setting = () => {
   return (
     <BasePageContainer>
       <ProCard>
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <BetaSchemaForm
+            {...baseFormItemLayout}
             loading={loading}
             formRef={ref}
             onFinish={(values) => {
@@ -64,6 +66,13 @@ const Setting = () => {
             }}
             columns={[
               {
+                title: "基础设置",
+                renderFormItem: () => <></>,
+                formItemProps: {
+                  colon: false,
+                },
+              },
+              {
                 title: "系统名称",
                 dataIndex: "name",
                 valueType: "text",
@@ -87,54 +96,71 @@ const Setting = () => {
                 valueType: "switch",
               },
               {
-                title: "登录页面设置",
-                valueType: "group",
-                columns: [
-                  {
-                    title: "标题",
-                    dataIndex: ["login", "title"],
-                    valueType: "text",
-                  },
-                  {
-                    title: "副标题",
-                    dataIndex: ["login", "subTitle"],
-                    valueType: "text",
-                  },
-                  {
-                    title: "背景",
-                    dataIndex: ["login", "background"],
-                    valueType: "upload",
-                    fieldProps: {
-                      maxCount: 1,
-                      accept: "image/*",
-                    },
-                  },
-                ],
+                title: "登录页设置",
+                renderFormItem: () => <></>,
+                formItemProps: {
+                  colon: false,
+                },
               },
               {
-                title: "注册页面设置",
-                valueType: "group",
-                columns: [
-                  {
-                    title: "标题",
-                    dataIndex: ["register", "title"],
-                    valueType: "text",
+                title: "标题",
+                dataIndex: ["login", "title"],
+                valueType: "text",
+                fieldProps: {
+                  style: {
+                    width: "100%",
                   },
-                  {
-                    title: "副标题",
-                    dataIndex: ["register", "subTitle"],
-                    valueType: "text",
-                  },
-                  {
-                    title: "背景",
-                    dataIndex: ["register", "background"],
-                    valueType: "upload",
-                    fieldProps: {
-                      maxCount: 1,
-                      accept: "image/*",
-                    },
-                  },
-                ],
+                },
+              },
+              {
+                title: "副标题",
+                dataIndex: ["login", "subTitle"],
+                valueType: "text",
+              },
+              {
+                title: "背景",
+                dataIndex: ["login", "background"],
+                valueType: "upload",
+                fieldProps: {
+                  maxCount: 1,
+                  accept: "image/*",
+                },
+              },
+              {
+                title: "用户协议",
+                dataIndex: ["login", "agreement"],
+                valueType: "editor",
+              },
+              {
+                title: "注册页设置",
+                renderFormItem: () => <></>,
+                formItemProps: {
+                  colon: false,
+                },
+              },
+              {
+                title: "标题",
+                dataIndex: ["register", "title"],
+                valueType: "text",
+              },
+              {
+                title: "副标题",
+                dataIndex: ["register", "subTitle"],
+                valueType: "text",
+              },
+              {
+                title: "背景",
+                dataIndex: ["register", "background"],
+                valueType: "upload",
+                fieldProps: {
+                  maxCount: 1,
+                  accept: "image/*",
+                },
+              },
+              {
+                title: "用户协议",
+                dataIndex: ["login", "agreement"],
+                valueType: "editor",
               },
             ]}
           />
