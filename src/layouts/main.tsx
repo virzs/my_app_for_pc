@@ -33,7 +33,7 @@ const MainLayout = (props: any) => {
 
   const menuItemRender = (item: MenuDataItem, defaultDom: React.ReactNode) => {
     if (item.isUrl || !item.path || location.pathname === item.path) {
-      return <div>{defaultDom}</div>;
+      return <div className="pl-2">{defaultDom}</div>;
     }
 
     return (
