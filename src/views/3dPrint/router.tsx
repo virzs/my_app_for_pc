@@ -18,6 +18,7 @@ export const TDPrintPaths = {
   filamentType: "/3dPrint/filamentType",
   filament: "/3dPrint/filament",
   model: "/3dPrint/model",
+  order: "/3dPrint/order",
 };
 
 const TDPrintRouter: RouteObject = {
@@ -103,6 +104,10 @@ export const TDPrintMenu: Menu = {
     {
       name: "模型",
       path: TDPrintPaths.model,
+    },
+    {
+      name: "订单",
+      path: TDPrintPaths.order,
     },
   ],
 };
