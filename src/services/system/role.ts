@@ -7,7 +7,7 @@ import {
 } from "@/utils/axios";
 
 export interface RoleRequest {
-  _id: string;
+  _id?: string;
   name: string;
   description: string;
   permissions: string[];
@@ -41,4 +41,9 @@ export async function deleteRole(id: string) {
 // /system/role/{id} detail
 export async function detailRole(id: string) {
   return baseDetailRequest("/system/role")(id);
+}
+
+// /system/role/permissions/{id} detail 权限仅id
+export async function detailRolePermissions(id: string) {
+  return baseDetailRequest("/system/role/permissions")(id);
 }

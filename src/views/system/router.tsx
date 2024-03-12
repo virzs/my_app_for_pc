@@ -4,10 +4,12 @@ import Permission from "./permission";
 import { Menu } from "@/utils/menu";
 import SolidIcon from "@/components/fontawesome/solidIcon";
 import Setting from "./setting";
+import RoleHandle from "./role/handle";
 
 export const SystemPaths = {
   index: "/system",
   role: "/system/role",
+  roleHandle: "/system/role/handle",
   permission: "/system/permission",
   setting: "/system/setting",
 };
@@ -18,6 +20,18 @@ const SystemRouter: RouteObject = {
     {
       path: SystemPaths.role,
       element: <Role />,
+    },
+    {
+      path: SystemPaths.roleHandle,
+      element: <RoleHandle />,
+    },
+    {
+      path: SystemPaths.roleHandle + "/:id",
+      element: <RoleHandle />,
+    },
+    {
+      path: SystemPaths.setting,
+      element: <Setting />,
     },
     {
       path: SystemPaths.permission,
@@ -39,6 +53,17 @@ export const SystemMenu: Menu = {
       name: "角色",
       path: SystemPaths.role,
       icon: <SolidIcon name="user-tag" />,
+      hideChildrenInMenu: true,
+      children: [
+        {
+          name: "新增",
+          path: SystemPaths.roleHandle,
+        },
+        {
+          name: "编辑",
+          path: SystemPaths.roleHandle + "/:id",
+        },
+      ],
     },
     {
       name: "权限",

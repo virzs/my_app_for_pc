@@ -3,11 +3,15 @@ import { RoleRequest, deleteRole, getRole } from "@/services/system/role";
 import TablePage, { TablePageProps } from "@/components/TablePage";
 import TablePageContainer from "@/components/containter/table";
 import { ProCard } from "@ant-design/pro-components";
-import { message } from "antd";
+import { Button, message } from "antd";
 import { useRequest } from "ahooks";
 import Operation from "@/components/TablePage/Operation";
+import { useNavigate } from "react-router-dom";
+import { SystemPaths } from "../router";
 
 const Role = () => {
+  const navigate = useNavigate();
+
   const table = useTablePage<RoleRequest[]>(getRole);
 
   const { refresh } = table;
@@ -27,6 +31,11 @@ const Role = () => {
       key: "name",
     },
     {
+      title: "描述",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
       title: "权限",
       dataIndex: "permissions",
       key: "permissions",
@@ -34,6 +43,7 @@ const Role = () => {
     },
     {
       title: "操作",
+      width: 200,
       dataIndex: "action",
       key: "action",
       render: (_, r) => {
@@ -43,9 +53,16 @@ const Role = () => {
             columns={[
               {
                 title: "修改",
+                onClick: () => {
+                  navigate(SystemPaths.roleHandle + "/" + _id);
+                },
               },
               {
                 title: "删除",
+                loading: delLoading,
+                onClick: () => {
+                  delRun(_id!);
+                },
               },
             ]}
           />
@@ -55,7 +72,20 @@ const Role = () => {
   ];
 
   return (
-    <TablePageContainer>
+    <TablePageContainer
+      header={{
+        extra: [
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate(SystemPaths.roleHandle);
+            }}
+          >
+            新增角色
+          </Button>,
+        ],
+      }}
+    >
       <TablePage
         table={table}
         columns={columns}
