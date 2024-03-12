@@ -12,6 +12,7 @@ import {
   ProTableProps,
 } from "@ant-design/pro-components";
 import { Service } from "ahooks/lib/useRequest/src/types";
+import { renderEmptyToBarre } from "./utils";
 
 export interface TablePageProps<T, U>
   extends ProTableProps<T, U>,
@@ -109,6 +110,7 @@ function TablePage<T extends object = any, U extends object = any>(
       columns={columns.map((i) => ({
         ...i,
         search: i.search ?? false,
+        render: i.render ?? renderEmptyToBarre,
       }))}
       search={{
         filterType: "light",
