@@ -28,7 +28,7 @@ const BasePageContainer: FC<BasePageContainerProps> = (props) => {
         `
       )}
       title={false}
-      fixedHeader
+      fixedHeader={false}
       ghost
       {...rest}
     />
