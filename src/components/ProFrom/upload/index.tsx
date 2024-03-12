@@ -2,7 +2,6 @@ import { getToken } from "@/utils/token";
 import { checkPath, getApiPrefix } from "@/utils/utils";
 import { ProFieldFCRenderProps } from "@ant-design/pro-components";
 import { UploadFile, Upload, Button } from "antd";
-import { v4 as uuid } from "uuid";
 import { FC, useEffect, useState } from "react";
 import { UploadChangeParam } from "antd/es/upload";
 import { UploadOutlined } from "@ant-design/icons";
