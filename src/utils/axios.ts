@@ -63,6 +63,13 @@ axiosInstance.interceptors.response.use(
         }
       });
     }
+    if (error.response.status === 429) {
+      const errMsg = error.response.data.message;
+      notification.error({
+        message: 429,
+        description: errMsg,
+      });
+    }
     return Promise.reject(error);
   }
 );
