@@ -7,6 +7,7 @@ import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";
 import Upload from "./components/ProFrom/upload";
 import BlockNoteEditor from "./components/BlockNoteEditor";
+import Tree from "./components/ProFrom/Tree";
 
 function App() {
   const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -16,6 +17,9 @@ function App() {
       <ConfigProvider
         theme={{
           algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          token: {
+            colorPrimary: darkMode ? "rgb(237, 237, 237)" : "rgb(23, 23, 23)",
+          },
         }}
       >
         <ProConfigProvider
@@ -28,6 +32,11 @@ function App() {
             editor: {
               renderFormItem(text, props) {
                 return <BlockNoteEditor value={text} {...props} />;
+              },
+            },
+            tree: {
+              renderFormItem(text, props: any) {
+                return <Tree value={text} {...props} />;
               },
             },
           }}
