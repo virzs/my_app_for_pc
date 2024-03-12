@@ -1,10 +1,15 @@
 import { FormLayout } from "antd/lib/form/Form";
 
+export const isTauri = (): boolean => {
+  // @ts-ignore
+  return typeof window.__TAURI__ !== "undefined";
+};
+
 export const getApiPrefix = (
   path: string,
   extra?: number | string | Array<number | string>
 ) => {
-  const prefix = "/api";
+  const prefix = isTauri() ? "http://localhost:5151" : "/api";
 
   const mergedExtra = Array.isArray(extra)
     ? extra
