@@ -29,7 +29,7 @@ const BlockNoteEditor: FC<BlockNoteEditorProps> = (props) => {
 
   const editor = useBlockNote({
     initialContent: value,
-    onEditorContentChange(editor) {
+    onChange(editor) {
       onChange?.(editor.topLevelBlocks);
     },
     uploadFile(file) {
