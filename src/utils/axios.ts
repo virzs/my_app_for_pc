@@ -25,7 +25,6 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    console.log(error);
     const originalRequest = error.config;
     if (error.response.status === 400) {
       const errMsg = error.response.data.message;
@@ -41,7 +40,12 @@ axiosInstance.interceptors.response.use(
       history.replace("/login");
       window.location.reload();
     }
-    if (error.response.status === 401 && !originalRequest._retry) {
+    console.log(originalRequest._retry);
+    if (
+      error.response.status === 401 &&
+      !error.config.url.includes("/auth/refresh-token") &&
+      originalRequest._retry === undefined
+    ) {
       originalRequest._retry = true;
       const refreshToken = getRefreshToken();
       if ([null, undefined, ""].includes(refreshToken)) {
@@ -51,23 +55,28 @@ axiosInstance.interceptors.response.use(
       }
       return postRefreshToken({
         refreshToken: refreshToken as string,
-      }).then((res) => {
-        if (res.access_token) {
-          setToken(res.access_token);
-          console.log("Access token refreshed!");
-          if (res.refresh_token) {
+      })
+        .then((res) => {
+          if (res.access_token) {
+            setToken(res.access_token);
             console.log("Access token refreshed!");
-            setRefreshToken(res.refresh_token);
+            if (res.refresh_token) {
+              console.log("Access token refreshed!");
+              setRefreshToken(res.refresh_token);
+            }
+            return axiosInstance(originalRequest);
           }
-          return axiosInstance(originalRequest);
-        }
-      });
+        })
+        .catch(() => {
+          history.replace("/login");
+          window.location.reload();
+          return;
+        });
     }
     if (error.response.status === 429) {
-      const errMsg = error.response.data.message;
       notification.error({
         message: 429,
-        description: errMsg,
+        description: "请求次数过多，请稍后再试！",
       });
     }
     return Promise.reject(error);
