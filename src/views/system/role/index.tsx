@@ -42,6 +42,28 @@ const Role = () => {
       render: (v: any) => v.length,
     },
     {
+      title: "创建人",
+      dataIndex: "creator",
+      key: "creator",
+      render: (v: any) => v?.username,
+    },
+    {
+      title: "创建时间",
+      dataIndex: "createdAt",
+      key: "createdAt",
+    },
+    {
+      title: "更新人",
+      dataIndex: "updater",
+      key: "updater",
+      render: (v: any) => v?.username ?? "-",
+    },
+    {
+      title: "更新时间",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+    },
+    {
       title: "操作",
       width: 200,
       dataIndex: "action",
@@ -63,6 +85,7 @@ const Role = () => {
                 onClick: () => {
                   delRun(_id!);
                 },
+                danger: true,
               },
             ]}
           />

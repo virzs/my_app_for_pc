@@ -103,14 +103,6 @@ const RoleHandle = () => {
                 // @ts-ignore
                 valueType: "tree",
                 valueEnum: pData,
-                formItemProps: {
-                  rules: [
-                    {
-                      required: true,
-                      message: "权限不能为空",
-                    },
-                  ],
-                },
               },
             ]}
           />
