@@ -81,7 +81,6 @@ function TablePage<T extends object = any, U extends object = any>(
   const p = {
     loading,
     dataSource: data,
-
     pagination: {
       pageSize,
       total,
@@ -119,7 +118,11 @@ function TablePage<T extends object = any, U extends object = any>(
       options={{
         density: false,
         setting: false,
+        reload: () => {
+          refresh();
+        },
       }}
+      virtual
       {...rest}
       {...p}
     />
