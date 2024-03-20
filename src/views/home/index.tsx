@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { notification } from "antd";
 import { AuthPaths } from "../auth/router";
 import { getUserInfo } from "../../utils/userInfo";
+import { isTauri } from "@/utils/utils";
 
 const HomeView = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const HomeView = () => {
 
   const checkIsLogin = () => {
     const token = getToken();
-    if (!token) {
+    if (!token && !isTauri()) {
       notification.error({
         message: "You are not logged in",
         description: "Please login to continue",
