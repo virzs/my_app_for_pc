@@ -13,6 +13,7 @@ import {
 } from "@/utils/token";
 import { AuthPaths } from "@/views/auth/router";
 import { UserPaths } from "@/views/user/router";
+import { css, cx } from "@emotion/css";
 
 const MainLayout = (props: any) => {
   const menus = useMenu();
@@ -50,7 +51,15 @@ const MainLayout = (props: any) => {
 
   return (
     <ProLayout
-      className="h-screen"
+      className={cx(
+        "h-screen",
+        css`
+          .ant-pro-sider-actions-avatar {
+            width: 100%;
+            cursor: pointer;
+          }
+        `
+      )}
       logo={false}
       title="管理系统"
       route={{
@@ -88,7 +97,7 @@ const MainLayout = (props: any) => {
                 ],
               }}
             >
-              {defaultDom}
+              {defaultDom ?? "User"}
             </Dropdown>
           );
         },
