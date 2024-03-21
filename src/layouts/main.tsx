@@ -65,6 +65,10 @@ const MainLayout = (props: any) => {
       route={{
         routes: menus,
       }}
+      waterMarkProps={{
+        content: `${userInfo?.username} ${userInfo?.email}`,
+        className: "h-full",
+      }}
       menuItemRender={menuItemRender}
       avatarProps={{
         src: userInfo?.avatar,
