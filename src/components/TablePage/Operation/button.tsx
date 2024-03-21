@@ -4,10 +4,14 @@ import {
   ButtonProps,
   DropDownProps,
   Dropdown,
+  Modal,
+  ModalFuncProps,
   Tooltip,
   TooltipProps,
 } from "antd";
 import { FC } from "react";
+
+const { useModal } = Modal;
 
 export interface OperationButtonProps extends ButtonProps {
   tooltip?: TooltipProps;
@@ -17,13 +21,44 @@ export interface OperationButtonProps extends ButtonProps {
   title?: string;
   // 权限控制，Operation 处控制，此处声明参数实际无用
   auth?: boolean | string | string[];
+  // confirm 提示 delete or ModalFuncProps
+  confirm?: "delete" | ModalFuncProps;
 }
 
 const OperationButton: FC<OperationButtonProps> = (props) => {
-  const { tooltip, dropdown, children, title, ...rest } = props;
+  const { tooltip, dropdown, children, title, onClick, confirm, ...rest } =
+    props;
+
+  const [modal, contextHolder] = useModal();
 
   const b = (
-    <Button type="link" size="small" {...rest}>
+    <Button
+      type="link"
+      size="small"
+      onClick={(e) => {
+        e.stopPropagation();
+        if (confirm === "delete") {
+          modal.confirm({
+            title: "确认删除?",
+            content: "删除后不可恢复",
+            onOk() {
+              onClick?.(e);
+            },
+          });
+          return;
+        } else if (confirm) {
+          modal.confirm({
+            onOk: () => {
+              onClick?.(e);
+            },
+            ...confirm,
+          });
+          return;
+        }
+        onClick?.(e);
+      }}
+      {...rest}
+    >
       {title ?? children}
     </Button>
   );
@@ -36,6 +71,7 @@ const OperationButton: FC<OperationButtonProps> = (props) => {
           <InfoCircleOutlined className="cursor-pointer" />
         </Tooltip>
       )}
+      {contextHolder}
     </>
   );
 };
