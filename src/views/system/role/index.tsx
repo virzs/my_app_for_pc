@@ -3,13 +3,16 @@ import { RoleRequest, deleteRole, getRole } from "@/services/system/role";
 import TablePage, { TablePageProps } from "@/components/TablePage";
 import TablePageContainer from "@/components/containter/table";
 import { ProCard } from "@ant-design/pro-components";
-import { Button, message } from "antd";
+import { Button, Modal, message } from "antd";
 import { useRequest } from "ahooks";
 import Operation from "@/components/TablePage/Operation";
 import { useNavigate } from "react-router-dom";
 import { SystemPaths } from "../router";
 
+const { useModal } = Modal;
+
 const Role = () => {
+  const [modal, contextHolder] = useModal();
   const navigate = useNavigate();
 
   const table = useTablePage<RoleRequest[]>(getRole);
@@ -65,7 +68,6 @@ const Role = () => {
     },
     {
       title: "操作",
-      width: 200,
       dataIndex: "action",
       key: "action",
       render: (_, r) => {
@@ -75,15 +77,23 @@ const Role = () => {
             columns={[
               {
                 title: "修改",
-                onClick: () => {
+                onClick: (e) => {
+                  e.stopPropagation();
                   navigate(SystemPaths.roleHandle + "/" + _id);
                 },
               },
               {
                 title: "删除",
                 loading: delLoading,
-                onClick: () => {
-                  delRun(_id!);
+                onClick: (e) => {
+                  e.stopPropagation();
+                  modal.confirm({
+                    title: "确认删除?",
+                    content: "删除后不可恢复",
+                    onOk() {
+                      delRun(_id!);
+                    },
+                  });
                 },
                 danger: true,
               },
@@ -115,7 +125,14 @@ const Role = () => {
         renderItem={(item: any) => {
           return <ProCard className="mb-2" title={item.name} />;
         }}
+        rowClassName="cursor-pointer"
+        onRow={(r) => ({
+          onClick: () => {
+            navigate(SystemPaths.role + "/" + r._id);
+          },
+        })}
       />
+      {contextHolder}
     </TablePageContainer>
   );
 };

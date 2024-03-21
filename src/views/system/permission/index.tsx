@@ -1,17 +1,33 @@
 import TablePageContainer from "@/components/containter/table";
-import { getPermissionTree } from "@/services/system/permission";
+import {
+  deletePermission,
+  getPermissionTree,
+} from "@/services/system/permission";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import PermissionHandle from "./handle";
 import { useRef, useState } from "react";
-import { Button, Space } from "antd";
+import { Modal, message } from "antd";
+import Operation from "@/components/TablePage/Operation";
+import { useRequest } from "ahooks";
+
+const { useModal } = Modal;
 
 const Permission = () => {
+  const [modal, contextHolder] = useModal();
   const actionRef = useRef<ActionType>();
 
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState<string | undefined>(undefined);
+
+  const { loading: delLoading, run: delRun } = useRequest(deletePermission, {
+    manual: true,
+    onSuccess: () => {
+      message.success("删除成功");
+      actionRef.current?.reload();
+    },
+  });
 
   const columns: ProColumns[] = [
     {
@@ -45,32 +61,37 @@ const Permission = () => {
       width: 120,
       render: (_, record) => {
         return (
-          <Space>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                setParent(record._id);
-                setOpen(true);
-              }}
-            >
-              新增子权限
-            </Button>
-            <Button
-              loading={loading && editId === record._id}
-              type="link"
-              size="small"
-              onClick={() => {
-                setOpen(true);
-                setEditId(record._id);
-              }}
-            >
-              修改
-            </Button>
-            <Button type="link" size="small" danger>
-              删除
-            </Button>
-          </Space>
+          <Operation
+            columns={[
+              {
+                title: "新增子权限",
+                onClick: () => {
+                  setParent(record._id);
+                  setOpen(true);
+                },
+              },
+              {
+                title: "修改",
+                onClick: () => {
+                  setOpen(true);
+                  setEditId(record._id);
+                },
+              },
+              {
+                title: "删除",
+                onClick: () => {
+                  modal.confirm({
+                    title: "确认删除?",
+                    content: "删除后不可恢复",
+                    onOk: async () => {
+                      await delRun(record._id);
+                    },
+                  });
+                },
+                danger: true,
+              },
+            ]}
+          />
         );
       },
     },
@@ -116,6 +137,7 @@ const Permission = () => {
           ];
         }}
       />
+      {contextHolder}
     </TablePageContainer>
   );
 };

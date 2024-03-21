@@ -9,7 +9,7 @@ export const getApiPrefix = (
   path: string,
   extra?: number | string | Array<number | string>
 ) => {
-  const prefix = isTauri() ? "http://localhost:5151" : "/api";
+  const prefix = isTauri() ? "https://template.api.virs.xyz" : "/api";
 
   const mergedExtra = Array.isArray(extra)
     ? extra
@@ -54,4 +54,33 @@ export const isMobileDevice = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     window.navigator.userAgent
   );
+};
+
+// 递归函数，第一个参数为数组，第二个元素为 children 的 key
+export const findChildren = (
+  arr: any[],
+  option?: {
+    parentKey?: string;
+    childrenKey?: string;
+  }
+) => {
+  const { parentKey = "parent", childrenKey = "children" } = option || {};
+
+  const map = new Map();
+  arr.forEach((item) => {
+    map.set(item._id, item);
+  });
+  const treeData: any[] = [];
+  arr.forEach((item) => {
+    const parent = map.get(item[parentKey]);
+    if (parent) {
+      if (!parent[childrenKey]) {
+        parent[childrenKey] = [];
+      }
+      parent[childrenKey].push(item);
+    } else {
+      treeData.push(item);
+    }
+  });
+  return treeData;
 };

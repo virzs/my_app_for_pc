@@ -5,6 +5,7 @@ import { Menu } from "@/utils/menu";
 import SolidIcon from "@/components/fontawesome/solidIcon";
 import Setting from "./setting";
 import RoleHandle from "./role/handle";
+import RoleDetail from "./role/detail";
 
 export const SystemPaths = {
   index: "/system",
@@ -28,6 +29,10 @@ const SystemRouter: RouteObject = {
     {
       path: SystemPaths.roleHandle + "/:id",
       element: <RoleHandle />,
+    },
+    {
+      path: SystemPaths.role + "/:id",
+      element: <RoleDetail />,
     },
     {
       path: SystemPaths.setting,
@@ -62,6 +67,10 @@ export const SystemMenu: Menu = {
         {
           name: "编辑",
           path: SystemPaths.roleHandle + "/:id",
+        },
+        {
+          name: "详情",
+          path: SystemPaths.role + "/:id",
         },
       ],
     },
