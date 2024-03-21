@@ -41,7 +41,20 @@ const MUpload: FC<UploadProps> = (props) => {
     setFileList((pre: any) => ({ ...pre, ...item }));
   }, [value]);
 
+  // 向上层组件返回fileList
+  const sendFileList = (nf: any) => {
+    if (Object.keys(nf).length !== 0) {
+      const list = nf[fieldProps.id];
+      if (maxCount > 1) {
+        fOnChange?.(list.map((i: any) => i.response));
+      } else {
+        fOnChange?.(list[0]?.response);
+      }
+    }
+  };
+
   const onChange = (info: UploadChangeParam<UploadFile>) => {
+    console.log(info);
     let newFileList = [...info.fileList];
     newFileList = newFileList.map((file) => {
       if (file.response) {
@@ -50,12 +63,14 @@ const MUpload: FC<UploadProps> = (props) => {
 
       return file;
     });
-    setFileList((pre: any) => ({
-      ...pre,
-      ...{
-        [fieldProps.id]: newFileList,
-      },
-    }));
+    const nf: Record<string, UploadFile[]> = {
+      ...fileList,
+      [fieldProps.id]: newFileList,
+    };
+    setFileList(nf);
+    if (info.file.status !== "uploading") {
+      sendFileList(nf);
+    }
   };
 
   const onRemove = (file: UploadFile) => {
@@ -63,19 +78,10 @@ const MUpload: FC<UploadProps> = (props) => {
     item[fieldProps.id] = fileList[fieldProps.id].filter(
       (f: any) => f.uid !== file.uid
     );
-    setFileList((pre: any) => ({ ...pre, ...item }));
+    const nf = { ...fileList, ...item };
+    setFileList(nf);
+    sendFileList(nf);
   };
-
-  useEffect(() => {
-    if (Object.keys(fileList).length !== 0) {
-      const list = fileList[fieldProps.id];
-      if (maxCount > 1) {
-        fOnChange?.(list.map((i) => i.response));
-      } else {
-        fOnChange?.(list[0]?.response);
-      }
-    }
-  }, [fileList, maxCount]);
 
   const uploadProps = {
     action: getApiPrefix(`/resource${checkPath(dir)}`),
@@ -92,7 +98,8 @@ const MUpload: FC<UploadProps> = (props) => {
 
   return (
     <Upload {...uploadProps}>
-      {maxCount && fileList[fieldProps.id]?.length < maxCount && (
+      {((maxCount && fileList[fieldProps.id]?.length < maxCount) ||
+        [null, undefined].includes(maxCount)) && (
         <Button icon={<UploadOutlined />}>上传</Button>
       )}
     </Upload>
