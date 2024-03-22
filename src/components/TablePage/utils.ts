@@ -6,10 +6,17 @@ export const renderEmptyToBarre = (value: any) => {
       return "-";
     }
     return value;
+  } else if (value instanceof Object) {
+    if (value?.name || value?.username) {
+      return value.name || value?.username;
+    }
   } else if (["", null, undefined].includes(value)) {
     return "-";
   }
-  return isValid(parseISO(value))
-    ? format(value, "yyyy-MM-dd HH:mm:ss")
-    : value;
+  try {
+    const isDate = isValid(parseISO(value));
+    return isDate ? format(parseISO(value), "yyyy-MM-dd HH:mm:ss") : value;
+  } catch (e) {
+    return value;
+  }
 };
