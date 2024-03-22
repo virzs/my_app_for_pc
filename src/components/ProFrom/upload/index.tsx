@@ -18,6 +18,7 @@ const MUpload: FC<UploadProps> = (props) => {
     value: fValue,
     multiple = false,
     maxCount,
+    disabled,
     ...rest
   } = fieldProps ?? {};
 
@@ -35,7 +36,7 @@ const MUpload: FC<UploadProps> = (props) => {
       } else if (typeof value === "string") {
         item[props.fieldProps.id] = [];
       } else {
-        // PS:不出意外的话上传会走到这里,但是下边已经处理了所以这里不做处理
+        item[props.fieldProps.id] = [value];
       }
     }
     setFileList((pre: any) => ({ ...pre, ...item }));
@@ -93,6 +94,7 @@ const MUpload: FC<UploadProps> = (props) => {
     onChange,
     onRemove,
     listType: "picture",
+    disabled,
     ...rest,
   };
 
@@ -100,7 +102,9 @@ const MUpload: FC<UploadProps> = (props) => {
     <Upload {...uploadProps}>
       {((maxCount && fileList[fieldProps.id]?.length < maxCount) ||
         [null, undefined].includes(maxCount)) && (
-        <Button icon={<UploadOutlined />}>上传</Button>
+        <Button disabled={disabled} icon={<UploadOutlined />}>
+          上传
+        </Button>
       )}
     </Upload>
   );
