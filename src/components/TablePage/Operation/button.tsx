@@ -36,7 +36,6 @@ const OperationButton: FC<OperationButtonProps> = (props) => {
       type="link"
       size="small"
       onClick={(e) => {
-        e.stopPropagation();
         if (confirm === "delete") {
           modal.confirm({
             title: "确认删除?",
