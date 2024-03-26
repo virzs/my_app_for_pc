@@ -20,6 +20,13 @@ function App() {
           token: {
             colorPrimary: darkMode ? "rgb(237, 237, 237)" : "rgb(23, 23, 23)",
           },
+          components: {
+            Select: {
+              optionSelectedColor: darkMode
+                ? "rgb(12, 4, 4)"
+                : "rgb(237, 237, 237)",
+            },
+          },
         }}
       >
         <ProConfigProvider
