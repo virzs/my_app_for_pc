@@ -6,6 +6,9 @@ import SolidIcon from "@/components/fontawesome/solidIcon";
 import Setting from "./setting";
 import RoleHandle from "./role/handle";
 import RoleDetail from "./role/detail";
+import Version from "./version";
+import VersionHandle from "./version/handle";
+import VersionDetail from "./version/detail";
 
 export const SystemPaths = {
   index: "/system",
@@ -13,6 +16,8 @@ export const SystemPaths = {
   roleHandle: "/system/role/handle",
   permission: "/system/permission",
   setting: "/system/setting",
+  version: "/system/version",
+  versionHandle: "/system/version/handle",
 };
 
 const SystemRouter: RouteObject = {
@@ -46,6 +51,22 @@ const SystemRouter: RouteObject = {
       path: SystemPaths.setting,
       element: <Setting />,
     },
+    {
+      path: SystemPaths.version,
+      element: <Version />,
+    },
+    {
+      path: SystemPaths.versionHandle,
+      element: <VersionHandle />,
+    },
+    {
+      path: SystemPaths.versionHandle + "/:id",
+      element: <VersionHandle />,
+    },
+    {
+      path: SystemPaths.version + "/:id",
+      element: <VersionDetail />,
+    },
   ],
 };
 
@@ -78,6 +99,26 @@ export const SystemMenu: Menu = {
       name: "权限",
       path: SystemPaths.permission,
       icon: <SolidIcon name="user-lock" />,
+    },
+    {
+      name: "版本",
+      path: SystemPaths.version,
+      icon: <SolidIcon name="code-branch" />,
+      hideChildrenInMenu: true,
+      children: [
+        {
+          name: "新增",
+          path: SystemPaths.versionHandle,
+        },
+        {
+          name: "编辑",
+          path: SystemPaths.versionHandle + "/:id",
+        },
+        {
+          name: "详情",
+          path: SystemPaths.version + "/:id",
+        },
+      ],
     },
     {
       name: "设置",

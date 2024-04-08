@@ -5,6 +5,23 @@ specifiers:
   '@ant-design/pro-components': ^2.6.49
   '@blocknote/core': ^0.12.0
   '@blocknote/react': ^0.12.0
+  '@editorjs/attaches': ^1.3.0
+  '@editorjs/checklist': ^1.6.0
+  '@editorjs/code': ^2.9.0
+  '@editorjs/delimiter': ^1.4.0
+  '@editorjs/editorjs': ^2.29.1
+  '@editorjs/header': ^2.8.1
+  '@editorjs/image': ^2.9.0
+  '@editorjs/inline-code': ^1.5.0
+  '@editorjs/marker': ^1.4.0
+  '@editorjs/nested-list': ^1.4.2
+  '@editorjs/paragraph': ^2.11.3
+  '@editorjs/quote': ^2.6.0
+  '@editorjs/raw': ^2.5.0
+  '@editorjs/table': ^2.3.0
+  '@editorjs/text-variant-tune': ^1.0.1
+  '@editorjs/underline': ^1.1.0
+  '@editorjs/warning': ^1.4.0
   '@emotion/css': ^11.11.2
   '@fortawesome/fontawesome-svg-core': ^6.4.2
   '@fortawesome/free-brands-svg-icons': ^6.4.2
@@ -23,7 +40,9 @@ specifiers:
   autoprefixer: ^10.4.16
   axios: ^1.5.1
   date-fns: ^3.3.1
+  editorjs-drag-drop: ^1.1.13
   history: ^5.3.0
+  keepalive-for-react: ^1.0.22
   postcss: ^8.4.31
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -39,6 +58,23 @@ dependencies:
   '@ant-design/pro-components': 2.6.49_vz3h4qylpxzx3hwnogxas6nqci
   '@blocknote/core': 0.12.0
   '@blocknote/react': 0.12.0_5ifijlhiwgyo26nyk4gkpsvy4e
+  '@editorjs/attaches': 1.3.0
+  '@editorjs/checklist': 1.6.0
+  '@editorjs/code': 2.9.0
+  '@editorjs/delimiter': 1.4.0
+  '@editorjs/editorjs': 2.29.1
+  '@editorjs/header': 2.8.1
+  '@editorjs/image': 2.9.0
+  '@editorjs/inline-code': 1.5.0
+  '@editorjs/marker': 1.4.0
+  '@editorjs/nested-list': 1.4.2
+  '@editorjs/paragraph': 2.11.3
+  '@editorjs/quote': 2.6.0
+  '@editorjs/raw': 2.5.0
+  '@editorjs/table': 2.3.0
+  '@editorjs/text-variant-tune': 1.0.1
+  '@editorjs/underline': 1.1.0
+  '@editorjs/warning': 1.4.0
   '@emotion/css': 11.11.2
   '@fortawesome/fontawesome-svg-core': 6.4.2
   '@fortawesome/free-brands-svg-icons': 6.4.2
@@ -51,7 +87,9 @@ dependencies:
   antd: 5.9.4_3d23l5fhovohrcuceey6widvgm
   axios: 1.5.1
   date-fns: 3.3.1
+  editorjs-drag-drop: 1.1.13
   history: 5.3.0
+  keepalive-for-react: 1.0.22_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-redux: 8.1.3_xmhdycxkx2cbr54b7r4venanje
@@ -742,6 +780,26 @@ packages:
       tinycolor2: 1.6.0
     dev: false
 
+  /@codexteam/icons/0.0.2:
+    resolution: {integrity: sha512-KdeKj3TwaTHqM3IXd5YjeJP39PBUZTb+dtHjGlf5+b0VgsxYD4qzsZkb11lzopZbAuDsHaZJmAYQ8LFligIT6Q==}
+    dev: false
+
+  /@codexteam/icons/0.0.4:
+    resolution: {integrity: sha512-V8N/TY2TGyas4wLrPIFq7bcow68b3gu8DfDt1+rrHPtXxcexadKauRJL6eQgfG7Z0LCrN4boLRawR4S9gjIh/Q==}
+    dev: false
+
+  /@codexteam/icons/0.0.5:
+    resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
+    dev: false
+
+  /@codexteam/icons/0.0.6:
+    resolution: {integrity: sha512-L7Q5PET8PjKcBT5wp7VR+FCjwCi5PUp7rd/XjsgQ0CI5FJz0DphyHGRILMuDUdCW2MQT9NHbVr4QP31vwAkS/A==}
+    dev: false
+
+  /@codexteam/icons/0.3.0:
+    resolution: {integrity: sha512-fJE9dfFdgq8xU+sbsxjH0Kt8Yeatw9xHBJWb77DhRkEXz3OCoIS6hrRC1ewHEryxzIjxD8IyQrRq2f+Gz3BcmA==}
+    dev: false
+
   /@ctrl/tinycolor/3.6.1:
     resolution: {integrity: sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==}
     engines: {node: '>=10'}
@@ -800,6 +858,104 @@ packages:
     dependencies:
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /@editorjs/attaches/1.3.0:
+    resolution: {integrity: sha512-D+dj55EsC5bvXV///Dh/+KN4unuI0j6SU3f5QcMA5zrfda47PNKwbKOuwMBJwn0O+o5qwqrFv67g98lAo2qqVQ==}
+    dependencies:
+      '@codexteam/icons': 0.0.4
+    dev: false
+
+  /@editorjs/checklist/1.6.0:
+    resolution: {integrity: sha512-hRNP36DInr73mSK3noHBQeoQb7DA12ANfqTXufEkTgQzx+k4mRJ0HdeGukTIR4JbwjHJ9ecUBnnQqIEGnxCFEg==}
+    dependencies:
+      '@codexteam/icons': 0.3.0
+    dev: false
+
+  /@editorjs/code/2.9.0:
+    resolution: {integrity: sha512-QNOWxF29j6mYl/gM5HJzeGOt3s4laoZCUbuRqj6RkIvLBWMU+ASwjckEiouA61hcYUOMfpw4vQjzhsfC7xm/vA==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/delimiter/1.4.0:
+    resolution: {integrity: sha512-i1Wm3UQsVisM7Fh9focJ1a4kX2l7IxO3zrEd+GmYoPVaNwxb/63GLNbGfCCGZBuvUyzeUDnc8cdhD1QQGwUZIg==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/editorjs/2.29.1:
+    resolution: {integrity: sha512-WRT2pCfikMsvySQJqpCU21LfTZaPuxUWsDO8aFGrPx4MKzOR9D+Ur4mNb3jq0FXx2EMqvIWfTyFixJxtjGHTyQ==}
+    dev: false
+
+  /@editorjs/header/2.8.1:
+    resolution: {integrity: sha512-y0HVXRP7m2W617CWo3fsb5HhXmSLaRpb9GzFx0Vkp/HEm9Dz5YO1s8tC7R8JD3MskwoYh7V0hRFQt39io/r6hA==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/image/2.9.0:
+    resolution: {integrity: sha512-xItihKJFiWJ06SMtLWQZvzHv4LRPNAFZYaHAXesBFzXvWwUrtVaVMcNSf0eNnw3InrPO3Po1vZRRgpsT+Ya3Bg==}
+    dependencies:
+      '@codexteam/icons': 0.0.6
+    dev: false
+
+  /@editorjs/inline-code/1.5.0:
+    resolution: {integrity: sha512-5i6BCOG8eOg4/6qGoLJuL6XSZZg834zIByDW8K80doM1L7ss/VqtLY0nrB2Q5bfs1KA0tOlVHOfjE4JD4438FQ==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/marker/1.4.0:
+    resolution: {integrity: sha512-5ipEXfL44jTTRzgNp/p/YjMO7jT08S5z4V8qA3FFJTfdhKgQyM3mvP1zpdYKw47ZZpVWMCncvk5Nto3BxihEtg==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/nested-list/1.4.2:
+    resolution: {integrity: sha512-qb1dAoJ+bihqmlR3822TC2GuIxEjTCLTZsZVWNces3uJIZ+W4019G3IJKBt/MOOgz4Evzad/RvUEKwPCPe6YOQ==}
+    dependencies:
+      '@codexteam/icons': 0.0.2
+    dev: false
+
+  /@editorjs/paragraph/2.11.3:
+    resolution: {integrity: sha512-ON72lhvhgWzPrq4VXpHUeut9bsFeJgVATDeL850FVToOwYHKvdsNpfu0VgxEodhkXgzU/IGl4FzdqC2wd3AJUQ==}
+    dependencies:
+      '@codexteam/icons': 0.0.4
+    dev: false
+
+  /@editorjs/quote/2.6.0:
+    resolution: {integrity: sha512-8DiCMBT4n4UDV5bgzvfRH26HmL6YWddGC4+twvjhR+PzX0gwrnY8nFifvro79EeSqxwRtFjjlGnu5I0VTfw5aQ==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/raw/2.5.0:
+    resolution: {integrity: sha512-ZOYKgR/sutOXHQ4uaWg8KzZ6yFJZCMTndezlN257GGsQ3Sa3ERcK9wZHKgAMNXaDhdKx9fDuojxRRcYvz6l9aQ==}
+    dependencies:
+      '@codexteam/icons': 0.0.4
+    dev: false
+
+  /@editorjs/table/2.3.0:
+    resolution: {integrity: sha512-/dKE6A5FkukX/FpvIyQGsewwXglZk8YbXpEp9vkB6Ec4ETLeGJMxObCcYqbXqVod+IU/a1tFH+j3lsD8ASD41g==}
+    dependencies:
+      '@codexteam/icons': 0.0.6
+    dev: false
+
+  /@editorjs/text-variant-tune/1.0.1:
+    resolution: {integrity: sha512-uVRbiMeJ14XjlP4cLqHxgQpdqbQnuQgUhlMQUFDLi7yanbEqWmb0gguZjmbdl6gnBYeUYRv9IbyOva3Iaif6ZQ==}
+    dev: false
+
+  /@editorjs/underline/1.1.0:
+    resolution: {integrity: sha512-vQj2ROW1KreD31QHlhaPikmDJGWYzRBusN4Zyfwl9nIIQCByt4S8fZQpsrRvH4sct5mkirsHllNT00rJlqHK7Q==}
+    dependencies:
+      '@codexteam/icons': 0.0.6
+    dev: false
+
+  /@editorjs/warning/1.4.0:
+    resolution: {integrity: sha512-JMYm3hrmN4/S6aHBHzKsJab9+8AJRPaPh9wDGE6QrVF3dj2fCo/DZcc0MaT5TN4YI5Hu4GKBH52wOKFGOyAuoA==}
+    dependencies:
+      '@codexteam/icons': 0.0.4
     dev: false
 
   /@emotion/babel-plugin/11.11.0:
@@ -2271,6 +2427,10 @@ packages:
     resolution: {integrity: sha512-R8LUSEay/68zE5c8/3BDxiTEvgb4xZTF0RKmAHfiEVN3klfIpXfi2/QCoiWPccVQ0J/ZGdz9OjzL4uJEP/MRAw==}
     dev: false
 
+  /editorjs-drag-drop/1.1.13:
+    resolution: {integrity: sha512-/82RIXP8/zix6Y8/Mnonk1z7XljFvKmsIFbCrP6JTbdWztqoApyUCsnouHTZ4tF51/BTszYV3Z9ennQrXrHCzA==}
+    dev: false
+
   /electron-to-chromium/1.4.544:
     resolution: {integrity: sha512-54z7squS1FyFRSUqq/knOFSptjjogLZXbKcYk3B0qkE1KZzvqASwRZnY2KzZQJqIYLVD38XZeoiMRflYSwyO4w==}
     dev: true
@@ -2384,6 +2544,10 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /fortea/1.0.8:
+    resolution: {integrity: sha512-In55CG9SjvWHKZKGmnLrwQ05QqceuK5GPe7eCSA8x1Xf1Lcw4smv8GK/11ZOpZt2IyHXH40QjMxdWstZ9UpkvA==}
     dev: false
 
   /fraction.js/4.3.6:
@@ -2770,6 +2934,17 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dev: true
+
+  /keepalive-for-react/1.0.22_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-d2s+kLNDa/SoAnBh9R5mx0gT2RptwPTEq774uS3xtEldhukIFU3rjKTQghx5GsM2UdIudrXWbZSbWZJ3OAo9hw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      fortea: 1.0.8
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /kleur/4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}

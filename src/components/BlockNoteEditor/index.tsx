@@ -3,15 +3,15 @@ import {
   DefaultBlockSchema,
   DefaultInlineContentSchema,
   DefaultStyleSchema,
-  BlockNoteEditor as BE,
 } from "@blocknote/core";
 import { resourceUpload } from "@/services/resource";
 import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useState } from "react";
 import { ProFieldFCRenderProps } from "@ant-design/pro-components";
+import { cx } from "@emotion/css";
 
-export interface BlockNoteEditorProps extends ProFieldFCRenderProps {
+export interface BlockNoteEditorProps extends Partial<ProFieldFCRenderProps> {
   value?: Block<
     DefaultBlockSchema,
     DefaultInlineContentSchema,
@@ -24,42 +24,67 @@ export interface BlockNoteEditorProps extends ProFieldFCRenderProps {
       DefaultStyleSchema
     >[]
   ) => void;
+  editable?: boolean;
+  bordered?: boolean;
 }
 
 const BlockNoteEditor: FC<BlockNoteEditorProps> = (props) => {
-  const { value, onChange, fieldProps } = props;
+  const {
+    value,
+    onChange,
+    editable = true,
+    bordered = true,
+    fieldProps,
+  } = props;
 
   const { onChange: fOnChange, value: fValue } = fieldProps ?? {};
 
-  const ie = useCreateBlockNote();
+  const [initialContent, setInitialContent] =
+    useState<
+      Block<
+        DefaultBlockSchema,
+        DefaultInlineContentSchema,
+        DefaultStyleSchema
+      >[]
+    >();
 
-  const editor = useMemo(() => {
+  useEffect(() => {
     if (!value && !fValue) return;
-    return BE.create({
-      initialContent: value ?? fValue,
-      uploadFile(file) {
-        return new Promise((resolve, reject) => {
-          resourceUpload("blocknote", file)
-            .then((res) => {
-              resolve(res.url);
-            })
-            .catch((e) => {
-              reject(e);
-            });
-        });
-      },
-    });
+    setInitialContent(value ?? fValue ?? []);
   }, [value, fValue]);
 
+  const editor = useCreateBlockNote({
+    initialContent: initialContent,
+    uploadFile(file) {
+      return new Promise((resolve, reject) => {
+        resourceUpload("blocknote", file)
+          .then((res) => {
+            resolve(res.url);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+      });
+    },
+  });
+
   return (
-    <div className="border border-gray-200 border-solid p-2 rounded-lg h-96 overflow-y-auto">
+    <div
+      className={cx(
+        "overflow-y-auto",
+        bordered
+          ? "border border-gray-200 border-solid p-2 rounded-lg h-96"
+          : ""
+      )}
+    >
       <BlockNoteView
-        editor={editor ?? ie}
+        editor={editor}
         onChange={() => {
           if (!editor) return;
           onChange?.(editor.document);
           fOnChange?.(editor.document);
         }}
+        editable={editable}
       />
     </div>
   );

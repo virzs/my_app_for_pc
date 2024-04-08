@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";
 import Upload from "./components/ProFrom/upload";
-import BlockNoteEditor from "./components/BlockNoteEditor";
 import Tree from "./components/ProFrom/Tree";
+import Editor from "./components/Editor/editor";
 
 function App() {
   const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -38,7 +38,7 @@ function App() {
             },
             editor: {
               renderFormItem(text, props) {
-                return <BlockNoteEditor value={text} {...props} />;
+                return <Editor value={text} {...props} />;
               },
             },
             tree: {
