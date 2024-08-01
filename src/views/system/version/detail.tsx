@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPlatformDicLabel, getUpdateTypeDicLabel } from "./dic";
 import { RollbackOutlined } from "@ant-design/icons";
-import Editor from "@/components/Editor/editor";
 
 const { Title, Paragraph } = Typography;
 
@@ -53,13 +52,13 @@ const VersionDetail = () => {
             ))}
           </Space>
         </Paragraph>
-        {data?.content && (
+        {/* {data?.content && (
           <Editor
             readOnly
             value={JSON.parse(data?.content ?? "{}")}
             bordered={false}
           />
-        )}
+        )} */}
       </ProCard>
     </BasePageContainer>
   );
