@@ -14,6 +14,7 @@ import {
 import { AuthPaths } from "@/views/auth/router";
 import { UserPaths } from "@/views/user/router";
 import { css, cx } from "@emotion/css";
+import { motion } from "framer-motion";
 
 const MainLayout = (props: any) => {
   const menus = useMenu();
@@ -108,7 +109,14 @@ const MainLayout = (props: any) => {
       }}
       {...props}
     >
-      <Outlet />
+      <motion.div
+        className="h-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <Outlet />
+      </motion.div>
     </ProLayout>
   );
 };
