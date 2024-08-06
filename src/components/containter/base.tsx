@@ -12,6 +12,15 @@ const BasePageContainer: FC<BasePageContainerProps> = (props) => {
       className={cx(
         className,
         css`
+          .ant-page-header {
+            padding-bottom: 8px;
+            .ant-breadcrumb {
+              height: 2.5rem;
+              padding: 0;
+              display: flex;
+              align-items: center;
+            }
+          }
           /* 手机端padding调小 ant-page-header ant-pro-page-container-children-container */
           @media (max-width: 500px) {
             .ant-page-header {

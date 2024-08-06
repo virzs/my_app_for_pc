@@ -167,6 +167,7 @@ function TablePage<T extends object = any, U extends object = any>(
 
   const t = (
     <ProTable
+      className="rounded-xl overflow-hidden"
       rowClassName={rowClassName}
       locale={locale}
       size={size}

@@ -59,6 +59,13 @@ const MainLayout = (props: any) => {
             width: 100%;
             cursor: pointer;
           }
+          .ant-layout-sider {
+            .ant-layout-sider-children {
+              border-radius: 0.75rem;
+              background-color: #fff;
+              border-right: 0;
+            }
+          }
         `
       )}
       logo={false}
