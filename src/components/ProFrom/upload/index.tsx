@@ -55,7 +55,6 @@ const MUpload: FC<UploadProps> = (props) => {
   };
 
   const onChange = (info: UploadChangeParam<UploadFile>) => {
-    console.log(info);
     let newFileList = [...info.fileList];
     newFileList = newFileList.map((file) => {
       if (file.response) {
