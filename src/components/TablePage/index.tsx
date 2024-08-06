@@ -6,6 +6,7 @@ import {
 } from "@/hooks/useTablePage";
 import { isMobileDevice } from "@/utils/utils";
 import {
+  ProCard,
   ProList,
   ProListProps,
   ProTable,
@@ -13,6 +14,7 @@ import {
 } from "@ant-design/pro-components";
 import { Service } from "ahooks/lib/useRequest/src/types";
 import { renderEmptyToBarre } from "./utils";
+import { ReactNode } from "react";
 
 export interface TablePageProps<T, U>
   extends Omit<ProTableProps<T, U>, "request">,
@@ -101,7 +103,65 @@ function TablePage<T extends object = any, U extends object = any>(
           },
   };
 
-  const l = <ProList footer={listFooter} {...rest} {...p} />;
+  const l = (
+    <ProList
+      ghost
+      cardProps={{
+        ghost: true,
+      }}
+      footer={listFooter}
+      renderItem={(data, index) => {
+        // 根据 column 自动处理
+        const title = columns[0]?.dataIndex
+          ? (data as any)[columns[0].dataIndex as any]
+          : "";
+        const actions = columns.find(
+          (i) =>
+            i.dataIndex &&
+            ["action", "operation"].includes(i.dataIndex?.toString())
+        )?.render;
+
+        return (
+          <ProCard
+            title={title}
+            actions={
+              actions?.(undefined, data, index, undefined, {
+                type: "list",
+                dataIndex: columns[0]?.dataIndex,
+                title: columns[0]?.title,
+              }) as ReactNode
+            }
+          >
+            {columns
+              .filter(
+                (i) =>
+                  !["action", "operation", undefined].includes(
+                    i.dataIndex?.toString()
+                  )
+              )
+              .slice(1)
+              .map((column) => {
+                const nowData = (data as any)[column.dataIndex as any];
+                return (
+                  <div>
+                    {column.title}:{" "}
+                    {column.render
+                      ? column.render(nowData, data, index, undefined, {
+                          type: "list",
+                          dataIndex: column.dataIndex,
+                          title: column.title,
+                        })
+                      : nowData}
+                  </div>
+                );
+              })}
+          </ProCard>
+        );
+      }}
+      {...rest}
+      {...p}
+    />
+  );
 
   const t = (
     <ProTable
