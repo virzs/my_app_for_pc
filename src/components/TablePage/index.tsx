@@ -81,21 +81,24 @@ function TablePage<T extends object = any, U extends object = any>(
   const p = {
     loading,
     dataSource: data,
-    pagination: {
-      pageSize,
-      total,
-      current,
-      pageSizeOptions: [200, 1000, 3000, 5000, 10000],
-      showSizeChanger: true,
-      onChange: (page: number, size: number) => {
-        if (size !== pageSize) {
-          setCurrent(1);
-          setPageSize(size);
-          return;
-        }
-        setCurrent(page);
-      },
-    },
+    pagination:
+      pagination === false
+        ? pagination
+        : {
+            pageSize,
+            total,
+            current,
+            pageSizeOptions: [200, 1000, 3000, 5000, 10000],
+            showSizeChanger: true,
+            onChange: (page: number, size: number) => {
+              if (size !== pageSize) {
+                setCurrent(1);
+                setPageSize(size);
+                return;
+              }
+              setCurrent(page);
+            },
+          },
   };
 
   const l = <ProList footer={listFooter} {...rest} {...p} />;
