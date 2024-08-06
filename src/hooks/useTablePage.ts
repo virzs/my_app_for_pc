@@ -184,9 +184,14 @@ export function useTablePage<RecordType = any>(
       defaultParams: getDefaultParams(),
       onSuccess: (responese, params) => {
         onSuccess && onSuccess(responese, params);
-        const { data: data = [], total = 0 } = responese || {};
-        setTotalStore(total);
-        setDataStore(data);
+        if (responese instanceof Array) {
+          setTotalStore(responese.length);
+          setDataStore(responese);
+        } else {
+          const { data: data = [], total = 0 } = responese || {};
+          setTotalStore(total);
+          setDataStore(data);
+        }
       },
     },
     plugins
