@@ -14,7 +14,7 @@ import {
 } from "@ant-design/pro-components";
 import { Service } from "ahooks/lib/useRequest/src/types";
 import { renderEmptyToBarre } from "./utils";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 
 export interface TablePageProps<T, U>
   extends Omit<ProTableProps<T, U>, "request">,
@@ -53,6 +53,8 @@ function TablePage<T extends object = any, U extends object = any>(
     rowClassName,
     ...rest
   } = props;
+
+  const [isMobile, setIsMobile] = useState(isMobileDevice());
 
   const table =
     tableProps ??
@@ -191,7 +193,18 @@ function TablePage<T extends object = any, U extends object = any>(
     />
   );
 
-  return isMobileDevice() ? l : t;
+  // 监听窗口大小变化，切换表格类型
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(isMobileDevice());
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return useMemo(() => (isMobile ? l : t), [isMobile]);
 }
 
 export default TablePage;
