@@ -14,7 +14,7 @@ import {
 } from "@ant-design/pro-components";
 import { Service } from "ahooks/lib/useRequest/src/types";
 import { renderEmptyToBarre } from "./utils";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export interface TablePageProps<T, U>
   extends Omit<ProTableProps<T, U>, "request">,
@@ -205,7 +205,7 @@ function TablePage<T extends object = any, U extends object = any>(
     };
   }, []);
 
-  return useMemo(() => (isMobile ? l : t), [isMobile]);
+  return isMobile ? l : t;
 }
 
 export default TablePage;
