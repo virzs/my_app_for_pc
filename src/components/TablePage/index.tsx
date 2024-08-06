@@ -15,7 +15,7 @@ import { Service } from "ahooks/lib/useRequest/src/types";
 import { renderEmptyToBarre } from "./utils";
 
 export interface TablePageProps<T, U>
-  extends ProTableProps<T, U>,
+  extends Omit<ProTableProps<T, U>, "request">,
     Omit<
       ProListProps<T, U>,
       | "dataSource"
