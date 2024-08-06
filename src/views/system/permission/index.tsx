@@ -21,7 +21,7 @@ const Permission = () => {
   const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState<string | undefined>(undefined);
 
-  const { loading: delLoading, run: delRun } = useRequest(deletePermission, {
+  const { runAsync: delRun } = useRequest(deletePermission, {
     manual: true,
     onSuccess: () => {
       message.success("删除成功");
@@ -105,7 +105,6 @@ const Permission = () => {
           filterType: "light",
         }}
         request={async (params) => {
-          console.log(params);
           const result = await getPermissionTree(params);
           return {
             data: result,
