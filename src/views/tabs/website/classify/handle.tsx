@@ -53,7 +53,7 @@ const ClassifyHandle: FC<HandleModalProps> = (props) => {
       formRef={ref}
       layoutType="ModalForm"
       trigger={<Button type="primary">新增分类</Button>}
-      title="新增分类"
+      title={editId ? "编辑分类" : "新增分类"}
       onOpenChange={(open) => {
         if (!open) {
           onClose?.();

@@ -43,6 +43,14 @@ export const TabsMenu: Menu = {
         },
       ],
     },
+    {
+      name: "搜索引擎",
+      path: "1",
+    },
+    {
+      name: "壁纸",
+      path: "2",
+    },
   ],
 };
 
