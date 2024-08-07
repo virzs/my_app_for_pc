@@ -79,6 +79,12 @@ axiosInstance.interceptors.response.use(
         description: "请求次数过多，请稍后再试！",
       });
     }
+    if (error.response.status === 500) {
+      notification.error({
+        message: 500,
+        description: error.response.data.message,
+      });
+    }
     return Promise.reject(error);
   }
 );
