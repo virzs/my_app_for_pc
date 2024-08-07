@@ -107,6 +107,17 @@ function TablePage<T extends object = any, U extends object = any>(
 
   const l = (
     <ProList
+      rowKey="_id"
+      rowSelection={{
+        columnWidth: 50,
+        selectedRowKeys,
+        onChange: (keys, rows) => {
+          setSelectedRows(rows);
+          setSelectedRowKeys(keys);
+        },
+        ...rowSelection,
+      }}
+      tableAlertRender={false}
       ghost
       cardProps={{
         ghost: true,
@@ -153,6 +164,8 @@ function TablePage<T extends object = any, U extends object = any>(
                           dataIndex: column.dataIndex,
                           title: column.title,
                         })
+                      : nowData instanceof Object
+                      ? nowData?.name ?? nowData?.title ?? nowData?.label
                       : nowData}
                   </div>
                 );
@@ -189,6 +202,17 @@ function TablePage<T extends object = any, U extends object = any>(
         },
       }}
       virtual
+      rowKey="_id"
+      rowSelection={{
+        columnWidth: 50,
+        selectedRowKeys,
+        onChange: (keys, rows) => {
+          setSelectedRows(rows);
+          setSelectedRowKeys(keys);
+        },
+        ...rowSelection,
+      }}
+      tableAlertRender={false}
       {...rest}
       {...p}
     />

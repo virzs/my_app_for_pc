@@ -137,7 +137,6 @@ const Website = () => {
   return (
     <TablePageContainer>
       <TablePage
-        rowKey="_id"
         search={{
           filterType: "light",
         }}
