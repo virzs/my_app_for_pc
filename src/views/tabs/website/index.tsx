@@ -2,7 +2,7 @@ import TablePageContainer from "@/components/containter/table";
 import TablePage from "@/components/TablePage";
 import Operation from "@/components/TablePage/Operation";
 import { ProColumns } from "@ant-design/pro-components";
-import { message } from "antd";
+import { Image, message } from "antd";
 import WebsiteHandle from "./handle";
 import { useTablePage } from "@/hooks/useTablePage";
 import { useState } from "react";
@@ -41,21 +41,37 @@ const Website = () => {
     {
       title: "名称",
       dataIndex: "name",
+      ellipsis: true,
+      render: (text, r) => {
+        return (
+          <div className="flex gap-2 items-center">
+            {r.icon.url ? (
+              <Image
+                preview={false}
+                loading="lazy"
+                src={r.icon.url}
+                alt=""
+                style={{ width: 36, height: 36 }}
+              />
+            ) : (
+              ""
+            )}
+            {text}
+          </div>
+        );
+      },
     },
     {
       title: "描述",
       search: false,
       dataIndex: "description",
+      ellipsis: true,
     },
     {
       title: "URL",
       search: false,
       dataIndex: "url",
-    },
-    {
-      title: "图标",
-      search: false,
-      dataIndex: "icon",
+      ellipsis: true,
     },
     {
       title: "点击量",
@@ -83,7 +99,7 @@ const Website = () => {
       title: "操作",
       search: false,
       dataIndex: "action",
-      width: 120,
+      fixed: "right",
       render: (_, record) => {
         return (
           <Operation
