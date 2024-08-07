@@ -2,6 +2,7 @@ import {
   baseGetRequest,
   basePostRequest,
   basePutRequest,
+  basePutRequestNoId,
   baseDeleteRequest,
   baseDetailRequest,
 } from "@/utils/axios";
@@ -46,4 +47,14 @@ export interface ParseWebsiteResponse {
 //tabs/website/parse post
 export async function parseWebsite(data: ParseWebsiteData) {
   return basePostRequest<ParseWebsiteResponse>("/tabs/website/parse")(data);
+}
+
+interface UpdateWebsitePublicData {
+  ids: string[];
+  isPublic: boolean;
+}
+
+// /tabs/website/public put
+export async function updateWebsitePublic(data: UpdateWebsitePublicData) {
+  return basePutRequestNoId("/tabs/website/public")(data);
 }

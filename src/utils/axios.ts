@@ -150,6 +150,19 @@ export const basePutRequest =
       data,
     });
 
+export const basePutRequestNoId =
+  <T = any>(url: string, options?: AxiosRequestConfig) =>
+  async (data: object, params: object = {}) =>
+    axiosInstance<T, T>(getApiPrefix(url), {
+      ...options,
+      method: "PUT",
+      params: {
+        ...getBaseParams(),
+        ...params,
+      },
+      data,
+    });
+
 export const baseDeleteRequest =
   <T = any>(url: string, options?: AxiosRequestConfig) =>
   async (id: number | string | Array<number | string>, params: object = {}) =>

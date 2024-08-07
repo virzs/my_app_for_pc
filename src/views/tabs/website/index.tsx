@@ -2,24 +2,32 @@ import TablePageContainer from "@/components/containter/table";
 import TablePage from "@/components/TablePage";
 import Operation from "@/components/TablePage/Operation";
 import { ProColumns } from "@ant-design/pro-components";
-import { message, Modal } from "antd";
+import { message } from "antd";
 import WebsiteHandle from "./handle";
 import { useTablePage } from "@/hooks/useTablePage";
 import { useState } from "react";
-import { deleteWebsite, getWebsiteList } from "@/services/tabs/website";
+import {
+  deleteWebsite,
+  getWebsiteList,
+  updateWebsitePublic,
+} from "@/services/tabs/website";
 import { useRequest } from "ahooks";
 
-const { useModal } = Modal;
-
 const Website = () => {
-  const [modal, contextHolder] = useModal();
   const table = useTablePage(getWebsiteList);
 
   const { refresh } = table;
 
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined);
+
+  const { runAsync: publicRun } = useRequest(updateWebsitePublic, {
+    manual: true,
+    onSuccess: () => {
+      message.success("操作成功");
+      refresh();
+    },
+  });
 
   const { runAsync: delRun } = useRequest(deleteWebsite, {
     manual: true,
@@ -81,6 +89,15 @@ const Website = () => {
           <Operation
             columns={[
               {
+                title: record.public ? "取消公开" : "公开",
+                onClick: async () => {
+                  await publicRun({
+                    ids: [record._id],
+                    isPublic: !record.public,
+                  });
+                },
+              },
+              {
                 title: "修改",
                 onClick: () => {
                   setOpen(true);
@@ -89,16 +106,10 @@ const Website = () => {
               },
               {
                 title: "删除",
-                onClick: () => {
-                  modal.confirm({
-                    title: "确认删除?",
-                    content: "删除后不可恢复",
-                    onOk: async () => {
-                      await delRun(record._id);
-                    },
-                  });
+                onClick: async () => {
+                  await delRun(record._id);
                 },
-                danger: true,
+                confirm: "delete",
               },
             ]}
           />
@@ -128,14 +139,10 @@ const Website = () => {
                 setOpen(false);
                 setEditId(undefined);
               }}
-              onDetailLoading={(loading) => {
-                setLoading(loading);
-              }}
             />,
           ];
         }}
       />
-      {contextHolder}
     </TablePageContainer>
   );
 };
