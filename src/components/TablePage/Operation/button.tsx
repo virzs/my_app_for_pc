@@ -35,14 +35,13 @@ const OperationButton: FC<OperationButtonProps> = (props) => {
     <Button
       type="link"
       size="small"
+      danger={confirm === "delete"}
       onClick={(e) => {
         if (confirm === "delete") {
           modal.confirm({
             title: "确认删除?",
             content: "删除后不可恢复",
-            onOk() {
-              onClick?.(e);
-            },
+            onOk: onClick,
           });
           return;
         } else if (confirm) {
