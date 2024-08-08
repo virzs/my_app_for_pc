@@ -8,7 +8,7 @@ import {
 } from "@/services/tabs/website_classifty";
 import { ProColumns } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
-import { message, Modal } from "antd";
+import { message, Modal, Image } from "antd";
 import { useState } from "react";
 import ClassifyHandle from "./handle";
 
@@ -21,35 +21,46 @@ const WebsiteClassify = () => {
   const { refresh } = table;
 
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined);
   const [parent, setParent] = useState<string | undefined>(undefined);
 
-  const { loading: delLoading, runAsync: delRun } = useRequest(
-    delWebsiteClassify,
-    {
-      manual: true,
-      onSuccess: () => {
-        message.success("删除成功");
-        refresh();
-      },
-    }
-  );
+  const { runAsync: delRun } = useRequest(delWebsiteClassify, {
+    manual: true,
+    onSuccess: () => {
+      message.success("删除成功");
+      refresh();
+    },
+  });
 
   const columns: ProColumns[] = [
     {
       title: "名称",
+      ellipsis: true,
       dataIndex: "name",
+      render: (text, r) => {
+        return (
+          <div className="flex gap-2 items-center">
+            {r.icon?.url ? (
+              <Image
+                preview={false}
+                loading="lazy"
+                src={r.icon.url}
+                alt=""
+                style={{ width: 36, height: 36 }}
+              />
+            ) : (
+              ""
+            )}
+            {text}
+          </div>
+        );
+      },
     },
     {
       title: "描述",
       search: false,
+      ellipsis: true,
       dataIndex: "description",
-    },
-    {
-      title: "图标",
-      search: false,
-      dataIndex: "icon",
     },
     {
       title: "是否启用",
@@ -61,7 +72,7 @@ const WebsiteClassify = () => {
       title: "操作",
       search: false,
       dataIndex: "action",
-      width: 120,
+      fixed: "right",
       render: (_, record) => {
         return (
           <Operation
@@ -123,9 +134,6 @@ const WebsiteClassify = () => {
                 setOpen(false);
                 setEditId(undefined);
                 setParent(undefined);
-              }}
-              onDetailLoading={(loading) => {
-                setLoading(loading);
               }}
             />,
           ];

@@ -45,7 +45,7 @@ const Website = () => {
       render: (text, r) => {
         return (
           <div className="flex gap-2 items-center">
-            {r.icon.url ? (
+            {r.icon?.url ? (
               <Image
                 preview={false}
                 loading="lazy"
