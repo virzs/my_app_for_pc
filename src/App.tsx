@@ -18,12 +18,18 @@ function App() {
         theme={{
           algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
           token: {
-            colorPrimary: darkMode ? "rgb(237, 237, 237)" : "rgb(23, 23, 23)",
+            colorPrimary: darkMode ? "rgb(237, 237, 237)" : "rgba(23, 23, 23)",
           },
           components: {
             Select: {
               optionSelectedColor: darkMode
-                ? "rgb(12, 4, 4)"
+                ? "rgba(12, 4, 4)"
+                : "rgb(237, 237, 237)",
+            },
+            Table: {
+              rowSelectedBg: darkMode ? "rgba(12, 4, 4)" : "rgb(237, 237, 237)",
+              rowSelectedHoverBg: darkMode
+                ? "rgba(12, 4, 4)"
                 : "rgb(237, 237, 237)",
             },
           },
