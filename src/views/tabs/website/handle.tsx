@@ -253,6 +253,19 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
             },
           },
           {
+            title: "主题色",
+            dataIndex: "themeColor",
+            valueType: "color",
+            formItemProps: {
+              getValueFromEvent: (e: any) => {
+                return e.toRgbString();
+              },
+            },
+            fieldProps: {
+              format: "rgb",
+            },
+          },
+          {
             title: "是否启用",
             dataIndex: "enable",
             valueType: "switch",

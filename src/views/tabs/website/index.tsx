@@ -74,6 +74,11 @@ const Website = () => {
       ellipsis: true,
     },
     {
+      title: "主题色",
+      search: false,
+      dataIndex: "themeColor",
+    },
+    {
       title: "点击量",
       search: false,
       dataIndex: "click",
