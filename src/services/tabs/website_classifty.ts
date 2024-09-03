@@ -38,3 +38,8 @@ export async function delWebsiteClassify(id: string) {
 export async function getWebsiteClassifyDetail(id: string) {
   return baseDetailRequest("/tabs/website_classify")(id);
 }
+
+// /tabs/website_classify/tree get
+export async function getWebsiteClassifyTree() {
+  return baseGetRequest("/tabs/website_classify/tree")();
+}
