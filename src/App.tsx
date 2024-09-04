@@ -1,7 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/router";
 import { ConfigProvider, theme } from "antd";
-import "./components/fontawesome/index";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";

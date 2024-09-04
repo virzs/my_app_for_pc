@@ -2,13 +2,13 @@ import { RouteObject } from "react-router-dom";
 import Role from "./role";
 import Permission from "./permission";
 import { Menu } from "@/utils/menu";
-import SolidIcon from "@/components/fontawesome/solidIcon";
 import Setting from "./setting";
 import RoleHandle from "./role/handle";
 import RoleDetail from "./role/detail";
 import Version from "./version";
 import VersionHandle from "./version/handle";
 import VersionDetail from "./version/detail";
+import { RiSettings3Line } from "@remixicon/react";
 
 export const SystemPaths = {
   index: "/system",
@@ -73,12 +73,11 @@ const SystemRouter: RouteObject = {
 export const SystemMenu: Menu = {
   name: "系统",
   path: SystemPaths.index,
-  icon: <SolidIcon name="gear" />,
+  icon: <RiSettings3Line size={16} />,
   children: [
     {
       name: "角色",
       path: SystemPaths.role,
-      icon: <SolidIcon name="user-tag" />,
       hideChildrenInMenu: true,
       children: [
         {
@@ -98,12 +97,10 @@ export const SystemMenu: Menu = {
     {
       name: "权限",
       path: SystemPaths.permission,
-      icon: <SolidIcon name="user-lock" />,
     },
     {
       name: "版本",
       path: SystemPaths.version,
-      icon: <SolidIcon name="code-branch" />,
       hideChildrenInMenu: true,
       children: [
         {
@@ -123,7 +120,6 @@ export const SystemMenu: Menu = {
     {
       name: "设置",
       path: SystemPaths.setting,
-      icon: <SolidIcon name="cog" />,
     },
   ],
 };

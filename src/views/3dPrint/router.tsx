@@ -2,12 +2,12 @@ import { RouteObject } from "react-router-dom";
 import Model from "./model";
 import { Menu } from "../../utils/menu";
 import Printer from "./printer";
-import SolidIcon from "../../components/fontawesome/solidIcon";
 import PrinterDetail from "./printer/detail";
 import Supplier from "./supplier";
 import Filament from "./filament";
 import FilamentType from "./filamnetType";
 import SupplierHandle from "./supplier/handle";
+import { RiPrinterLine } from "@remixicon/react";
 
 export const TDPrintPaths = {
   index: "/3dPrint",
@@ -62,7 +62,7 @@ const TDPrintRouter: RouteObject = {
 export const TDPrintMenu: Menu = {
   name: "3D 打印",
   path: TDPrintPaths.index,
-  icon: <SolidIcon name="layer-group" />,
+  icon: <RiPrinterLine size={16} />,
   children: [
     {
       name: "仪表盘",
