@@ -51,7 +51,6 @@ const TablePageContainer: FC<TablePageContainerProps> = (props) => {
                 height: 100%;
                 overflow: auto !important;
                 table {
-                  height: 100%;
                   thead {
                     /* 表头位置固定 */
                     position: sticky;
