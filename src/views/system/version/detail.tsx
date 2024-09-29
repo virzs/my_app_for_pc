@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPlatformDicLabel, getUpdateTypeDicLabel } from "./dic";
 import { RollbackOutlined } from "@ant-design/icons";
-import { Editor } from "zs_library";
+import { MdEditor } from "zs_library";
 
 const { Title, Paragraph } = Typography;
 
@@ -53,9 +53,7 @@ const VersionDetail = () => {
             ))}
           </Space>
         </Paragraph>
-        {data?.content && (
-          <Editor editable={false} value={JSON.parse(data?.content ?? "{}")} />
-        )}
+        {data?.content && <MdEditor.Preview>{data?.content}</MdEditor.Preview>}
       </ProCard>
     </BasePageContainer>
   );

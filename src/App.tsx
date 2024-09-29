@@ -6,7 +6,8 @@ import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";
 import Upload from "./components/ProFrom/upload";
 import Tree from "./components/ProFrom/Tree";
-import { Editor } from "zs_library";
+import { MdEditor } from "zs_library";
+import "zs_library/style.css";
 
 function App() {
   const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -45,12 +46,12 @@ function App() {
               renderFormItem(text, props) {
                 const { readonly, placeholder, fieldProps, ...rest } = props;
                 return (
-                  <Editor
+                  <MdEditor
                     value={text}
-                    editable={!readonly}
+                    readOnly={readonly}
                     placeholder={placeholder as string | undefined}
-                    {...fieldProps}
                     {...rest}
+                    {...fieldProps}
                   />
                 );
               },

@@ -6,6 +6,7 @@ import TDPrintRouter from "../views/3dPrint/router";
 import SystemRouter from "@/views/system/router";
 import UserRouter from "@/views/user/router";
 import TabsRouter from "@/views/tabs/router";
+import MySiteRouter from "@/views/mySite/router";
 
 export interface MyRouteObject {}
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       SystemRouter,
       UserRouter,
       TabsRouter,
+      MySiteRouter,
       {
         path: "*",
         element: <div>404</div>,
