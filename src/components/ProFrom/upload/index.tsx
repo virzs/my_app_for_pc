@@ -19,6 +19,7 @@ const MUpload: FC<UploadProps> = (props) => {
     multiple = false,
     maxCount,
     disabled,
+    listType = "picture",
     ...rest
   } = fieldProps ?? {};
 
@@ -92,7 +93,7 @@ const MUpload: FC<UploadProps> = (props) => {
     maxCount,
     onChange,
     onRemove,
-    listType: "picture",
+    listType,
     disabled,
     ...rest,
   };
@@ -100,11 +101,17 @@ const MUpload: FC<UploadProps> = (props) => {
   return (
     <Upload {...uploadProps}>
       {((maxCount && fileList[fieldProps.id]?.length < maxCount) ||
-        [null, undefined].includes(maxCount)) && (
-        <Button disabled={disabled} icon={<UploadOutlined />}>
-          上传
-        </Button>
-      )}
+        [null, undefined].includes(maxCount)) &&
+        (listType === "picture-card" ? (
+          <button style={{ border: 0, background: "none" }} type="button">
+            <UploadOutlined />
+            <div style={{ marginTop: 8 }}>上传</div>
+          </button>
+        ) : (
+          <Button disabled={disabled} icon={<UploadOutlined />}>
+            上传
+          </Button>
+        ))}
     </Upload>
   );
 };
