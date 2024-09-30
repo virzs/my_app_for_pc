@@ -1,4 +1,3 @@
-import BasePageContainer from "@/components/containter/base";
 import { addBlog, getBlogDetail, updateBlog } from "@/services/mySite/blog";
 import {
   BetaSchemaForm,
@@ -9,7 +8,9 @@ import { useRequest } from "ahooks";
 import { baseFormItemLayout } from "../../../utils/utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { message } from "antd";
+import { message, Space } from "antd";
+import BackButton from "@/components/BackButton";
+import FullPageContainer from "@/components/containter/full";
 
 const BlogHandle = () => {
   const ref = useRef<ProFormInstance>();
@@ -61,8 +62,15 @@ const BlogHandle = () => {
   }, [params]);
 
   return (
-    <BasePageContainer>
-      <ProCard loading={detailLoading}>
+    <FullPageContainer>
+      <ProCard
+        loading={detailLoading}
+        extra={
+          <Space>
+            <BackButton confirm />
+          </Space>
+        }
+      >
         <BetaSchemaForm
           {...baseFormItemLayout}
           loading={addLoading || editLoading}
@@ -110,7 +118,7 @@ const BlogHandle = () => {
           ]}
         />
       </ProCard>
-    </BasePageContainer>
+    </FullPageContainer>
   );
 };
 
