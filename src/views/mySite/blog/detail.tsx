@@ -11,6 +11,7 @@ import FullPageContainer from "@/components/containter/full";
 import BackButton from "@/components/BackButton";
 import { RiEditLine } from "@remixicon/react";
 import { MySitePaths } from "../router";
+import PrivateImage from "@/components/Image/PrivateImage";
 
 const BlogDetail = () => {
   const params = useParams();
@@ -65,10 +66,10 @@ const BlogDetail = () => {
           title={
             <div className="relative min-h-24 w-full">
               {data?.cover && (
-                <Image
+                <PrivateImage
                   preview={false}
                   loading="lazy"
-                  src={data?.cover?.url}
+                  resource={data?.cover}
                   alt={data?.title}
                 />
               )}
