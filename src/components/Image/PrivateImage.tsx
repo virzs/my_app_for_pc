@@ -1,7 +1,7 @@
 import { Resource, resourceDownload } from "@/services/resource";
 import { useRequest, useSessionStorageState } from "ahooks";
 import { Image, ImageProps } from "antd";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 
 export interface PrivateImageProps
   extends Omit<ImageProps, "src" | "resource"> {
@@ -16,8 +16,14 @@ export interface PrivateImageProps
 const PrivateImage: FC<PrivateImageProps> = (props) => {
   const { resource, ...rest } = props;
 
+  const [isRemoved, setIsRemoved] = useState<boolean>(false);
+
   const { data, run } = useRequest(resourceDownload, {
     manual: true,
+    onError: () => {
+      // 报错代表资源不存在，设置为已删除
+      setIsRemoved(true);
+    },
   });
 
   // 从 sessionStorage 中获取 url，节约请求
@@ -35,7 +41,7 @@ const PrivateImage: FC<PrivateImageProps> = (props) => {
     <Image
       src={url ?? data ?? resource?.url}
       onError={() => {
-        if (resource) {
+        if (resource && !isRemoved) {
           setUrl(undefined);
           run(resource._id);
         }
