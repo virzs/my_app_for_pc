@@ -27,7 +27,7 @@ const Blog = () => {
     manual: true,
     onSuccess: () => {
       refresh();
-      message.success("发布成功");
+      message.success("操作成功");
     },
   });
 
@@ -70,10 +70,11 @@ const Blog = () => {
           <Operation
             columns={[
               {
-                title: "发布",
-                show: !record.isPublish,
+                title: !record.isPublish ? "发布" : "取消发布",
                 confirm: {
-                  title: "确认发布吗？",
+                  title: !record.isPublish
+                    ? "确认发布吗？"
+                    : "确认取消发布吗？",
                 },
                 onClick: () => {
                   publishRun(record._id);
