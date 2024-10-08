@@ -8,6 +8,7 @@ import Upload from "./components/ProFrom/upload";
 import Tree from "./components/ProFrom/Tree";
 import { MdEditor } from "zs_library";
 import "zs_library/style.css";
+import { resourceUpload } from "./services/resource";
 
 function App() {
   const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -45,11 +46,28 @@ function App() {
             editor: {
               renderFormItem(text, props) {
                 const { readonly, placeholder, fieldProps, ...rest } = props;
+
+                const { pluginConfig, uploadDir = "md-editor" } =
+                  fieldProps ?? {};
+
+                const { image, ...restPluginConfig } = pluginConfig ?? {};
+
                 return (
                   <MdEditor
                     value={text}
                     readOnly={readonly}
                     placeholder={placeholder as string | undefined}
+                    pluginConfig={{
+                      image: {
+                        imageUploadHandler: async (file) => {
+                          const result = await resourceUpload(uploadDir, file);
+
+                          return result?.url;
+                        },
+                        ...image,
+                      },
+                      ...restPluginConfig,
+                    }}
                     {...rest}
                     {...fieldProps}
                   />
