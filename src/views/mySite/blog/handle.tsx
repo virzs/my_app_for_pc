@@ -11,6 +11,7 @@ import { useEffect, useRef } from "react";
 import { message, Space } from "antd";
 import BackButton from "@/components/BackButton";
 import FullPageContainer from "@/components/containter/full";
+import { resourceDownload } from "@/services/resource";
 
 const BlogHandle = () => {
   const ref = useRef<ProFormInstance>();
@@ -41,6 +42,18 @@ const BlogHandle = () => {
     },
   });
 
+  const { run: downloadCover } = useRequest(resourceDownload, {
+    manual: true,
+    onSuccess: (data) => {
+      ref.current?.setFieldsValue({
+        cover: {
+          ...detailData?.cover,
+          url: data,
+        },
+      });
+    },
+  });
+
   const handleFinish = async (values: any) => {
     if (params.id) {
       editRun(params.id, values);
@@ -51,7 +64,11 @@ const BlogHandle = () => {
 
   useEffect(() => {
     if (ref.current && detailData) {
-      ref.current.setFieldsValue(detailData);
+      const { cover, ...rest } = detailData;
+      if (cover?._id) {
+        downloadCover(detailData.cover?._id);
+      }
+      ref.current.setFieldsValue(rest);
     }
   }, [detailData, ref]);
 
@@ -113,6 +130,9 @@ const BlogHandle = () => {
                     message: "内容不能为空",
                   },
                 ],
+              },
+              fieldProps: {
+                uploadDir: "blog",
               },
             },
           ]}
