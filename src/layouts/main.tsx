@@ -40,7 +40,7 @@ const MainLayout = (props: any) => {
 
     return (
       <div
-        className={item.single ? "" : "pl-2"}
+        className={cx("w-full", item.single ? "" : "pl-2")}
         onClick={() => {
           item.path && navigate(item.path);
         }}
