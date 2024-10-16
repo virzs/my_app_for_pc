@@ -1,12 +1,21 @@
 import { Outlet } from "react-router-dom";
 import { cx, css } from "@emotion/css";
 import BasePageContainer, { BasePageContainerProps } from "./base";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
+import { ProCard, ProCardProps } from "@ant-design/pro-components";
+import { Space } from "antd";
+import BackButton from "../BackButton";
 
-export interface FullPageContainerProps extends BasePageContainerProps {}
+export interface FullPageContainerProps extends BasePageContainerProps {
+  cardProps?: Omit<ProCardProps, "loading">;
+  loading?: boolean;
+  title?: string | ReactNode;
+}
 
 const FullPageContainer: FC<FullPageContainerProps> = (props) => {
-  const { children, ...rest } = props;
+  const { children, cardProps, loading, title, ...rest } = props;
+
+  const { extra, ...cardRest } = cardProps ?? {};
 
   return (
     <div
@@ -23,7 +32,7 @@ const FullPageContainer: FC<FullPageContainerProps> = (props) => {
               overflow-y: auto;
               > .ant-pro-card {
                 height: 100%;
-                .ant-pro-card-body {
+                > .ant-pro-card-body {
                   overflow-y: auto;
                 }
               }
@@ -49,7 +58,19 @@ const FullPageContainer: FC<FullPageContainerProps> = (props) => {
         fixedHeader={false}
         {...rest}
       >
-        {children ?? <Outlet />}
+        <ProCard
+          extra={
+            <Space>
+              {extra}
+              <BackButton />
+            </Space>
+          }
+          loading={loading}
+          title={title}
+          {...cardRest}
+        >
+          {children ?? <Outlet />}
+        </ProCard>
       </BasePageContainer>
     </div>
   );
