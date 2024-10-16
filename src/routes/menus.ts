@@ -4,7 +4,15 @@ import { TDPrintMenu } from "../views/3dPrint/router";
 import { UserMenu } from "@/views/user/router";
 import { TabsMenu } from "@/views/tabs/router";
 import { MySiteMenu } from "@/views/mySite/router";
+import { ResourceMenu } from "@/views/resource/router";
 
-const Menus: Menu[] = [TDPrintMenu, SystemMenu, UserMenu, TabsMenu, MySiteMenu];
+const Menus: Menu[] = [
+  SystemMenu,
+  ResourceMenu,
+  TDPrintMenu,
+  UserMenu,
+  TabsMenu,
+  MySiteMenu,
+];
 
 export default Menus;

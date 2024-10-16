@@ -23,7 +23,7 @@ export const resourceUpload = (dir: string, file: File) => {
  * @name 获取单个资源下载链接
  */
 export const resourceDownload = (id: string) => {
-  return baseGetRequest(`/resource/${id}`)();
+  return baseGetRequest(`/resource/url/${id}`)();
 };
 
 /**
@@ -31,4 +31,33 @@ export const resourceDownload = (id: string) => {
  */
 export const resourceDownloadBatch = (ids: string[]) => {
   return basePostRequest("/resource/urls")({ ids });
+};
+
+/**
+ * @name 获取资源列表 R2
+ */
+export const resourceR2List = (params: any) => {
+  return baseGetRequest("/resource/r2")(params);
+};
+
+/**
+ * @name 获取资源列表 Qiniu
+ */
+export const resourceQiniuList = (params: any) => {
+  return baseGetRequest("/resource/qiniu")(params);
+};
+
+/**
+ * @name 获取资源关联的所有数据
+ * @description /resource/association/{id}
+ */
+export const resourceAssociation = (id: string) => {
+  return baseGetRequest(`/resource/association/${id}`)();
+};
+
+/**
+ * @name 获取资源详情
+ */
+export const resourceDetail = (id: string) => {
+  return baseGetRequest(`/resource/objects/${id}`)();
 };

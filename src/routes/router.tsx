@@ -7,6 +7,7 @@ import SystemRouter from "@/views/system/router";
 import UserRouter from "@/views/user/router";
 import TabsRouter from "@/views/tabs/router";
 import MySiteRouter from "@/views/mySite/router";
+import ResourceRouter from "@/views/resource/router";
 
 export interface MyRouteObject {}
 
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       HomeRouter,
       TDPrintRouter,
       SystemRouter,
+      ResourceRouter,
       UserRouter,
       TabsRouter,
       MySiteRouter,
