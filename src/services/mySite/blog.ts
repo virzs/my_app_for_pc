@@ -35,3 +35,9 @@ export async function getBlogDetail(id: string) {
 export async function publishBlog(id: any) {
   return basePutRequest("/my-site/blog/publish")(id, {});
 }
+
+// 统计
+// /my-site/blog/statistics get
+export async function getBlogStatistics() {
+  return baseGetRequest("/my-site/blog/statistics")();
+}

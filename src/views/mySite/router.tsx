@@ -5,17 +5,23 @@ import { RiHome4Line } from "@remixicon/react";
 import TabsPageContainer from "@/components/containter/tabs";
 import BlogHandle from "./blog/handle";
 import BlogDetail from "./blog/detail";
+import StatisticsPage from "./statistics";
 
 export const MySitePaths = {
   index: "/my-site",
   blog: "/my-site/blog",
   blogHandle: "/my-site/blog/handle",
   blogDetail: "/my-site/blog/detail",
+  statistics: "/my-site/statistics",
 };
 
 const MySiteRouter: RouteObject = {
   path: MySitePaths.index,
   children: [
+    {
+      path: MySitePaths.statistics,
+      element: <StatisticsPage />,
+    },
     {
       path: MySitePaths.blog,
       element: <TabsPageContainer parent={MySitePaths.blog} />,
@@ -56,6 +62,10 @@ export const MySiteMenu: Menu = {
   path: MySitePaths.index,
   icon: <RiHome4Line size={16} />,
   children: [
+    {
+      name: "统计",
+      path: MySitePaths.statistics,
+    },
     {
       name: "博客",
       path: MySitePaths.blog,
