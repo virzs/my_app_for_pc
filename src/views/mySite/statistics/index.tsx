@@ -1,6 +1,6 @@
+import LineChart from "@/components/Chart/Line";
 import BasePageContainer from "@/components/containter/base";
 import { getBlogStatistics } from "@/services/mySite/blog";
-import { Line } from "@ant-design/charts";
 import { StatisticCard } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
 import { Space } from "antd";
@@ -114,33 +114,19 @@ const StatisticsPage = () => {
         <StatisticCard
           title="最近30天新增文章趋势"
           chart={
-            <Line
-              {...{
-                data: last30Days,
-                xField: (d: any) => format(new Date(d.date), "MM-dd"),
-                yField: "count",
-                point: {
-                  shapeField: "square",
-                  sizeField: 2,
-                },
-                interaction: {
-                  tooltip: {
-                    marker: false,
+            <>
+              <LineChart
+                data={last30Days}
+                xField="date"
+                yField="count"
+                xAxisLabelFormatter={(v) => format(new Date(v), "MM-dd")}
+                options={{
+                  yAxis: {
+                    minInterval: 1,
                   },
-                },
-                style: {
-                  lineWidth: 1,
-                },
-                axis: {
-                  y: {
-                    // 保留整数值
-                    labelFilter: (v: number) => {
-                      return v % 1 === 0;
-                    },
-                  },
-                },
-              }}
-            />
+                }}
+              />
+            </>
           }
         />
       </Space>
