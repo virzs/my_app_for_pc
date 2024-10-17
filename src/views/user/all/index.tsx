@@ -2,7 +2,12 @@ import { useTablePage } from "@/hooks/useTablePage";
 import { getUsers, putEnable } from "@/services/user";
 import { ProCard } from "@ant-design/pro-components";
 import { Tag, message } from "antd";
-import { getUserTypeColor, getUserTypeLabel } from "../utils";
+import {
+  getUserStatusColor,
+  getUserStatusLabel,
+  getUserTypeColor,
+  getUserTypeLabel,
+} from "../utils";
 import TablePage, { TablePageProps } from "@/components/TablePage";
 import TablePageContainer from "@/components/containter/table";
 import { useRequest } from "ahooks";
@@ -48,6 +53,15 @@ const User = () => {
       render: (text: any) => {
         return text.map((i: any) => <Tag>{i.name}</Tag>);
       },
+    },
+    {
+      title: "状态",
+      dataIndex: "status",
+      render: (_) => (
+        <Tag color={getUserStatusColor(_ as number)}>
+          {getUserStatusLabel(_ as number)}
+        </Tag>
+      ),
     },
     {
       title: "操作",
