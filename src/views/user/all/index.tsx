@@ -2,7 +2,7 @@ import { useTablePage } from "@/hooks/useTablePage";
 import { getUsers, putEnable } from "@/services/user";
 import { ProCard } from "@ant-design/pro-components";
 import { Tag, message } from "antd";
-import { getUserTypeColor, getUserTypeLabel } from "./utils";
+import { getUserTypeColor, getUserTypeLabel } from "../utils";
 import TablePage, { TablePageProps } from "@/components/TablePage";
 import TablePageContainer from "@/components/containter/table";
 import { useRequest } from "ahooks";

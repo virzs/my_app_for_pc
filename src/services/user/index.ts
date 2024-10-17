@@ -26,3 +26,6 @@ export const putForbidden = (id: string, data?: any) =>
 // /users/invitation-code post
 export const postInvitationCode = (data: any) =>
   basePostRequest("/users/invitation-code")(data);
+
+// /users/statistics get
+export const getUsersStatistics = () => baseGetRequest("/users/statistics")();
