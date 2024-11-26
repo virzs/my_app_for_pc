@@ -1,4 +1,9 @@
-import { addBlog, getBlogDetail, updateBlog } from "@/services/mySite/blog";
+import {
+  addBlog,
+  getBlogDetail,
+  publishBlog,
+  updateBlog,
+} from "@/services/mySite/blog";
 import {
   BetaSchemaForm,
   ProCard,
@@ -8,15 +13,17 @@ import { useRequest } from "ahooks";
 import { baseFormItemLayout } from "../../../utils/utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { message, Space } from "antd";
-import BackButton from "@/components/BackButton";
+import { message, Modal } from "antd";
 import FullPageContainer from "@/components/containter/full";
 import { resourceDownload } from "@/services/resource";
+
+const { useModal } = Modal;
 
 const BlogHandle = () => {
   const ref = useRef<ProFormInstance>();
   const params = useParams();
   const navigate = useNavigate();
+  const [modal, contextHolder] = useModal();
 
   const {
     data: detailData,
@@ -26,19 +33,27 @@ const BlogHandle = () => {
     manual: true,
   });
 
-  const { loading: addLoading, run: addRun } = useRequest(addBlog, {
+  const { run: publishRun } = useRequest(publishBlog, {
     manual: true,
     onSuccess: () => {
-      message.success("添加成功");
+      message.success("操作成功");
       navigate(-1);
+    },
+  });
+
+  const { loading: addLoading, run: addRun } = useRequest(addBlog, {
+    manual: true,
+    onSuccess: (data) => {
+      message.success("添加成功");
+      handlePublish(data);
     },
   });
 
   const { loading: editLoading, run: editRun } = useRequest(updateBlog, {
     manual: true,
-    onSuccess: () => {
+    onSuccess: (data) => {
       message.success("修改成功");
-      navigate(-1);
+      handlePublish(data);
     },
   });
 
@@ -53,6 +68,23 @@ const BlogHandle = () => {
       });
     },
   });
+
+  const handlePublish = async ({ _id }: { _id: string }) => {
+    modal.confirm({
+      title: "是否发布?",
+      content: "发布后将会在网站展示",
+      onOk: () => {
+        if (_id) {
+          publishRun(_id);
+        } else {
+          message.error("发布失败");
+        }
+      },
+      onCancel: () => {
+        navigate(-1);
+      },
+    });
+  };
 
   const handleFinish = async (values: any) => {
     if (params.id) {
@@ -80,14 +112,7 @@ const BlogHandle = () => {
 
   return (
     <FullPageContainer>
-      <ProCard
-        loading={detailLoading}
-        extra={
-          <Space>
-            <BackButton confirm />
-          </Space>
-        }
-      >
+      <ProCard loading={detailLoading}>
         <BetaSchemaForm
           {...baseFormItemLayout}
           loading={addLoading || editLoading}
@@ -138,6 +163,7 @@ const BlogHandle = () => {
           ]}
         />
       </ProCard>
+      {contextHolder}
     </FullPageContainer>
   );
 };
