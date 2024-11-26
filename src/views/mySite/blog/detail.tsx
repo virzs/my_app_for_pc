@@ -1,23 +1,34 @@
-import { getBlogDetail } from "@/services/mySite/blog";
+import { getBlogDetail, publishBlog } from "@/services/mySite/blog";
 import { ProCard, ProList } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdEditor } from "zs_library";
-import { Button, Tag } from "antd";
+import { Button, message, Modal, Tag } from "antd";
 import { css, cx } from "@emotion/css";
 import { format } from "date-fns";
 import FullPageContainer from "@/components/containter/full";
-import { RiEditLine } from "@remixicon/react";
+import { RiCloseLine, RiEditLine, RiShareLine } from "@remixicon/react";
 import { MySitePaths } from "../router";
 import PrivateImage from "@/components/Image/PrivateImage";
+
+const { useModal } = Modal;
 
 const BlogDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const [modal, contextHolder] = useModal();
 
-  const { data, loading, run } = useRequest(getBlogDetail, {
+  const { data, loading, run, refresh } = useRequest(getBlogDetail, {
     manual: true,
+  });
+
+  const { run: publishRun } = useRequest(publishBlog, {
+    manual: true,
+    onSuccess: () => {
+      refresh();
+      message.success("操作成功");
+    },
   });
 
   useEffect(() => {
@@ -32,6 +43,29 @@ const BlogDetail = () => {
       cardProps={{
         extra: (
           <>
+            <Button
+              icon={
+                !data?.isPublish ? (
+                  <RiShareLine size={16} />
+                ) : (
+                  <RiCloseLine size={16} />
+                )
+              }
+              disabled={!data}
+              onClick={() => {
+                modal.confirm({
+                  title: !data?.isPublish ? "发布" : "取消发布",
+                  content: !data?.isPublish
+                    ? "确认发布吗？"
+                    : "确认取消发布吗？",
+                  onOk: () => {
+                    publishRun(data?._id);
+                  },
+                });
+              }}
+            >
+              {!data?.isPublish ? "发布" : "取消发布"}
+            </Button>
             <Button
               icon={<RiEditLine size={16} />}
               onClick={() => {
@@ -65,7 +99,7 @@ const BlogDetail = () => {
                 alt={data?.title}
               />
             )}
-            <h1 className="absolute left-0 bottom-0 px-6 bg-gray-100">
+            <h1 className="absolute left-0 bottom-0 px-6 bg-gray-100 dark:bg-black">
               {data?.title}
             </h1>
           </div>
@@ -101,6 +135,7 @@ const BlogDetail = () => {
           }}
         ></ProList>
       </ProCard>
+      {contextHolder}
     </FullPageContainer>
   );
 };
