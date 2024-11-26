@@ -24,7 +24,7 @@ const LoginView = () => {
           preview={false}
         />
       </div>
-      <div className="bg-white rounded-lg shadow overflow-hidden relative">
+      <div className="bg-white dark:bg-[#141414] rounded-lg shadow overflow-hidden relative">
         <Spin spinning={loading}>
           <LoginForm<LoginRequest>
             title={data?.login?.title}

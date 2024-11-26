@@ -62,7 +62,6 @@ const MainLayout = (props: any) => {
           .ant-layout-sider {
             .ant-layout-sider-children {
               border-radius: 0.75rem;
-              background-color: #fff;
               border-right: 0;
             }
           }
