@@ -4,10 +4,20 @@ import { ProFieldFCRenderProps } from "@ant-design/pro-components";
 import { UploadFile, Upload, Button } from "antd";
 import { FC, useEffect, useState } from "react";
 import { UploadChangeParam } from "antd/es/upload";
-import { UploadOutlined } from "@ant-design/icons";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+
+const { Dragger } = Upload;
 
 export interface UploadProps extends ProFieldFCRenderProps {
   value?: any;
+  /**
+   * 是否显示为拖拽上传，实际使用时放在 fieldProps 里
+   */
+  dragger?: boolean;
+  /**
+   * 是否手动上传，实际使用时放在 fieldProps 里
+   */
+  manually?: boolean;
 }
 
 const MUpload: FC<UploadProps> = (props) => {
@@ -20,37 +30,36 @@ const MUpload: FC<UploadProps> = (props) => {
     maxCount,
     disabled,
     listType = "picture",
+    dragger = false,
+    manually = false,
     ...rest
   } = fieldProps ?? {};
 
   const authorization = getToken() ?? "";
 
-  const [fileList, setFileList] = useState<Record<string, UploadFile[]>>({});
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    const item: any = {};
     if (!value) {
-      item[props.fieldProps.id] = [];
+      setFileList([]);
     } else {
       if (Array.isArray(value) && value.length !== 0) {
-        item[props.fieldProps.id] = value;
+        setFileList(value);
       } else if (typeof value === "string") {
-        item[props.fieldProps.id] = [];
+        setFileList([]);
       } else {
-        item[props.fieldProps.id] = [value];
+        setFileList([value]);
       }
     }
-    setFileList((pre: any) => ({ ...pre, ...item }));
   }, [value]);
 
   // 向上层组件返回fileList
-  const sendFileList = (nf: any) => {
-    if (Object.keys(nf).length !== 0) {
-      const list = nf[fieldProps.id];
-      if (maxCount > 1) {
-        fOnChange?.(list.map((i: any) => i.response));
+  const sendFileList = (nf: UploadFile[]) => {
+    if (nf.length !== 0) {
+      if (maxCount > 1 || maxCount === undefined) {
+        fOnChange?.(nf.map((i: any) => i.response ?? i.originFileObj));
       } else {
-        fOnChange?.(list[0]?.response);
+        fOnChange?.(nf[0]?.response ?? nf[0]?.originFileObj);
       }
     }
   };
@@ -61,27 +70,18 @@ const MUpload: FC<UploadProps> = (props) => {
       if (file.response) {
         file.url = file.response.url;
       }
-
       return file;
     });
-    const nf: Record<string, UploadFile[]> = {
-      ...fileList,
-      [fieldProps.id]: newFileList,
-    };
-    setFileList(nf);
+    setFileList(newFileList);
     if (info.file.status !== "uploading") {
-      sendFileList(nf);
+      sendFileList(newFileList);
     }
   };
 
   const onRemove = (file: UploadFile) => {
-    const item: any = {};
-    item[fieldProps.id] = fileList[fieldProps.id].filter(
-      (f: any) => f.uid !== file.uid
-    );
-    const nf = { ...fileList, ...item };
-    setFileList(nf);
-    sendFileList(nf);
+    const newFileList = fileList.filter((f) => f.uid !== file.uid);
+    setFileList(newFileList);
+    sendFileList(newFileList);
   };
 
   const uploadProps = {
@@ -89,18 +89,39 @@ const MUpload: FC<UploadProps> = (props) => {
     headers: {
       authorization: `Bearer ${authorization}`,
     },
-    fileList: fileList[fieldProps.id] ?? [],
+    fileList,
     maxCount,
     onChange,
     onRemove,
     listType,
     disabled,
+    multiple,
+    beforeUpload: (file: UploadFile) => {
+      if (manually) {
+        const newFileList = [...fileList, file];
+        setFileList(newFileList);
+        sendFileList(newFileList);
+      }
+      return !manually;
+    },
     ...rest,
   };
 
+  if (dragger) {
+    return (
+      <Dragger {...uploadProps}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">单击或将文件拖到此区域以上传</p>
+        <p className="ant-upload-hint">支持单次或批量上传。</p>
+      </Dragger>
+    );
+  }
+
   return (
     <Upload {...uploadProps}>
-      {((maxCount && fileList[fieldProps.id]?.length < maxCount) ||
+      {((maxCount && fileList?.length < maxCount) ||
         [null, undefined].includes(maxCount)) &&
         (listType === "picture-card" ? (
           <button style={{ border: 0, background: "none" }} type="button">
