@@ -6,20 +6,30 @@ import { filesize } from "filesize";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { ResourcePaths } from "../router";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { RiAddLine } from "@remixicon/react";
+import { useRequest } from "ahooks";
+import { resourceDelete } from "@/services/resource";
 
 export interface BaseListPageProps extends TablePageProps<any, any> {
   /** 替换 */
   onReplace?: (record: any) => void;
   /** 删除 */
-  onDelete?: (record: any) => void;
+  onDelete?: () => void;
   /** 新增 */
   onAdd?: () => void;
 }
 
 const BaseListPage: FC<BaseListPageProps> = (props) => {
   const { onReplace, onDelete, onAdd, children, ...rest } = props;
+
+  const { runAsync: delRun } = useRequest(resourceDelete, {
+    manual: true,
+    onSuccess: () => {
+      onDelete?.();
+      message.success("删除成功");
+    },
+  });
 
   const columns: ProColumns[] = [
     {
@@ -93,7 +103,7 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
                   okText: "确认",
                   cancelText: "取消",
                   onOk: () => {
-                    onDelete?.(r);
+                    return delRun(r._id);
                   },
                 },
               },

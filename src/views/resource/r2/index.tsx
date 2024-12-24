@@ -17,7 +17,9 @@ const R2Page = () => {
 
   const handleReplace = (record: any) => {};
 
-  const handleDelete = (record: any) => {};
+  const handleDelete = () => {
+    refresh();
+  };
 
   return (
     <BaseListPage

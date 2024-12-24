@@ -1,4 +1,8 @@
-import { baseGetRequest, basePostRequest } from "@/utils/axios";
+import {
+  baseDeleteRequest,
+  baseGetRequest,
+  basePostRequest,
+} from "@/utils/axios";
 import { checkPath } from "@/utils/utils";
 
 export interface Resource {
@@ -38,6 +42,13 @@ export const resourceDownloadBatch = (ids: string[]) => {
  */
 export const resourceR2List = (params: any) => {
   return baseGetRequest("/resource/r2")(params);
+};
+
+/**
+ * @name 删除资源
+ */
+export const resourceDelete = (id: string) => {
+  return baseDeleteRequest(`/resource`)(id);
 };
 
 /**
