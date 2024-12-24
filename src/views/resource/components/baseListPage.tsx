@@ -6,11 +6,20 @@ import { filesize } from "filesize";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { ResourcePaths } from "../router";
+import { Button } from "antd";
+import { RiAddLine } from "@remixicon/react";
 
-export interface BaseListPageProps extends TablePageProps<any, any> {}
+export interface BaseListPageProps extends TablePageProps<any, any> {
+  /** 替换 */
+  onReplace?: (record: any) => void;
+  /** 删除 */
+  onDelete?: (record: any) => void;
+  /** 新增 */
+  onAdd?: () => void;
+}
 
 const BaseListPage: FC<BaseListPageProps> = (props) => {
-  const { ...rest } = props;
+  const { onReplace, onDelete, onAdd, children, ...rest } = props;
 
   const columns: ProColumns[] = [
     {
@@ -19,6 +28,10 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
       render: (_, r) => (
         <Link to={ResourcePaths.r2Detail.replace(":id", r._id)}>{_}</Link>
       ),
+    },
+    {
+      title: "文件路径",
+      dataIndex: "dir",
     },
     {
       title: "文件类型",
@@ -64,7 +77,9 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
                   content: "替换文件将会影响所有关联的数据，请谨慎操作",
                   okText: "确认",
                   cancelText: "取消",
-                  onOk: () => {},
+                  onOk: () => {
+                    onReplace?.(r);
+                  },
                 },
               },
               {
@@ -77,7 +92,9 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
                   content: "删除文件将会影响所有关联的数据，请谨慎操作",
                   okText: "确认",
                   cancelText: "取消",
-                  onOk: () => {},
+                  onOk: () => {
+                    onDelete?.(r);
+                  },
                 },
               },
             ]}
@@ -89,7 +106,24 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
 
   return (
     <TablePageContainer>
-      <TablePage columns={columns} {...rest} />
+      <TablePage
+        columns={columns}
+        toolBarRender={() => {
+          return [
+            <Button
+              onClick={() => {
+                onAdd?.();
+              }}
+              icon={<RiAddLine size={16} />}
+              type="primary"
+            >
+              新增
+            </Button>,
+          ];
+        }}
+        {...rest}
+      />
+      {children}
     </TablePageContainer>
   );
 };

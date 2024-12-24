@@ -1,11 +1,43 @@
 import { resourceR2List } from "@/services/resource";
 import BaseListPage from "../components/baseListPage";
 import { useTablePage } from "@/hooks/useTablePage";
+import { useState } from "react";
+import BaseUploadModal from "../components/baseUploadModal";
 
 const R2Page = () => {
   const table = useTablePage(resourceR2List);
 
-  return <BaseListPage table={table}></BaseListPage>;
+  const { refresh } = table;
+
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
+  const handleAddClick = () => {
+    setAddModalOpen(true);
+  };
+
+  const handleReplace = (record: any) => {};
+
+  const handleDelete = (record: any) => {};
+
+  return (
+    <BaseListPage
+      table={table}
+      onAdd={handleAddClick}
+      onReplace={handleReplace}
+      onDelete={handleDelete}
+    >
+      <BaseUploadModal
+        open={addModalOpen}
+        onClose={() => {
+          setAddModalOpen(false);
+        }}
+        onOk={() => {
+          setAddModalOpen(false);
+          refresh();
+        }}
+      />
+    </BaseListPage>
+  );
 };
 
 export default R2Page;

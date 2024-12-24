@@ -61,3 +61,14 @@ export const resourceAssociation = (id: string) => {
 export const resourceDetail = (id: string) => {
   return baseGetRequest(`/resource/objects/${id}`)();
 };
+
+/**
+ * @name 批量上传
+ */
+export const resourceBatchUpload = (dir: string, files: File[]) => {
+  return basePostRequest(`/resource/batch/${dir}`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })({ files });
+};
