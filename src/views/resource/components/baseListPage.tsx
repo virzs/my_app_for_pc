@@ -75,23 +75,23 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
         return (
           <Operation
             columns={[
-              {
-                type: "link",
-                title: "替换",
-                tooltip: {
-                  title: "替换文件将会影响所有关联的数据",
-                },
-                confirm: {
-                  type: "warning",
-                  title: "替换文件",
-                  content: "替换文件将会影响所有关联的数据，请谨慎操作",
-                  okText: "确认",
-                  cancelText: "取消",
-                  onOk: () => {
-                    onReplace?.(r);
-                  },
-                },
-              },
+              // {
+              //   type: "link",
+              //   title: "替换",
+              //   tooltip: {
+              //     title: "替换文件将会影响所有关联的数据",
+              //   },
+              //   confirm: {
+              //     type: "warning",
+              //     title: "替换文件",
+              //     content: "替换文件将会影响所有关联的数据，请谨慎操作",
+              //     okText: "确认",
+              //     cancelText: "取消",
+              //     onOk: () => {
+              //       onReplace?.(r);
+              //     },
+              //   },
+              // },
               {
                 type: "link",
                 title: "删除",
