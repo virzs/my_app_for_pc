@@ -82,7 +82,8 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 500) {
       notification.error({
         message: 500,
-        description: error.response.data.message,
+        description:
+          error.response.data.message ?? "无法访问服务器，请稍后再试",
       });
     }
     return Promise.reject(error);

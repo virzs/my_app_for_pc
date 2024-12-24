@@ -7,7 +7,6 @@ import { ProConfigProvider } from "@ant-design/pro-components";
 import Upload from "./components/ProFrom/upload";
 import Tree from "./components/ProFrom/Tree";
 import { MdEditor } from "zs_library";
-import "zs_library/style.css";
 import { resourceUpload } from "./services/resource";
 
 function App() {
@@ -59,7 +58,7 @@ function App() {
                     placeholder={placeholder as string | undefined}
                     pluginConfig={{
                       image: {
-                        imageUploadHandler: async (file) => {
+                        imageUploadHandler: async (file: File) => {
                           const result = await resourceUpload(uploadDir, file);
 
                           return result?.url;
