@@ -1,7 +1,6 @@
 import { MenuDataItem, ProLayout } from "@ant-design/pro-components";
 import { Outlet, useNavigate } from "react-router-dom";
 import useMenu from "../hooks/useMenu";
-import { CloseCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import { useRequest } from "ahooks";
 import { postLogout } from "@/services/auth";
@@ -15,11 +14,24 @@ import { AuthPaths } from "@/views/auth/router";
 import { UserPaths } from "@/views/user/router";
 import { css, cx } from "@emotion/css";
 import { motion } from "framer-motion";
+import {
+  RiColorFilterLine,
+  RiDeviceLine,
+  RiLogoutBoxLine,
+  RiMoonLine,
+  RiSunLine,
+  RiTShirtLine,
+  RiUserLine,
+} from "@remixicon/react";
+import { Theme } from "@/hooks/useTheme";
+import { useLayout } from "@/context";
 
 const MainLayout = (props: any) => {
   const menus = useMenu();
   const navigate = useNavigate();
   const userInfo = getUserInfo();
+
+  const { setTheme } = useLayout();
 
   const { run: logoutRun } = useRequest(postLogout, {
     manual: true,
@@ -90,15 +102,53 @@ const MainLayout = (props: any) => {
                   {
                     label: "个人中心",
                     key: "个人中心",
-                    icon: <UserOutlined />,
+                    icon: <RiUserLine size={14} />,
                     onClick: () => {
                       navigate(UserPaths.center);
                     },
                   },
                   {
+                    label: "个性化",
+                    key: "个性化",
+                    icon: <RiColorFilterLine size={14} />,
+                    children: [
+                      {
+                        label: "主题",
+                        key: "主题",
+                        icon: <RiTShirtLine size={14} />,
+                        children: [
+                          {
+                            label: "跟随系统",
+                            key: "system",
+                            icon: <RiDeviceLine size={14} />,
+                            onClick: () => {
+                              setTheme(Theme.Auto);
+                            },
+                          },
+                          {
+                            label: "浅色",
+                            key: "light",
+                            icon: <RiSunLine size={14} />,
+                            onClick: () => {
+                              setTheme(Theme.Light);
+                            },
+                          },
+                          {
+                            label: "深色",
+                            key: "dark",
+                            icon: <RiMoonLine size={14} />,
+                            onClick: () => {
+                              setTheme(Theme.Dark);
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
                     label: "退出登录",
                     key: "退出登录",
-                    icon: <CloseCircleOutlined />,
+                    icon: <RiLogoutBoxLine size={14} />,
                     onClick: () => {
                       logoutRun({
                         refreshToken: getRefreshToken(),

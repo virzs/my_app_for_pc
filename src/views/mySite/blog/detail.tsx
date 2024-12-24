@@ -11,6 +11,7 @@ import FullPageContainer from "@/components/containter/full";
 import { RiCloseLine, RiEditLine, RiShareLine } from "@remixicon/react";
 import { MySitePaths } from "../router";
 import PrivateImage from "@/components/Image/PrivateImage";
+import { useLayout } from "@/context";
 
 const { useModal } = Modal;
 
@@ -18,6 +19,7 @@ const BlogDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [modal, contextHolder] = useModal();
+  const { theme } = useLayout();
 
   const { data, loading, run, refresh } = useRequest(getBlogDetail, {
     manual: true,
@@ -105,7 +107,9 @@ const BlogDetail = () => {
           </div>
         }
       >
-        <MdEditor.Preview>{data?.content}</MdEditor.Preview>
+        <MdEditor.Preview theme={theme === "dark" ? "dark" : "light"}>
+          {data?.content}
+        </MdEditor.Preview>
       </ProCard>
       <ProCard title="操作记录">
         <ProList

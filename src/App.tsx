@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/router";
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider, theme as antTheme } from "antd";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";
@@ -8,15 +8,24 @@ import Upload from "./components/ProFrom/upload";
 import Tree from "./components/ProFrom/Tree";
 import { MdEditor } from "zs_library";
 import { resourceUpload } from "./services/resource";
+import { RootLayoutProvider, useLayout } from "./context";
+import { useMemo } from "react";
+import { Theme } from "./hooks/useTheme";
 
-function App() {
-  const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const Root = () => {
+  const { theme } = useLayout();
+
+  const darkMode = useMemo(() => {
+    return theme === Theme.Dark;
+  }, [theme]);
 
   return (
     <Provider store={store}>
       <ConfigProvider
         theme={{
-          algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          algorithm: darkMode
+            ? antTheme.darkAlgorithm
+            : antTheme.defaultAlgorithm,
           token: {
             colorPrimary: darkMode ? "rgb(237, 237, 237)" : "rgba(23, 23, 23)",
           },
@@ -53,6 +62,7 @@ function App() {
 
                 return (
                   <MdEditor
+                    theme={darkMode ? "dark" : "light"}
                     value={text}
                     readOnly={readonly}
                     placeholder={placeholder as string | undefined}
@@ -84,6 +94,14 @@ function App() {
         </ProConfigProvider>
       </ConfigProvider>
     </Provider>
+  );
+};
+
+function App() {
+  return (
+    <RootLayoutProvider>
+      <Root />
+    </RootLayoutProvider>
   );
 }
 
