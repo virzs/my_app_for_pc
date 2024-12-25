@@ -67,6 +67,9 @@ const MainLayout = (props: any) => {
       className={cx(
         "h-screen",
         css`
+          .ant-layout {
+            height: 100%;
+          }
           .ant-pro-sider-actions-avatar {
             width: 100%;
             cursor: pointer;
@@ -75,6 +78,20 @@ const MainLayout = (props: any) => {
             .ant-layout-sider-children {
               border-radius: 0.75rem;
               border-right: 0;
+            }
+          }
+          @media (max-width: 500px) {
+            .ant-breadcrumb {
+              display: none !important;
+            }
+            .ant-tabs-nav {
+              margin-bottom: 0;
+              .ant-tabs-tab {
+                padding: 6px 0;
+              }
+            }
+            .ant-page-header-footer {
+              margin-block-start: 0 !important;
             }
           }
         `
@@ -166,7 +183,7 @@ const MainLayout = (props: any) => {
       {...props}
     >
       <motion.div
-        className="h-full"
+        className={cx("h-full")}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

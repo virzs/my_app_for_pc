@@ -15,6 +15,7 @@ import {
 import { Service } from "ahooks/lib/useRequest/src/types";
 import { renderEmptyToBarre } from "./utils";
 import { ReactNode, useEffect, useState } from "react";
+import { css } from "@emotion/css";
 
 export interface TablePageProps<T, U>
   extends Omit<ProTableProps<T, U>, "request">,
@@ -48,7 +49,7 @@ function TablePage<T extends object = any, U extends object = any>(
     footer,
     listFooter,
     dataSource,
-    size,
+    size = "small",
     locale,
     rowClassName,
     ...rest
@@ -107,6 +108,30 @@ function TablePage<T extends object = any, U extends object = any>(
 
   const l = (
     <ProList
+      className={css`
+        .ant-pro-table-list-toolbar {
+          &-container {
+            padding-top: 0;
+          }
+        }
+        .ant-list {
+          min-height: 0;
+          .ant-spin-nested-loading {
+            height: calc(100% - 44px);
+            flex-grow: 1;
+            .ant-spin-container {
+              height: 100%;
+            }
+          }
+          .ant-list-items {
+            overflow-y: auto;
+          }
+        }
+        .ant-list-pagination {
+          margin-top: 12px;
+          flex-shrink: 0;
+        }
+      `}
       rowKey="_id"
       rowSelection={{
         columnWidth: 50,
@@ -136,6 +161,7 @@ function TablePage<T extends object = any, U extends object = any>(
 
         return (
           <ProCard
+            className="mb-2"
             title={title}
             actions={
               actions?.(undefined, data, index, undefined, {
