@@ -31,3 +31,17 @@ body {
 .ant-dropdown-menu-submenu-title {
   align-items: center;
 }
+
+.ant-pro-core-field-dropdown-overlay {
+  .ant-pro-core-field-dropdown-content {
+    .ant-pro-core-field-label {
+      width: 100%;
+      > span {
+        width: 100%;
+        > div {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
