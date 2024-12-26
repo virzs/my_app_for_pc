@@ -11,6 +11,7 @@ import {
   ProDescriptions,
   ProFormInstance,
 } from "@ant-design/pro-components";
+import { RiAddLine } from "@remixicon/react";
 import { useRequest } from "ahooks";
 import { Button, Empty, Image, Input, message, Modal } from "antd";
 import { FC, useEffect, useRef } from "react";
@@ -133,7 +134,11 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
         open={open}
         formRef={ref}
         layoutType="ModalForm"
-        trigger={<Button type="primary">新增网站</Button>}
+        trigger={
+          <Button type="primary" icon={<RiAddLine size={16} />}>
+            新增网站
+          </Button>
+        }
         title={editId ? "修改网站" : "新增网站"}
         onOpenChange={(open) => {
           if (!open) {

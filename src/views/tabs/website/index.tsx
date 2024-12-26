@@ -12,6 +12,7 @@ import {
   updateWebsitePublic,
 } from "@/services/tabs/website";
 import { useRequest } from "ahooks";
+import { getWebsiteClassify } from "@/services/tabs/website_classifty";
 
 const Website = () => {
   const table = useTablePage(getWebsiteList);
@@ -47,11 +48,11 @@ const Website = () => {
           <div className="flex gap-2 items-center">
             {r.icon?.url ? (
               <Image
+                className="!w-9 !h-9 object-contain"
                 preview={false}
                 loading="lazy"
                 src={r.icon.url}
                 alt=""
-                style={{ width: 36, height: 36 }}
               />
             ) : (
               ""
@@ -63,46 +64,70 @@ const Website = () => {
     },
     {
       title: "描述",
-      search: false,
       dataIndex: "description",
       ellipsis: true,
     },
     {
       title: "URL",
-      search: false,
       dataIndex: "url",
       ellipsis: true,
     },
     {
       title: "主题色",
-      search: false,
       dataIndex: "themeColor",
     },
     {
       title: "点击量",
-      search: false,
       dataIndex: "click",
     },
     {
       title: "是否启用",
-      search: false,
       dataIndex: "enable",
       render: (text) => (text ? "是" : "否"),
     },
     {
       title: "是否公开",
-      search: false,
       dataIndex: "public",
       render: (text) => (text ? "是" : "否"),
     },
     {
       title: "所属分类",
-      search: false,
+      search: true,
       dataIndex: "classify",
+      render: (_, r) => {
+        return r.classify?.name;
+      },
+      valueType: "treeSelect",
+      request: async () => {
+        const result = await getWebsiteClassify({});
+        const disabledParent = (d: any[]): any[] => {
+          // 如果父节点子节点不为空禁用
+          return d.map((item: any) => {
+            if (item.children?.length) {
+              return {
+                ...item,
+                disabled: true,
+                children: disabledParent(item.children),
+              };
+            }
+            return item;
+          });
+        };
+        return disabledParent(result);
+      },
+      formItemProps: {
+        name: "classifyIds",
+      },
+      fieldProps: {
+        fieldNames: {
+          label: "name",
+          value: "_id",
+        },
+        multiple: true,
+      },
     },
     {
       title: "操作",
-      search: false,
       dataIndex: "action",
       fixed: "right",
       render: (_, record) => {
@@ -142,9 +167,6 @@ const Website = () => {
   return (
     <TablePageContainer>
       <TablePage
-        search={{
-          filterType: "light",
-        }}
         table={table}
         columns={columns}
         toolBarRender={() => {
