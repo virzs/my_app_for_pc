@@ -276,6 +276,7 @@ function TablePage<T extends object = any, U extends object = any>(
       tableAlertRender={false}
       beforeSearchSubmit={(searchParams) => {
         // 处理 treeSelect 等特殊字段
+        // ! ProTable 生成查询表单底层是 BetaSchemaForm，选择器组件回显会只显示value，所以 columns 中强制设置 labelInValue 为 true，提交前处理为 value @ant-design/pro-components@2.8.2
         const processedParams: Record<string, any> = { ...searchParams };
 
         columns.forEach((column) => {
