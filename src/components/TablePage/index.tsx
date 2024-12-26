@@ -7,6 +7,7 @@ import {
 import { isMobileDevice } from "@/utils/utils";
 import {
   ProCard,
+  ProFieldValueType,
   ProList,
   ProListProps,
   ProTable,
@@ -34,6 +35,30 @@ export interface TablePageProps<T, U>
   table?: TablePageInstance<T>;
   listFooter?: ProListProps<T, U>["footer"];
 }
+
+// 添加辅助函数 - 将扁平对象转换为嵌套对象
+const convertToNestedObject = (flatObj: Record<string, any>) => {
+  const result: Record<string, any> = {};
+
+  Object.entries(flatObj).forEach(([key, value]) => {
+    if (key.includes(".")) {
+      const keys = key.split(".");
+      let current = result;
+      keys.forEach((k, index) => {
+        if (index === keys.length - 1) {
+          current[k] = value;
+        } else {
+          current[k] = current[k] || {};
+          current = current[k];
+        }
+      });
+    } else {
+      result[key] = value;
+    }
+  });
+
+  return result;
+};
 
 function TablePage<T extends object = any, U extends object = any>(
   props: TablePageProps<T, U>
@@ -213,9 +238,19 @@ function TablePage<T extends object = any, U extends object = any>(
         ...i,
         search: i.search ?? false,
         render: i.render ?? renderEmptyToBarre,
+        ...(i.valueType &&
+        ["treeSelect"].includes(i.valueType as ProFieldValueType)
+          ? {
+              fieldProps: {
+                ...i.fieldProps,
+                labelInValue: true,
+              },
+            }
+          : {}),
       }))}
       search={
         showSearch && {
+          filterType: "light",
           ...search,
         }
       }
@@ -239,8 +274,48 @@ function TablePage<T extends object = any, U extends object = any>(
         ...rowSelection,
       }}
       tableAlertRender={false}
+      beforeSearchSubmit={(searchParams) => {
+        // 处理 treeSelect 等特殊字段
+        const processedParams: Record<string, any> = { ...searchParams };
+
+        columns.forEach((column) => {
+          const formItemName = column.formItemProps?.name;
+          const name = formItemName ?? column.dataIndex;
+          const dataIndexes = Array.isArray(name) ? name : [name];
+
+          if (!dataIndexes[0]) return;
+
+          // 将数组路径转换为点号分隔的字符串
+          const paramKey = dataIndexes.join(".");
+          // 获取原始的搜索值
+          const originalKey = dataIndexes[dataIndexes.length - 1];
+          const fieldValue = (searchParams as Record<string, any>)[
+            originalKey as string
+          ];
+
+          if (
+            fieldValue &&
+            column.valueType &&
+            ["treeSelect"].includes(column.valueType as ProFieldValueType)
+          ) {
+            if (Array.isArray(fieldValue)) {
+              processedParams[paramKey] = fieldValue
+                .map((item: any) => item.value)
+                .join(",");
+            } else if (typeof fieldValue === "object") {
+              processedParams[paramKey] = fieldValue.value;
+            }
+          } else if (fieldValue) {
+            processedParams[paramKey] = fieldValue;
+          }
+        });
+
+        // 将扁平对象转换为嵌套对象
+        return convertToNestedObject(processedParams);
+      }}
       request={async (params) => {
         const { current, pageSize, ...rest } = params;
+
         return runAsync({ ...rest, page: current, pageSize });
       }}
       {...rest}
