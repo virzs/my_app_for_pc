@@ -52,6 +52,7 @@ function TablePage<T extends object = any, U extends object = any>(
     size = "small",
     locale,
     rowClassName,
+    search,
     ...rest
   } = props;
 
@@ -213,7 +214,11 @@ function TablePage<T extends object = any, U extends object = any>(
         search: i.search ?? false,
         render: i.render ?? renderEmptyToBarre,
       }))}
-      search={showSearch && {}}
+      search={
+        showSearch && {
+          ...search,
+        }
+      }
       defaultSize="middle"
       options={{
         density: false,
