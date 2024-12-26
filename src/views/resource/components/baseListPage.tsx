@@ -33,6 +33,12 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
 
   const columns: ProColumns[] = [
     {
+      title: "序号",
+      dataIndex: "index",
+      valueType: "index",
+      width: 48,
+    },
+    {
       title: "文件名",
       dataIndex: "name",
       render: (_, r) => (
@@ -50,7 +56,9 @@ const BaseListPage: FC<BaseListPageProps> = (props) => {
     {
       title: "文件大小",
       dataIndex: "size",
-      render: (_) => filesize(_ as number),
+      render: (_) => {
+        return Number.isInteger(_) ? filesize(_ as number) : "-";
+      },
     },
     {
       title: "创建人",

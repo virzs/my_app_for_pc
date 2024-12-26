@@ -2,6 +2,7 @@ import {
   baseDeleteRequest,
   baseGetRequest,
   basePostRequest,
+  basePutRequest,
 } from "@/utils/axios";
 import { checkPath } from "@/utils/utils";
 
@@ -82,4 +83,28 @@ export const resourceBatchUpload = (dir: string, files: File[]) => {
       "Content-Type": "multipart/form-data",
     },
   })({ files });
+};
+
+/**
+ * @name 回收站列表
+ * @description /resource/recycle
+ */
+export const resourceRecycleList = (params: any) => {
+  return baseGetRequest("/resource/recycle")(params);
+};
+
+/**
+ * @name 彻底删除资源
+ * @description /resource/recycle/{id}
+ */
+export const resourceRecycleDelete = (id: string) => {
+  return baseDeleteRequest("/resource/recycle")(id);
+};
+
+/**
+ * @name 恢复资源
+ * @description /resource/recycle/restore/{id}
+ */
+export const resourceRestore = (id: string) => {
+  return basePutRequest("/resource/recycle/restore")(id);
 };

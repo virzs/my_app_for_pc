@@ -2,15 +2,14 @@ import { Menu } from "@/utils/menu";
 import { RiFolderLine } from "@remixicon/react";
 import { RouteObject } from "react-router-dom";
 import R2Page from "./r2";
-import QiniuPage from "./qiniu";
 import R2DetailPage from "./qiniu/detail";
+import RecyclePage from "./recycle/index";
 
 export const ResourcePaths = {
   index: "/resource",
   r2: "/resource/r2",
   r2Detail: "/resource/r2/:id",
-  qiniu: "/resource/qiniu",
-  server: "/resource/server",
+  recycle: "/resource/recycle",
 };
 
 const ResourceRouter: RouteObject = {
@@ -25,8 +24,8 @@ const ResourceRouter: RouteObject = {
       element: <R2DetailPage />,
     },
     {
-      path: ResourcePaths.qiniu,
-      element: <QiniuPage />,
+      path: ResourcePaths.recycle,
+      element: <RecyclePage />,
     },
   ],
 };
@@ -41,12 +40,8 @@ export const ResourceMenu: Menu = {
       path: ResourcePaths.r2,
     },
     {
-      name: "七牛云COS",
-      path: ResourcePaths.qiniu,
-    },
-    {
-      name: "服务器",
-      path: ResourcePaths.server,
+      name: "回收站",
+      path: ResourcePaths.recycle,
     },
   ],
 };
