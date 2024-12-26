@@ -30,7 +30,7 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
 
   const [modal, contextHolder] = useModal();
 
-  const ref = useRef<ProFormInstance<any>>();
+  const ref = useRef<ProFormInstance<any>>(null);
 
   const { data, loading, run } = useRequest(getWebsiteDetail, {
     manual: true,
