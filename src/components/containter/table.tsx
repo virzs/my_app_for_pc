@@ -79,6 +79,17 @@ const TablePageContainer: FC<TablePageContainerProps> = (props) => {
             display: flex;
             flex-direction: column;
           }
+          .ant-pro-table {
+            .ant-pro-table-search-query-filter {
+              .ant-pro-query-filter {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+            }
+            .ant-pro-table-search-query-filter + .ant-pro-card {
+              height: calc(100% - 40px);
+            }
+          }
         `
       )}
     >
