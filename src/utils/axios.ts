@@ -144,7 +144,7 @@ export const basePutRequest =
   <T = any>(url: string, options?: AxiosRequestConfig) =>
   async (
     id: number | string | Array<number | string>,
-    data: object,
+    data?: object,
     params: object = {}
   ) =>
     axiosInstance<T, T>(getApiPrefix(url, id), {
