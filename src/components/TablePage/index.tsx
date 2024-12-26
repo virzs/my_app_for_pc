@@ -71,16 +71,11 @@ function TablePage<T extends object = any, U extends object = any>(
     setCurrent,
     pageSize,
     setPageSize,
-    keyword,
-    setKeyword,
-    setKeywordStore,
     refresh,
-    selectedRows,
     setSelectedRows,
     selectedRowKeys,
     setSelectedRowKeys,
-    scrollTopIndex,
-    setScrollTopIndex,
+    runAsync,
   } = table;
 
   const p = {
@@ -204,6 +199,8 @@ function TablePage<T extends object = any, U extends object = any>(
     />
   );
 
+  const showSearch = columns.some((i) => i.search);
+
   const t = (
     <ProTable
       className="rounded-xl overflow-hidden"
@@ -216,9 +213,7 @@ function TablePage<T extends object = any, U extends object = any>(
         search: i.search ?? false,
         render: i.render ?? renderEmptyToBarre,
       }))}
-      search={{
-        filterType: "light",
-      }}
+      search={showSearch && {}}
       defaultSize="middle"
       options={{
         density: false,
@@ -239,6 +234,10 @@ function TablePage<T extends object = any, U extends object = any>(
         ...rowSelection,
       }}
       tableAlertRender={false}
+      request={async (params) => {
+        const { current, pageSize, ...rest } = params;
+        return runAsync({ ...rest, page: current, pageSize });
+      }}
       {...rest}
       {...p}
     />
