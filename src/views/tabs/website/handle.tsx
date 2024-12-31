@@ -277,6 +277,7 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
         ]}
       ></BetaSchemaForm>
       <Modal
+        zIndex={1001}
         title="解析成功"
         open={parseModalOpen}
         onCancel={() => {
