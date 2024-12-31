@@ -37,6 +37,8 @@ export interface HandleModalProps {
 const WebsiteHandle: FC<HandleModalProps> = (props) => {
   const { onFinished, open, editId, onClose, onDetailLoading } = props;
 
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [parseModalOpen, setParseModalOpen] = useState(false);
   const [parseResult, setParseResult] = useState<any>(null);
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
@@ -68,7 +70,7 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
     manual: true,
     onSuccess: (res, [{ url }]) => {
       if (Object.keys(res ?? {}).length === 0) {
-        message.error("解析失败");
+        messageApi.error("解析失败");
         return;
       }
 
@@ -95,7 +97,7 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
       setParseModalOpen(true);
     },
     onError: () => {
-      message.error("解析失败");
+      messageApi.error("解析失败");
     },
   });
 
@@ -144,7 +146,7 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
           return new Promise((resolve) => {
             (editId ? updateWebsite(editId, values) : addWebsite(values))
               .then(() => {
-                message.success(editId ? "修改成功" : "新增成功");
+                messageApi.success(editId ? "修改成功" : "新增成功");
                 onFinished?.(values);
                 resolve(true);
                 ref.current?.resetFields();
@@ -338,6 +340,7 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
           ]}
         ></ProDescriptions>
       </Modal>
+      {contextHolder}
     </>
   );
 };
