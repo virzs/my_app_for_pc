@@ -52,10 +52,12 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
     ref.current?.setFieldsValue({
       ...parseResult,
       name: parseResult.title,
-      icon: {
-        name: selectedIcon?.split("/").pop(),
-        url: selectedIcon,
-      },
+      icon: selectedIcon
+        ? {
+            name: selectedIcon?.split("/").pop(),
+            url: selectedIcon,
+          }
+        : null,
     });
     setParseModalOpen(false);
     setSelectedIcon(null);
