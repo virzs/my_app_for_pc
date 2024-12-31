@@ -6,25 +6,12 @@ import {
 } from "@/services/tabs/website";
 import { getWebsiteClassify } from "@/services/tabs/website_classifty";
 import { baseFormItemLayout } from "@/utils/utils";
-import {
-  BetaSchemaForm,
-  ProDescriptions,
-  ProFormInstance,
-} from "@ant-design/pro-components";
+import { BetaSchemaForm, ProFormInstance } from "@ant-design/pro-components";
 import { RiAddLine } from "@remixicon/react";
 import { useRequest } from "ahooks";
-import {
-  Button,
-  Card,
-  Empty,
-  Image,
-  Input,
-  message,
-  Modal,
-  Radio,
-  Space,
-} from "antd";
+import { Button, Card, Empty, Image, Input, message, Radio, Space } from "antd";
 import { FC, useEffect, useRef, useState } from "react";
+import { getDominantColor } from "@/utils/color";
 
 export interface HandleModalProps {
   onFinished?: (values: any) => void;
@@ -44,13 +31,26 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
   const ref = useRef<ProFormInstance<any>>(null);
+  const parseFormRef = useRef<ProFormInstance<any>>(null);
 
   const { data, loading, run } = useRequest(getWebsiteDetail, {
     manual: true,
   });
 
-  const handleUseParseResult = () => {
+  const handleUseParseResult = async () => {
     if (!parseResult) return;
+
+    const formThemeColor = ref.current?.getFieldValue("themeColor");
+
+    let themeColor = undefined;
+    if (selectedIcon && !formThemeColor) {
+      try {
+        themeColor = await getDominantColor(selectedIcon);
+      } catch (error) {
+        console.error("获取图标主色失败:", error);
+      }
+    }
+
     ref.current?.setFieldsValue({
       ...parseResult,
       name: parseResult.title,
@@ -60,7 +60,9 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
             url: selectedIcon,
           }
         : null,
+      themeColor: themeColor ?? formThemeColor,
     });
+
     setParseModalOpen(false);
     setSelectedIcon(null);
     setParseResult(null);
@@ -280,66 +282,73 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
           },
         ]}
       ></BetaSchemaForm>
-      <Modal
-        zIndex={1001}
+      <BetaSchemaForm
+        formRef={parseFormRef}
+        layoutType="ModalForm"
         title="解析成功"
         open={parseModalOpen}
-        onCancel={() => {
-          setParseModalOpen(false);
-          setSelectedIcon(null);
-          setParseResult(null);
+        onOpenChange={(open) => {
+          if (!open) {
+            setParseModalOpen(false);
+            setSelectedIcon(null);
+            setParseResult(null);
+            parseFormRef.current?.resetFields();
+          }
         }}
-        onOk={handleUseParseResult}
-        okText="使用解析结果"
-        cancelText="关闭"
-        width={800}
-      >
-        <ProDescriptions
-          dataSource={parseResult}
-          columns={[
-            {
-              title: "标题",
-              dataIndex: "title",
-              span: 24,
-            },
-            {
-              title: "描述",
-              dataIndex: "description",
-              span: 24,
-            },
-            {
-              title: "图标",
-              dataIndex: "icons",
-              span: 24,
-              render: (_, record) => {
-                if (!record.icons?.length) return <Empty />;
-                return (
-                  <Radio.Group
-                    className="w-full"
-                    value={selectedIcon}
-                    onChange={(e) => setSelectedIcon(e.target.value)}
-                  >
-                    <Space direction="vertical" className="w-full">
-                      {record.icons.map((item: string) => (
-                        <Card className="w-full" key={item}>
-                          <Radio value={item}>
-                            <div className="flex items-center gap-2">
-                              <div className="shrink-0">
-                                <Image src={item} width={48} height={48} />
-                              </div>
-                              <p>{item}</p>
+        onFinish={async () => {
+          return await handleUseParseResult();
+        }}
+        modalProps={{
+          zIndex: 1001,
+          destroyOnClose: true,
+          okText: "使用解析结果",
+        }}
+        initialValues={parseResult}
+        columns={[
+          {
+            title: "标题",
+            dataIndex: "title",
+            valueType: "text",
+            readonly: true,
+          },
+          {
+            title: "描述",
+            dataIndex: "description",
+            valueType: "textarea",
+            readonly: true,
+          },
+          {
+            title: "图标",
+            dataIndex: "icons",
+            valueType: "custom",
+            renderFormItem: () => {
+              if (!parseResult?.icons?.length) return <Empty />;
+              return (
+                <Radio.Group
+                  className="w-full"
+                  value={selectedIcon}
+                  onChange={(e) => setSelectedIcon(e.target.value)}
+                >
+                  <Space direction="vertical" className="w-full">
+                    {parseResult.icons.map((item: string) => (
+                      <Card className="w-full" key={item}>
+                        <Radio value={item}>
+                          <div className="flex items-center gap-2">
+                            <div className="shrink-0">
+                              <Image src={item} width={48} height={48} />
                             </div>
-                          </Radio>
-                        </Card>
-                      ))}
-                    </Space>
-                  </Radio.Group>
-                );
-              },
+                            <p>{item}</p>
+                          </div>
+                        </Radio>
+                      </Card>
+                    ))}
+                  </Space>
+                </Radio.Group>
+              );
             },
-          ]}
-        ></ProDescriptions>
-      </Modal>
+          },
+        ]}
+      />
       {contextHolder}
     </>
   );
