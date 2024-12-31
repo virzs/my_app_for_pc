@@ -42,6 +42,7 @@ export interface ParseWebsiteResponse {
   description?: string;
   icon?: string;
   isCache?: boolean;
+  icons?: string[];
 }
 
 //tabs/website/parse post

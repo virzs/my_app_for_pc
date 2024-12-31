@@ -13,8 +13,18 @@ import {
 } from "@ant-design/pro-components";
 import { RiAddLine } from "@remixicon/react";
 import { useRequest } from "ahooks";
-import { Button, Empty, Image, Input, message, Modal } from "antd";
-import { FC, useEffect, useRef } from "react";
+import {
+  Button,
+  Card,
+  Empty,
+  Image,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Space,
+} from "antd";
+import { FC, useEffect, useRef, useState } from "react";
 
 export interface HandleModalProps {
   onFinished?: (values: any) => void;
@@ -24,18 +34,33 @@ export interface HandleModalProps {
   onDetailLoading?: (loading: boolean) => void;
 }
 
-const { useModal } = Modal;
-
 const WebsiteHandle: FC<HandleModalProps> = (props) => {
   const { onFinished, open, editId, onClose, onDetailLoading } = props;
 
-  const [modal, contextHolder] = useModal();
+  const [parseModalOpen, setParseModalOpen] = useState(false);
+  const [parseResult, setParseResult] = useState<any>(null);
+  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
   const ref = useRef<ProFormInstance<any>>(null);
 
   const { data, loading, run } = useRequest(getWebsiteDetail, {
     manual: true,
   });
+
+  const handleUseParseResult = () => {
+    if (!parseResult) return;
+    ref.current?.setFieldsValue({
+      ...parseResult,
+      name: parseResult.title,
+      icon: {
+        name: selectedIcon?.split("/").pop(),
+        url: selectedIcon,
+      },
+    });
+    setParseModalOpen(false);
+    setSelectedIcon(null);
+    setParseResult(null);
+  };
 
   const { loading: parseLoading, run: parseRun } = useRequest(parseWebsite, {
     manual: true,
@@ -44,61 +69,28 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
         message.error("解析失败");
         return;
       }
-      //   判断图标是否以http / https 开头
+
       const iconUrl = res.icon
         ? res.icon.startsWith("http")
           ? res.icon
-          : `${url}${res.icon}`
+          : new URL(res.icon, url).href
         : null;
 
-      modal.confirm({
-        title: "解析成功",
-        content: (
-          <ProDescriptions
-            dataSource={{ ...res, icon: iconUrl }}
-            columns={[
-              {
-                title: "标题",
-                dataIndex: "title",
-                span: 24,
-              },
-              {
-                title: "描述",
-                dataIndex: "description",
-                span: 24,
-              },
-              {
-                title: "图标",
-                dataIndex: "icon",
-                span: 24,
-                render: (_) => {
-                  return iconUrl ? (
-                    <Image
-                      src={iconUrl}
-                      alt="icon"
-                      style={{ width: 48, height: 48 }}
-                    />
-                  ) : (
-                    <Empty />
-                  );
-                },
-              },
-            ]}
-          ></ProDescriptions>
-        ),
-        cancelText: "关闭",
-        okText: "使用解析结果",
-        onOk: () => {
-          ref.current?.setFieldsValue({
-            ...res,
-            name: res.title,
-            icon: {
-              name: res.icon?.split("/").pop(),
-              url: iconUrl,
-            },
-          });
-        },
-      });
+      const iconUrls =
+        res.icons?.map((item) => {
+          return item.startsWith("http") ? item : new URL(item, url).href;
+        }) ?? [];
+
+      if (iconUrl && !iconUrls.includes(iconUrl)) {
+        iconUrls.unshift(iconUrl);
+      }
+
+      if (iconUrls.length > 0) {
+        setSelectedIcon(iconUrls[0]);
+      }
+
+      setParseResult({ ...res, icons: iconUrls });
+      setParseModalOpen(true);
     },
     onError: () => {
       message.error("解析失败");
@@ -284,7 +276,65 @@ const WebsiteHandle: FC<HandleModalProps> = (props) => {
           },
         ]}
       ></BetaSchemaForm>
-      {contextHolder}
+      <Modal
+        title="解析成功"
+        open={parseModalOpen}
+        onCancel={() => {
+          setParseModalOpen(false);
+          setSelectedIcon(null);
+          setParseResult(null);
+        }}
+        onOk={handleUseParseResult}
+        okText="使用解析结果"
+        cancelText="关闭"
+        width={800}
+      >
+        <ProDescriptions
+          dataSource={parseResult}
+          columns={[
+            {
+              title: "标题",
+              dataIndex: "title",
+              span: 24,
+            },
+            {
+              title: "描述",
+              dataIndex: "description",
+              span: 24,
+            },
+            {
+              title: "图标",
+              dataIndex: "icons",
+              span: 24,
+              render: (_, record) => {
+                if (!record.icons?.length) return <Empty />;
+                return (
+                  <Radio.Group
+                    className="w-full"
+                    value={selectedIcon}
+                    onChange={(e) => setSelectedIcon(e.target.value)}
+                  >
+                    <Space direction="vertical" className="w-full">
+                      {record.icons.map((item: string) => (
+                        <Card className="w-full" key={item}>
+                          <Radio value={item}>
+                            <div className="flex items-center gap-2">
+                              <div className="shrink-0">
+                                <Image src={item} width={48} height={48} />
+                              </div>
+                              <p>{item}</p>
+                            </div>
+                          </Radio>
+                        </Card>
+                      ))}
+                    </Space>
+                  </Radio.Group>
+                );
+              },
+            },
+          ]}
+        ></ProDescriptions>
+      </Modal>
     </>
   );
 };
