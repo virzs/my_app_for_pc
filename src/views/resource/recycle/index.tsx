@@ -35,12 +35,6 @@ const RecyclePage = () => {
 
   const columns: ProColumns[] = [
     {
-      title: "序号",
-      dataIndex: "index",
-      valueType: "index",
-      width: 48,
-    },
-    {
       title: "文件名",
       dataIndex: "name",
     },

@@ -115,9 +115,7 @@ const WebsiteClassify = () => {
     <TablePageContainer>
       <TablePage<any>
         rowKey="_id"
-        search={{
-          filterType: "light",
-        }}
+        order={false}
         table={table}
         columns={columns}
         pagination={false}
