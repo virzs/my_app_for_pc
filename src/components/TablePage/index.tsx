@@ -7,6 +7,7 @@ import {
 import { isMobileDevice } from "@/utils/utils";
 import {
   ProCard,
+  ProColumns,
   ProFieldValueType,
   ProList,
   ProListProps,
@@ -34,6 +35,10 @@ export interface TablePageProps<T, U>
   service?: Service<T, TabelRequestParams[]>;
   table?: TablePageInstance<T>;
   listFooter?: ProListProps<T, U>["footer"];
+  /**
+   * 是否显示序号
+   */
+  order?: boolean;
 }
 
 // 添加辅助函数 - 将扁平对象转换为嵌套对象
@@ -78,6 +83,7 @@ function TablePage<T extends object = any, U extends object = any>(
     locale,
     rowClassName,
     search,
+    order = true,
     ...rest
   } = props;
 
@@ -234,20 +240,32 @@ function TablePage<T extends object = any, U extends object = any>(
       locale={locale}
       size={size}
       footer={footer}
-      columns={columns.map((i) => ({
-        ...i,
-        search: i.search ?? false,
-        render: i.render ?? renderEmptyToBarre,
-        ...(i.valueType &&
-        ["treeSelect"].includes(i.valueType as ProFieldValueType)
-          ? {
-              fieldProps: {
-                ...i.fieldProps,
-                labelInValue: true,
+      columns={[
+        ...(order
+          ? ([
+              {
+                title: "序号",
+                dataIndex: "index",
+                valueType: "index",
+                width: 50,
               },
-            }
-          : {}),
-      }))}
+            ] as ProColumns[])
+          : []),
+        ...columns.map((i) => ({
+          ...i,
+          search: i.search ?? false,
+          render: i.render ?? renderEmptyToBarre,
+          ...(i.valueType &&
+          ["treeSelect"].includes(i.valueType as ProFieldValueType)
+            ? {
+                fieldProps: {
+                  ...i.fieldProps,
+                  labelInValue: true,
+                },
+              }
+            : {}),
+        })),
+      ]}
       search={
         showSearch && {
           filterType: "light",
