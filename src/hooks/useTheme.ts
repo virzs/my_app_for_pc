@@ -22,15 +22,14 @@ export const getSystemTheme = () => {
 };
 
 const useTheme = () => {
-  /**
-   * 实际的主题，包含 Theme.Auto
-   */
-  const [theme, setTheme] = useState<Theme>(Theme.Light);
-  /**
-   * 当前主题
-   */
-  const [nowTheme, setNowTheme] = useState<Theme>(Theme.Light);
+  const savedTheme = (localStorage.getItem("theme") as Theme) || Theme.Auto;
+  const initialTheme =
+    savedTheme === Theme.Auto ? getSystemTheme() : savedTheme;
 
+  const [theme, setTheme] = useState<Theme>(savedTheme);
+  const [nowTheme, setNowTheme] = useState<Theme>(initialTheme);
+
+  // 处理主题状态
   useEffect(() => {
     if (theme !== Theme.Auto) {
       setNowTheme(theme);
@@ -40,24 +39,24 @@ const useTheme = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // 应用主题到 DOM
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme;
+    document.body.classList.toggle("dark", nowTheme === Theme.Dark);
+  }, [nowTheme]);
+
+  // 处理系统主题变化
+  useEffect(() => {
     const matchMedia = getPrefersColorSchemeMatchMedia();
 
-    const applyThemeWrapper = (theme: Theme) => applyTheme(theme, setTheme);
+    if (theme === Theme.Auto) {
+      const handleChange = (e: MediaQueryListEvent) => {
+        setNowTheme(e.matches ? Theme.Dark : Theme.Light);
+      };
 
-    if (savedTheme && savedTheme !== Theme.Auto) {
-      setTheme(savedTheme);
-      applyThemeWrapper(savedTheme);
-    } else {
-      setTheme(Theme.Auto);
-      applyThemeWrapper(getSystemTheme());
-      const handleChange = (e: MediaQueryListEvent) =>
-        applyThemeWrapper(e.matches ? Theme.Dark : Theme.Light);
       matchMedia.addEventListener("change", handleChange);
       return () => matchMedia.removeEventListener("change", handleChange);
     }
-  }, []);
+  }, [theme]);
 
   return {
     theme: nowTheme,
