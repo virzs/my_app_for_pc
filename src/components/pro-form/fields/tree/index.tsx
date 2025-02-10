@@ -14,8 +14,6 @@ const Tree: FC<TreeProps> = (props) => {
   const { valueEnum, value, fieldProps, ...rest } = props;
   const { onChange } = fieldProps ?? {};
 
-  console.log("valueEnum", valueEnum, value);
-
   const treeData = useMemo(() => {
     if (!valueEnum) return [];
     // 递归将 name，_id 转为 title，key

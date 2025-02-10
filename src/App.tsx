@@ -4,14 +4,12 @@ import { ConfigProvider, theme as antTheme } from "antd";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { ProConfigProvider } from "@ant-design/pro-components";
-import Upload from "./components/ProFrom/upload";
-import Tree from "./components/ProFrom/Tree";
 import { MdEditor } from "zs_library";
 import { resourceUpload } from "./services/resource";
 import { RootLayoutProvider, useLayout } from "./context";
 import { useMemo } from "react";
 import { Theme } from "./hooks/useTheme";
-import { UserSearchSelect } from "./components/pro-form";
+import { Tree, Upload, UserSearchSelect } from "./components/pro-form";
 
 const Root = () => {
   const { theme } = useLayout();
