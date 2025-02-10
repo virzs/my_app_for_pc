@@ -29,3 +29,14 @@ export const postInvitationCode = (data: any) =>
 
 // /users/statistics get
 export const getUsersStatistics = () => baseGetRequest("/users/statistics")();
+
+export interface UserRequestParams {
+  keyWords: string;
+}
+
+/**
+ * 搜索用户
+ * /users/search get
+ */
+export const searchUsers = (params: UserRequestParams) =>
+  baseGetRequest("/users/search")(params);

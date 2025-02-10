@@ -11,6 +11,7 @@ import { resourceUpload } from "./services/resource";
 import { RootLayoutProvider, useLayout } from "./context";
 import { useMemo } from "react";
 import { Theme } from "./hooks/useTheme";
+import { UserSearchSelect } from "./components/pro-form";
 
 const Root = () => {
   const { theme } = useLayout();
@@ -86,6 +87,11 @@ const Root = () => {
             tree: {
               renderFormItem(text, props: any) {
                 return <Tree value={text} {...props} />;
+              },
+            },
+            userSelect: {
+              renderFormItem(text, props: any) {
+                return <UserSearchSelect value={text} {...props} />;
               },
             },
           }}
