@@ -8,6 +8,7 @@ import UserRouter from "@/views/user/router";
 import TabsRouter from "@/views/tabs/router";
 import MySiteRouter from "@/views/mySite/router";
 import ResourceRouter from "@/views/resource/router";
+import FeedbackRouter from "@/views/feedback/router";
 
 export interface MyRouteObject {}
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       UserRouter,
       TabsRouter,
       MySiteRouter,
+      FeedbackRouter,
       {
         path: "*",
         element: <div>404</div>,

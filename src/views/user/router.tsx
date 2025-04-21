@@ -4,12 +4,14 @@ import { Menu } from "@/utils/menu";
 import { UserOutlined } from "@ant-design/icons";
 import User from "./all";
 import StatisticsPage from "./statistics";
+import Feedback from "./feedback";
 
 export const UserPaths = {
   index: "/user",
   all: "/user/all",
   statistics: "/user/statistics",
   center: "/user/center",
+  feedback: "/user/feedback",
 };
 
 const UserRouter: RouteObject = {
@@ -26,6 +28,10 @@ const UserRouter: RouteObject = {
     {
       path: UserPaths.center,
       element: <UserCenter />,
+    },
+    {
+      path: UserPaths.feedback,
+      element: <Feedback />,
     },
   ],
 };
@@ -46,6 +52,11 @@ export const UserMenu: Menu = {
     {
       name: "个人中心",
       path: UserPaths.center,
+      hideInMenu: true,
+    },
+    {
+      name: "反馈",
+      path: UserPaths.feedback,
       hideInMenu: true,
     },
   ],

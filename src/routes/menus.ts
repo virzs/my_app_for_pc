@@ -5,6 +5,7 @@ import { UserMenu } from "@/views/user/router";
 import { TabsMenu } from "@/views/tabs/router";
 import { MySiteMenu } from "@/views/mySite/router";
 import { ResourceMenu } from "@/views/resource/router";
+import { FeedbackMenu } from "@/views/feedback/router";
 
 const Menus: Menu[] = [
   SystemMenu,
@@ -13,6 +14,7 @@ const Menus: Menu[] = [
   UserMenu,
   TabsMenu,
   MySiteMenu,
+  FeedbackMenu,
 ];
 
 export default Menus;

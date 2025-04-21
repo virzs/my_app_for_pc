@@ -20,8 +20,8 @@ export default defineConfig(async () => ({
     strictPort: true,
     proxy: {
       "/api": {
-        // target: "http://localhost:5151",
-        target: "https://template.api.virs.xyz",
+        target: "http://localhost:5151",
+        // target: "https://my_api.virs.xyz",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

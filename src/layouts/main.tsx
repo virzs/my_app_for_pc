@@ -1,7 +1,7 @@
 import { MenuDataItem, ProLayout } from "@ant-design/pro-components";
 import { Outlet, useNavigate } from "react-router-dom";
 import useMenu from "../hooks/useMenu";
-import { Dropdown } from "antd";
+import { Badge, Button, Dropdown, Tooltip } from "antd";
 import { useRequest } from "ahooks";
 import { postLogout } from "@/services/auth";
 import { getUserInfo, removeUserInfo } from "@/utils/userInfo";
@@ -15,23 +15,17 @@ import { UserPaths } from "@/views/user/router";
 import { css, cx } from "@emotion/css";
 import { motion } from "framer-motion";
 import {
-  RiColorFilterLine,
-  RiDeviceLine,
+  RiFeedbackLine,
   RiLogoutBoxLine,
-  RiMoonLine,
-  RiSunLine,
-  RiTShirtLine,
+  RiMessageLine,
   RiUserLine,
 } from "@remixicon/react";
-import { Theme } from "@/hooks/useTheme";
-import { useLayout } from "@/context";
+import LayoutThemeToggle from "./components/theme";
 
 const MainLayout = (props: any) => {
   const menus = useMenu();
   const navigate = useNavigate();
   const userInfo = getUserInfo();
-
-  const { setTheme } = useLayout();
 
   const { run: logoutRun } = useRequest(postLogout, {
     manual: true,
@@ -107,7 +101,9 @@ const MainLayout = (props: any) => {
       }}
       menuItemRender={menuItemRender}
       avatarProps={{
-        src: userInfo?.avatar,
+        src:
+          userInfo?.avatar ??
+          "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
         title: userInfo?.username,
         size: "small",
         render(_, defaultDom) {
@@ -125,42 +121,12 @@ const MainLayout = (props: any) => {
                     },
                   },
                   {
-                    label: "个性化",
-                    key: "个性化",
-                    icon: <RiColorFilterLine size={14} />,
-                    children: [
-                      {
-                        label: "主题",
-                        key: "主题",
-                        icon: <RiTShirtLine size={14} />,
-                        children: [
-                          {
-                            label: "跟随系统",
-                            key: "system",
-                            icon: <RiDeviceLine size={14} />,
-                            onClick: () => {
-                              setTheme(Theme.Auto);
-                            },
-                          },
-                          {
-                            label: "浅色",
-                            key: "light",
-                            icon: <RiSunLine size={14} />,
-                            onClick: () => {
-                              setTheme(Theme.Light);
-                            },
-                          },
-                          {
-                            label: "深色",
-                            key: "dark",
-                            icon: <RiMoonLine size={14} />,
-                            onClick: () => {
-                              setTheme(Theme.Dark);
-                            },
-                          },
-                        ],
-                      },
-                    ],
+                    label: "反馈",
+                    key: "反馈",
+                    icon: <RiFeedbackLine size={14} />,
+                    onClick: () => {
+                      navigate(UserPaths.feedback);
+                    },
                   },
                   {
                     label: "退出登录",
@@ -179,6 +145,29 @@ const MainLayout = (props: any) => {
             </Dropdown>
           );
         },
+      }}
+      actionsRender={() => [
+        <Tooltip title="消息" placement="left">
+          <Badge>
+            <Button
+              icon={<RiMessageLine size={16} />}
+              size="small"
+              variant="text"
+            ></Button>
+          </Badge>
+        </Tooltip>,
+        <LayoutThemeToggle />,
+      ]}
+      menuFooterRender={(props) => {
+        if (props?.collapsed) return undefined;
+        return (
+          <p className="text-center text-xs text-gray-400">
+            Power by{" "}
+            <a href="https://virs.xyz/" target="_blank" rel="noreferrer">
+              vir
+            </a>
+          </p>
+        );
       }}
       {...props}
     >

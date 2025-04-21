@@ -4,23 +4,19 @@ import {
   publishBlog,
   updateBlog,
 } from "@/services/mySite/blog";
-import {
-  BetaSchemaForm,
-  ProCard,
-  ProFormInstance,
-} from "@ant-design/pro-components";
+import { ProFormInstance } from "@ant-design/pro-components";
 import { useRequest } from "ahooks";
-import { baseFormItemLayout } from "../../../utils/utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { message, Modal } from "antd";
 import FullPageContainer from "@/components/containter/full";
 import { resourceDownload } from "@/services/resource";
+import { SchemaForm } from "@/components/pro-form";
 
 const { useModal } = Modal;
 
 const BlogHandle = () => {
-  const ref = useRef<ProFormInstance>();
+  const ref = useRef<ProFormInstance>(null);
   const params = useParams();
   const navigate = useNavigate();
   const [modal, contextHolder] = useModal();
@@ -95,74 +91,68 @@ const BlogHandle = () => {
   };
 
   useEffect(() => {
-    if (ref.current && detailData) {
-      const { cover, ...rest } = detailData;
-      if (cover?._id) {
-        downloadCover(detailData.cover?._id);
-      }
-      ref.current.setFieldsValue(rest);
-    }
-  }, [detailData, ref]);
-
-  useEffect(() => {
     if (params.id) {
       detailRun(params.id);
     }
   }, [params]);
 
   return (
-    <FullPageContainer>
-      <ProCard loading={detailLoading}>
-        <BetaSchemaForm
-          {...baseFormItemLayout}
-          loading={addLoading || editLoading}
-          layoutType="Form"
-          formRef={ref}
-          onFinish={handleFinish}
-          columns={[
-            {
-              title: "标题",
-              dataIndex: "title",
-              valueType: "text",
-              formItemProps: {
-                rules: [
-                  {
-                    required: true,
-                    message: "标题不能为空",
-                  },
-                ],
-              },
+    <FullPageContainer loading={detailLoading}>
+      <SchemaForm
+        loading={addLoading || editLoading}
+        formRef={ref}
+        dataSource={detailData}
+        setFieldsValueBefore={(data) => {
+          const { cover, ...rest } = data;
+          if (cover?._id) {
+            downloadCover(detailData.cover?._id);
+          }
+          return rest;
+        }}
+        onFinish={handleFinish}
+        columns={[
+          {
+            title: "标题",
+            dataIndex: "title",
+            valueType: "text",
+            formItemProps: {
+              rules: [
+                {
+                  required: true,
+                  message: "标题不能为空",
+                },
+              ],
             },
-            {
-              title: "封面图",
-              dataIndex: "cover",
-              valueType: "upload",
-              fieldProps: {
-                maxCount: 1,
-                listType: "picture-card",
-                dir: "blog",
-                accept: "image/*",
-              },
+          },
+          {
+            title: "封面图",
+            dataIndex: "cover",
+            valueType: "upload",
+            fieldProps: {
+              maxCount: 1,
+              listType: "picture-card",
+              dir: "blog",
+              accept: "image/*",
             },
-            {
-              title: "内容",
-              dataIndex: "content",
-              valueType: "editor",
-              formItemProps: {
-                rules: [
-                  {
-                    required: true,
-                    message: "内容不能为空",
-                  },
-                ],
-              },
-              fieldProps: {
-                uploadDir: "blog",
-              },
+          },
+          {
+            title: "内容",
+            dataIndex: "content",
+            valueType: "editor",
+            formItemProps: {
+              rules: [
+                {
+                  required: true,
+                  message: "内容不能为空",
+                },
+              ],
             },
-          ]}
-        />
-      </ProCard>
+            fieldProps: {
+              uploadDir: "blog",
+            },
+          },
+        ]}
+      />
       {contextHolder}
     </FullPageContainer>
   );
