@@ -79,6 +79,7 @@ const WebsiteClassify = () => {
             columns={[
               {
                 title: "新增子分类",
+                show: !record.parent,
                 onClick: () => {
                   setParent(record._id);
                   setOpen(true);
